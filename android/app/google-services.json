@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "225734432932",
+    "firebase_url": "https://euvi-mei-2020.firebaseio.com",
+    "project_id": "euvi-mei-2020",
+    "storage_bucket": "euvi-mei-2020.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:225734432932:android:da5e399fec2dcf5e4eee31",
+        "android_client_info": {
+          "package_name": "com.euvi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "225734432932-1f2i54frg45vfuhs4lc7qu6qjke4i143.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDF-09eDHFaG6E-BWZaoyq7cHIzIqeQSnQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "225734432932-1f2i54frg45vfuhs4lc7qu6qjke4i143.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

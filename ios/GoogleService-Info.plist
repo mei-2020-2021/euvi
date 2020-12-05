@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>225734432932-hk552q2k6mtvvb18modjqo3jf2grfi32.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.225734432932-hk552q2k6mtvvb18modjqo3jf2grfi32</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCmt6Q5kDxK9YIhbx8cPIEKcuKDOt34a54</string>
+	<key>GCM_SENDER_ID</key>
+	<string>225734432932</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.euvi</string>
+	<key>PROJECT_ID</key>
+	<string>euvi-mei-2020</string>
+	<key>STORAGE_BUCKET</key>
+	<string>euvi-mei-2020.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:225734432932:ios:847c1c9ccb79f1aa4eee31</string>
+	<key>DATABASE_URL</key>
+	<string>https://euvi-mei-2020.firebaseio.com</string>
+</dict>
+</plist>
