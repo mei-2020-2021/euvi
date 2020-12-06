@@ -26,9 +26,9 @@ function ProfileScreen() {
       ) : (
         <View style={{height: '100%'}}>
           <Tab.Navigator tabBarOptions={{labelStyle: {textTransform: 'capitalize', fontWeight: 'bold', fontSize: 20}}}>
-            <Tab.Screen name="Watched" component={WatchedScreen} />
-            <Tab.Screen name="Watching" component={WatchingScreen} />
-            <Tab.Screen name="Watchlist" component={ToWatchScreen} />
+            <Tab.Screen name="Past" component={WatchedScreen} />
+            <Tab.Screen name="Present" component={WatchingScreen} />
+            <Tab.Screen name="Future" component={ToWatchScreen} />
           </Tab.Navigator>
         </View>
       )}

@@ -1,8 +1,6 @@
 import React from 'react';
 import {Text, TextInput, Button, View} from 'react-native';
-import {Picker} from '@react-native-community/picker';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 import Style from '../style';
 import LoadingScreen from '../loading';
 import {TextInputMask} from 'react-native-masked-text';
@@ -31,17 +29,7 @@ function SignUpScreen() {
       .then(() => {
         const user = auth().currentUser;
         user.updateProfile({displayName: `${firstName.trim()} ${lastName.trim()}`});
-        firestore()
-          .collection('users')
-          .doc(user.uid)
-          .set({
-            name: user.displayName,
-            email: user.email,
-            birthday: birthday,
-          })
-          .then(() => {
-            console.log('User added!');
-          });
+        
       })
       .catch((error) => {
         if (error.code === 'auth/email-already-in-use') {

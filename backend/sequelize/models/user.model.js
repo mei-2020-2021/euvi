@@ -15,8 +15,16 @@ User.init(
       type: Sequelize.DataTypes.STRING,
     	allowNull: false,
     },
-    DisplayName: {
+    FirstName: {
     	type: Sequelize.DataTypes.STRING,
+    	allowNull: false,
+    },
+    LastName: {
+    	type: Sequelize.DataTypes.STRING,
+    	allowNull: false,
+    },
+    BirthDate: {
+    	type: Sequelize.DataTypes.DATE,
     	allowNull: false,
     },
     Email: {
