@@ -21,7 +21,7 @@ function SearchScreen() {
       ) : (
         <View style={Style.screen}>
           <Text style={{fontSize: 28, fontWeight: 'bold'}}>{user.displayName}</Text>
-          <Text>{user.email}</Text>
+      <Text>{user.email}</Text>
         </View>
       )}
     </>
