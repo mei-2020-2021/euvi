@@ -17,19 +17,19 @@ function WatchlistScreen() {
     const contentInfo = [
         {
           name: 'Carnival Row',
-          image: require('./../../media/posters/carnivalrow.png'),
+          image: require('./../../../media/posters/carnivalrow.png'),
         },
         {
           name: 'The Boys',
-          image: require('./../../media/posters/the-boys.png'),
+          image: require('./../../../media/posters/the-boys.png'),
         },
         {
             name: 'The Legend of Korra',
-            image: require('./../../media/posters/the-legend-of-korra.png'),
+            image: require('./../../../media/posters/the-legend-of-korra.png'),
         },
         {
         name: 'The Office',
-        image: require('./../../media/posters/office.jpg'),
+        image: require('./../../../media/posters/office.jpg'),
         },
       ];
 
