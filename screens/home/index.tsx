@@ -13,6 +13,7 @@ function HomeScreen() {
     React.useEffect(() => {
         setLoading(false);
     }, []);
+
     const serviceinfo = [
         {
           name: 'Netflix',
@@ -24,7 +25,7 @@ function HomeScreen() {
         },
       ];
     const servicelist = serviceinfo.map((service, key) =>
-        <Image style={Style.icon} source={service.image}/>
+        <Image key={key} style={Style.icon} source={service.image}/>
     );
     
     const moviePosters = [
@@ -34,11 +35,8 @@ function HomeScreen() {
         require('./../../media/posters/office.jpg'),
     ];
 
-    
-
-    
     const moviePostersList = moviePosters.map((image, key) => 
-        <Image style={{height:300, width:150, borderRadius: 8, marginLeft: 5}} resizeMode="contain" source={image}/>
+        <Image key={key} style={{height:200, width:150, borderRadius: 8, marginLeft: 5}} resizeMode="contain" source={image}/>
     );
 
 
