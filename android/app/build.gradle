@@ -135,6 +135,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -144,6 +145,10 @@ android {
             include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
     }
+    dexOptions {
+       javaMaxHeapSize "3g"
+    }
+
     signingConfigs {
         debug {
             storeFile file('debug.keystore')

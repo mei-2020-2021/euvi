@@ -12,6 +12,7 @@ import ProfileScreen from './screens/profile';
 import SearchScreen from './screens/search';
 import SettingsScreen from './screens/settings';
 import LoadingScreen from './screens/loading';
+import HomeScreen from './screens/home';
 
 const Tab = createMaterialTopTabNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -39,7 +40,7 @@ function App() {
         ) : user ? (
           <BottomTab.Navigator>
             <BottomTab.Screen name="Perfil" component={ProfileScreen} />
-            <BottomTab.Screen name="Procurar" component={SearchScreen} />
+            <BottomTab.Screen name="Home" component={HomeScreen} />
             <BottomTab.Screen name="Definições" component={SettingsScreen} />
           </BottomTab.Navigator>
         ) : (
