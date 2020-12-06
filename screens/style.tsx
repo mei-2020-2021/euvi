@@ -27,7 +27,6 @@ const Style = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-
   homeTopFlex: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -44,7 +43,7 @@ const Style = StyleSheet.create({
     marginRight: 16,
     backgroundColor: '#FFF',
     borderRadius: 10,
-    width: '50%'
+    width: '50%',
   },
   icon: {
     width: 30,
