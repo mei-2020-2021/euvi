@@ -26,32 +26,15 @@ const Style = StyleSheet.create({
     color: '#ff0000',
     fontWeight: 'bold',
   },
-
-
-  homeTopFlex: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  homeServicesFlex: {
-    flexDirection: 'row',
-  },
   searchBox: {
-    fontSize: 20,
-    fontWeight: '300',
-    padding: 10,
-    marginTop: 16,
+    paddingRight: 30,
     marginBottom: 16,
-    marginRight: 16,
-    backgroundColor: '#FFF',
-    borderRadius: 10,
-    width: '50%'
+    marginTop: 16,
   },
-  icon: {
-    width: 50,
-    height: 50,
-    marginLeft: 5,
-    borderRadius: 5,
-  },
+  flexContainer: {
+    justifyContent: 'space-between',
+    flexDirection: 'row'
+  }
 });
 
 export default Style;
