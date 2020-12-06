@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, ActivityIndicator} from 'react-native';
-import Style from '../style';
+import Style from './style';
 
 function LoadingScreen() {
   return (

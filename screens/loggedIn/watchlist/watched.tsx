@@ -2,11 +2,11 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import auth from '@react-native-firebase/auth';
 import { Dimensions, Image, StyleSheet, Text, View, ScrollView } from 'react-native';
-import Style from '../style';
-import LoadingScreen from '../loading';
+import Style from '../../style';
+import LoadingScreen from '../../loading';
 import { TextInput } from 'react-native-gesture-handler';
 
-function WatchlistScreen() {
+function WatchedScreen() {
 
     const [loading, setLoading] = React.useState(true);
 
@@ -34,10 +34,10 @@ function WatchlistScreen() {
       ];
 
     const contentInfoList = contentInfo.map((content, key) => 
-        <View style={{flexDirection: 'row'}}>
-            <Image key={key} style={{height:200, width:150, marginTop:5}} resizeMode="contain" source={content.image}/>
+        <View key={key}  style={{flexDirection: 'row'}}>
+            <Image style={{height:200, width:150, marginTop:5}} resizeMode="contain" source={content.image}/>
             <View>
-                <Text key={key} >{content.name}</Text>
+                <Text>{content.name}</Text>
             </View>
         </View>
     );
@@ -59,4 +59,4 @@ function WatchlistScreen() {
 
 }
 
-export default WatchlistScreen;
+export default WatchedScreen;

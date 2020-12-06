@@ -3,9 +3,8 @@ import {Text, TextInput, Button, View} from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import Style from '../../style';
-import Lang from '../../lang';
-import LoadingScreen from '../../loading';
+import Style from '../style';
+import LoadingScreen from '../loading';
 import {TextInputMask} from 'react-native-masked-text';
 
 function SignUpScreen() {
@@ -46,16 +45,16 @@ function SignUpScreen() {
       })
       .catch((error) => {
         if (error.code === 'auth/email-already-in-use') {
-          setEmailError(Lang.ERROR.EMAIl_ALREADY_IN_USE);
+          setEmailError('Error: Email already in use');
         }
         if (error.code === 'auth/invalid-email') {
-          setEmailError(Lang.ERROR.INVALID_EMAIL);
+          setEmailError('Invalid: Email');
         }
         if (error.code === 'auth/weak-password') {
-          setPasswordError(Lang.ERROR.WEAK_PASSWORD);
+          setPasswordError('Error: Weak password');
         }
         if (error.code === 'auth/operation-not-allowed') {
-          setUnknownError(Lang.ERROR.UNKNOWN);
+          setUnknownError('Invalid: Unknown');
         }
         console.error(error);
       })
@@ -72,17 +71,17 @@ function SignUpScreen() {
             <TextInput
               style={[Style.authInput, {flex: 1, marginEnd: 8}]}
               autoCompleteType={'name'}
-              placeholder={Lang.AUTH.FIRSTNAME}
+              placeholder={'Firstname'}
               onChangeText={(firstName: string) => setFirstName(firstName)}></TextInput>
             <TextInput
               style={[Style.authInput, {flex: 1, marginStart: 8}]}
               autoCompleteType={'name'}
-              placeholder={Lang.AUTH.LASTNAME}
+              placeholder={'Lastname'}
               onChangeText={(lastName: string) => setLastName(lastName)}></TextInput>
           </View>
           <TextInputMask
             style={Style.authInput}
-            placeholder={Lang.AUTH.BIRTHDAY}
+            placeholder={'Birth date (dd/mm/yyyy)'}
             type={'datetime'}
             options={{
               format: 'DD/MM/YYYY',
@@ -93,7 +92,7 @@ function SignUpScreen() {
 
           <TextInput
             style={Style.authInput}
-            placeholder={Lang.AUTH.EMAIL}
+            placeholder={'Email'}
             autoCompleteType={'email'}
             autoCapitalize={'none'}
             keyboardType={'email-address'}
@@ -102,14 +101,14 @@ function SignUpScreen() {
 
           <TextInput
             style={Style.authInput}
-            placeholder={Lang.AUTH.PASSWORD}
+            placeholder={'Password'}
             autoCompleteType={'password'}
             autoCapitalize={'none'}
             secureTextEntry={true}
             onChangeText={(password: string) => setPassword(password)}></TextInput>
           {passwordError.length > 0 ? <Text style={Style.authError}>{passwordError}</Text> : null}
           {unknownError.length > 0 ? <Text style={Style.authError}>{unknownError}</Text> : null}
-          <Button title={Lang.AUTH.SIGN_UP} onPress={() => signUp(email, password)}></Button>
+          <Button title={'Sign Up'} onPress={() => signUp(email, password)}></Button>
         </View>
       )}
     </>

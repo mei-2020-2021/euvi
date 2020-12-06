@@ -2,8 +2,8 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import auth from '@react-native-firebase/auth';
 import { Dimensions, Image, StyleSheet, Text, View, ScrollView } from 'react-native';
-import Style from '../style';
-import LoadingScreen from '../loading';
+import Style from '../../style';
+import LoadingScreen from '../../loading';
 import { TextInput } from 'react-native-gesture-handler';
 
 function WatchingScreen() {

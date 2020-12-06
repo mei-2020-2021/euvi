@@ -1,9 +1,8 @@
 import React from 'react';
 import {Text, TextInput, Button, View} from 'react-native';
 import auth from '@react-native-firebase/auth';
-import Style from '../../style';
-import Lang from '../../lang';
-import LoadingScreen from '../../loading';
+import Style from '../style';
+import LoadingScreen from '../loading';
 
 function SignInScreen() {
   const [loading, setLoading] = React.useState(false);
@@ -25,11 +24,11 @@ function SignInScreen() {
       .signInWithEmailAndPassword(email, password)
       .catch((error) => {
         if (error.code === 'auth/invalid-email') {
-          setEmailError(Lang.ERROR.INVALID_EMAIL);
+          setEmailError('Invalid: Email');
         } else if (error.code === 'auth/wrong-password') {
-          setPasswordError(Lang.ERROR.WRONG_PASSWORD);
+          setPasswordError('Invalid: Password');
         } else {
-          setUnknownError(Lang.ERROR.UNKNOWN);
+          setUnknownError('Invalid: Unknown');
         }
         console.error(error);
       })
@@ -44,7 +43,7 @@ function SignInScreen() {
         <View style={Style.screen}>
           <TextInput
             style={Style.authInput}
-            placeholder={Lang.AUTH.EMAIL}
+            placeholder={'Email'}
             autoCompleteType={'email'}
             autoCapitalize={'none'}
             keyboardType={'email-address'}
@@ -52,14 +51,14 @@ function SignInScreen() {
           {emailError.length > 0 ? <Text style={Style.authError}>{emailError}</Text> : null}
           <TextInput
             style={Style.authInput}
-            placeholder={Lang.AUTH.PASSWORD}
+            placeholder={'Password'}
             autoCompleteType={'password'}
             autoCapitalize={'none'}
             secureTextEntry={true}
             onChangeText={(password: string) => setPassword(password)}></TextInput>
           {passwordError.length > 0 ? <Text style={Style.authError}>{passwordError}</Text> : null}
           {unknownError.length > 0 ? <Text style={Style.authError}>{unknownError}</Text> : null}
-          <Button title={Lang.AUTH.SIGN_IN} onPress={signIn} />
+          <Button title={'Sign In'} onPress={signIn} />
         </View>
       )}
     </>

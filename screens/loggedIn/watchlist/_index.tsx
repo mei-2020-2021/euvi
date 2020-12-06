@@ -1,14 +1,12 @@
 import React from 'react';
-import {Text, TextInput, Button, View, ActivityIndicator} from 'react-native';
+import {View} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import auth from '@react-native-firebase/auth';
-import Style from '../style';
-import Lang from '../lang';
-import LoadingScreen from '../loading';
+import LoadingScreen from '../../loading';
 
 import WatchedScreen from './watched';
 import WatchingScreen from './watching';
-import WatchlistScreen from './watchlist';
+import ToWatchScreen from './toWatch';
 
 function ProfileScreen() {
   const [user, setUser] = React.useState(null);
@@ -27,15 +25,11 @@ function ProfileScreen() {
         <LoadingScreen />
       ) : (
         <View style={{height: '100%'}}>
-            <Tab.Navigator tabBarOptions={{labelStyle: {textTransform: 'capitalize', fontWeight: 'bold', fontSize: 20}}}>
+          <Tab.Navigator tabBarOptions={{labelStyle: {textTransform: 'capitalize', fontWeight: 'bold', fontSize: 20}}}>
             <Tab.Screen name="Watched" component={WatchedScreen} />
             <Tab.Screen name="Watching" component={WatchingScreen} />
-            <Tab.Screen name="Watchlist" component={WatchlistScreen} />
+            <Tab.Screen name="Watchlist" component={ToWatchScreen} />
           </Tab.Navigator>
-          {/* <Text style={{fontSize: 28, fontWeight: 'bold'}}>{user.displayName}</Text>
-          <Text>{user.uid}</Text>
-          <Text>{user.displayName}</Text>
-          <Text>{user.email}</Text> */}
         </View>
       )}
     </>
