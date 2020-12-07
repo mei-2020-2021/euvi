@@ -1,10 +1,10 @@
 const User = require('./user.model');
 const Group = require('./group.model');
-const ContentType = require('./contentType.model');
-const Content = require('./content.model');
 const Genre = require('./genre.model');
-const StatusType = require('./statusType.model');
+const Content = require('./content.model');
 const Service = require('./service.model');
+const StatusType = require('./statusType.model');
+const ContentType = require('./contentType.model');
 const ContentStatus = require('./contentStatus.model');
 const SeriesEpisode = require('./seriesEpisode.model');
 

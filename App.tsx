@@ -1,14 +1,11 @@
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import React from 'react';
-import {SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, TextInput, Button} from 'react-native';
+import {SafeAreaView, StatusBar} from 'react-native';
 import auth from '@react-native-firebase/auth';
-import LoggedOutScreen from './screens/loggedOut/_index';
-import LoggedInScreen from './screens/loggedIn/_index';
-import LoadingScreen from './screens/loading';
-
-const Tab = createMaterialTopTabNavigator();
+import LoggedOutScreen from './src/screens/loggedOut/_index';
+import LoggedInScreen from './src/screens/loggedIn/_index';
+import LoadingScreen from './src/screens/loading';
 
 function App() {
   const [loading, setLoading] = React.useState(true);

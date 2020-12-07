@@ -4,9 +4,9 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import auth from '@react-native-firebase/auth';
 import LoadingScreen from '../../loading';
 
-import WatchedScreen from './watched';
-import WatchingScreen from './watching';
-import ToWatchScreen from './toWatch';
+import PastScreen from './past';
+import PresentScreen from './present';
+import FutureScreen from './future';
 
 function ProfileScreen() {
   const [user, setUser] = React.useState(null);
@@ -26,9 +26,9 @@ function ProfileScreen() {
       ) : (
         <View style={{height: '100%'}}>
           <Tab.Navigator tabBarOptions={{labelStyle: {textTransform: 'capitalize', fontWeight: 'bold', fontSize: 20}}}>
-            <Tab.Screen name="Past" component={WatchedScreen} />
-            <Tab.Screen name="Present" component={WatchingScreen} />
-            <Tab.Screen name="Future" component={ToWatchScreen} />
+            <Tab.Screen name="Past" component={PastScreen} />
+            <Tab.Screen name="Present" component={PresentScreen} />
+            <Tab.Screen name="Future" component={FutureScreen} />
           </Tab.Navigator>
         </View>
       )}

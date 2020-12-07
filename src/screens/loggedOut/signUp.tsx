@@ -27,8 +27,8 @@ function SignUpScreen() {
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
-        const user = auth().currentUser;
-        user.updateProfile({displayName: `${firstName.trim()} ${lastName.trim()}`});
+        const uid = auth().currentUser.uid;
+        
         
       })
       .catch((error) => {
