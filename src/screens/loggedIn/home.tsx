@@ -13,10 +13,12 @@ function HomeScreen() {
   const [content, setContent] = React.useState([]);
 
   React.useEffect(() => {
-    axios.get('http://localhost:6969/content').then((res) => {
-      setContent(res.data);
-      setLoading(false);
-    });
+    fetch('http://localhost:6969/content')
+      .then((res) => res.json())
+      .then((data) => {
+        setContent(data);
+        setLoading(false);
+      });
   }, []);
 
   const serviceinfo = [

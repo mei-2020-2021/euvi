@@ -6,7 +6,7 @@ import ToWatchScreen from '../screens/loggedIn/watchlist/future';
 
 import auth from '@react-native-firebase/auth';
 
-import axios from 'axios';
+import fetch from 'node-fetch';
 
 type ContentProps = {
   contentId: string;
@@ -28,16 +28,16 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
     //   setUserId(res.data.id);
     // });
 
-    axios.get('http://localhost:6969/content?id=' + contentId).then((res) => {
-      const content = res.data;
-      console.log(content);
-      setTitle(res.data.Title);
-      setReleaseYear(res.data.ReleaseYear);
-      setSinopse(res.data.Sinopse);
-      setImageUrl(res.data.ImageUrl);
-      setTrailerUrl(res.data.TrailerUrl);
-      setImdbRating(res.data.ImdbRating);
-    });
+    fetch('http://localhost:6969/content?id=' + contentId)
+      .then((res) => res.json())
+      .then((data) => {
+        setTitle(data.Title);
+        setReleaseYear(data.ReleaseYear);
+        setSinopse(data.Sinopse);
+        setImageUrl(data.ImageUrl);
+        setTrailerUrl(data.TrailerUrl);
+        setImdbRating(data.ImdbRating);
+      });
   }, []);
 
   return (
