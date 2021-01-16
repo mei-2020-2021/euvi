@@ -6,10 +6,10 @@ router.get('/', async function (req, res) {
   const id = req.query.id;
 
   if (id) {
-    const content = await Content.findByPk(id);
+    const content = await Content.findByPk(id, {include: {all: true, nested: true}});
     return res.status(200).json(content);
   } else {
-    const allContent = await Content.findAll();
+    const allContent = await Content.findAll({include: {all: true, nested: true}});
     return res.status(200).json(allContent);
   }
 });

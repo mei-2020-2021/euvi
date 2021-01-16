@@ -5,49 +5,32 @@ import {Dimensions, Image, StyleSheet, Text, View, ScrollView} from 'react-nativ
 import Style from '../../style';
 import LoadingScreen from '../../loading';
 import {TextInput} from 'react-native-gesture-handler';
+import Content from '../../../components/Content';
 
 function WatchingScreen() {
   const [loading, setLoading] = React.useState(true);
+  const [watchingContent, setWatchingContent] = React.useState([]);
 
   React.useEffect(() => {
-    setLoading(false);
+    fetch('http://localhost:6969/content')
+      .then((res) => res.json())
+      .then((data) => {
+        setWatchingContent(data);
+        setLoading(false);
+      });
   }, []);
-
-  const contentInfo = [
-    {
-      name: 'Carnival Row',
-      image: require('./../../../../media/posters/carnivalrow.png'),
-    },
-    {
-      name: 'The Boys',
-      image: require('./../../../../media/posters/the-boys.png'),
-    },
-    {
-      name: 'The Legend of Korra',
-      image: require('./../../../../media/posters/the-legend-of-korra.png'),
-    },
-    {
-      name: 'The Office',
-      image: require('./../../../../media/posters/office.jpg'),
-    },
-  ];
-
-  const contentInfoList = contentInfo.map((content, key) => (
-    <View style={{flexDirection: 'row'}}>
-      <Image key={key} style={{height: 200, width: 150, marginTop: 5}} resizeMode="contain" source={content.image} />
-      <View>
-        <Text key={key}>{content.name}</Text>
-      </View>
-    </View>
-  ));
 
   return (
     <>
       {loading ? (
         <LoadingScreen />
       ) : (
-        <View style={{width: '100%', padding: 5}}>
-          <ScrollView showsHorizontalScrollIndicator={false}>{contentInfoList}</ScrollView>
+        <View style={{width: '100%', height: '100%', padding: 8}}>
+          <ScrollView showsHorizontalScrollIndicator={false}>
+            {watchingContent.map((content) => (
+              <Content contentId={content.Id} screen="watching" />
+            ))}
+          </ScrollView>
         </View>
       )}
     </>

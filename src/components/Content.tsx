@@ -41,13 +41,14 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
   }, []);
 
   return (
-    <View style={{flexDirection: 'row', margin: 8}}>
+    <View style={{flexDirection: 'row', margin: 8, width: '100%'}}>
       <Image key={contentId} style={{height: 200, width: (2 / 3) * 200}} resizeMode="cover" source={{uri: imageUrl}} />
-      {screen == WatchedScreen ? (
-        <View>
-          <Text>{title}</Text>
-        </View>
-      ) : null}
+
+      {screen == 'home' ? null : <Text style={{marginLeft: 16, fontSize: 24, fontWeight: 'bold'}}>{title}</Text>}
+
+      {screen == 'watched' ? null : null}
+      {screen == 'watching' ? null : null}
+      {screen == 'toWatch' ? null : null}
     </View>
   );
 };
