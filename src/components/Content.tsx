@@ -74,7 +74,7 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
     //   setUserId(res.data.id);
     // });
 
-    fetch('http://localhost:6969/content?id=' + contentId)
+    fetch('http://192.168.1.238:6969/content?id=' + contentId)
       .then((res) => res.json())
       .then((data) => {
         setTitle(data.Title);

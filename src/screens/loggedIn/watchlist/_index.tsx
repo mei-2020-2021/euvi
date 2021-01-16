@@ -8,7 +8,7 @@ import PastScreen from './past';
 import PresentScreen from './present';
 import FutureScreen from './future';
 
-function ProfileScreen() {
+function WachlistScreen() {
   const Tab = createMaterialTopTabNavigator();
 
   return (
@@ -23,4 +23,4 @@ function ProfileScreen() {
     </View>
   );
 }
-export default ProfileScreen;
+export default WachlistScreen;

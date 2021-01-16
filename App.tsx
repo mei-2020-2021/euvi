@@ -27,6 +27,7 @@ function App() {
       <SafeAreaView style={{height: '100%'}}>
         {loading ? <LoadingScreen /> : user ? <LoggedInScreen /> : <LoggedOutScreen />}
       </SafeAreaView>
+
     </NavigationContainer>
   );
 }
