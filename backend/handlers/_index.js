@@ -7,4 +7,7 @@ router.use('/users', usersHandler);
 const contentHandler = require('./content.handler');
 router.use('/content', contentHandler);
 
+const initHandler = require('./init.handler');
+router.use('/init', initHandler);
+
 module.exports = router;
