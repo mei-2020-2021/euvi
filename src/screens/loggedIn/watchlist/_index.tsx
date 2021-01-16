@@ -8,7 +8,7 @@ import PastScreen from './past';
 import PresentScreen from './present';
 import FutureScreen from './future';
 
-function ProfileScreen() {
+function WachlistScreen() {
   const [user, setUser] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
@@ -35,4 +35,4 @@ function ProfileScreen() {
     </>
   );
 }
-export default ProfileScreen;
+export default WachlistScreen;
