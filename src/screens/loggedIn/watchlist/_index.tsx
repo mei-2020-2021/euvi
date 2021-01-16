@@ -26,9 +26,9 @@ function WachlistScreen() {
       ) : (
         <View style={{height: '100%'}}>
           <Tab.Navigator tabBarOptions={{labelStyle: {textTransform: 'capitalize', fontWeight: 'bold', fontSize: 20}}}>
-            <Tab.Screen name="Past" component={PastScreen} />
-            <Tab.Screen name="Present" component={PresentScreen} />
-            <Tab.Screen name="Future" component={FutureScreen} />
+            <Tab.Screen name="Watched" component={PastScreen} />
+            <Tab.Screen name="Watching" component={PresentScreen} />
+            <Tab.Screen name="To Watch" component={FutureScreen} />
           </Tab.Navigator>
         </View>
       )}
