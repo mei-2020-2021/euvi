@@ -5,8 +5,8 @@ const sequelize = require('../sequelize/_index');
 const {Op} = require('sequelize');
 
 router.get('/', async function (req, res) {
-  const id = req.params['id'] | null;
-  const uid = req.params['uid'] | null;
+  const id = req.query.id
+  const uid = req.query.uid
 
   if (id) {
     const user = await User.findByPk(id);
