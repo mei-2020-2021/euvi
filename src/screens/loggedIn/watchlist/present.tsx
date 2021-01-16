@@ -25,8 +25,8 @@ function WatchingScreen() {
       {loading ? (
         <LoadingScreen />
       ) : (
-        <View style={{width: '100%', height: '100%', padding: 8}}>
-          <ScrollView showsHorizontalScrollIndicator={false}>
+        <View style={{width: '100%', height: '100%'}}>
+          <ScrollView style={{padding: 8}} showsHorizontalScrollIndicator={false}>
             {watchingContent.map((content) => (
               <Content contentId={content.Id} screen={'watching'} />
             ))}

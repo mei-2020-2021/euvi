@@ -16,6 +16,7 @@ function HomeScreen() {
     fetch('http://localhost:6969/content')
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         setContent(data);
         setLoading(false);
       });
