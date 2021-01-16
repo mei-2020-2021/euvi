@@ -28,7 +28,7 @@ function WatchingScreen() {
         <View style={{width: '100%', height: '100%', padding: 8}}>
           <ScrollView showsHorizontalScrollIndicator={false}>
             {watchingContent.map((content) => (
-              <Content contentId={content.Id} screen="watching" />
+              <Content contentId={content.Id} screen={'watching'} />
             ))}
           </ScrollView>
         </View>
