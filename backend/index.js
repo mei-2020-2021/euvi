@@ -5,6 +5,7 @@ const app = express();
 const router = express.Router();
 const handler = require('./handlers/_index');
 const port = 6969;
+const Content = require('./sequelize/models/content.model');
 
 const database = async () => {
   try {

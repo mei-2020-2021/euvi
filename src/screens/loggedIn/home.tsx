@@ -5,60 +5,48 @@ import {Dimensions, Image, StyleSheet, Text, View, ScrollView} from 'react-nativ
 import Style from '../style';
 import LoadingScreen from '../loading';
 import {TextInput} from 'react-native-gesture-handler';
+import axios from 'axios';
+import Content from '../../components/Content';
 
 function HomeScreen() {
   const [loading, setLoading] = React.useState(true);
+  const [content, setContent] = React.useState([]);
 
   React.useEffect(() => {
-    setLoading(false);
+    axios.get('http://localhost:6969/content').then((res) => {
+      setContent(res.data);
+      setLoading(false);
+    });
   }, []);
 
   const serviceinfo = [
     {
       name: 'Netflix',
-      image: require('./../../media/serviceicons/Netflix.jpg'),
+      image: require('./../../../media/serviceicons/Netflix.jpg'),
     },
     {
       name: 'PrimeVideo',
-      image: require('./../../media/serviceicons/PrimeVideo.jpg'),
+      image: require('./../../../media/serviceicons/PrimeVideo.jpg'),
     },
   ];
   const servicelist = serviceinfo.map((service, key) => <Image key={key} style={Style.icon} source={service.image} />);
 
-  const moviePosters = [
-    require('./../../media/posters/carnivalrow.png'),
-    require('./../../media/posters/the-boys.png'),
-    require('./../../media/posters/the-legend-of-korra.png'),
-    require('./../../media/posters/office.jpg'),
-  ];
-
-  const moviePostersList = moviePosters.map((image, key) => (
-    <Image
-      key={key}
-      style={{height: 200, width: 150, borderRadius: 8, marginLeft: 5}}
-      resizeMode="contain"
-      source={image}
-    />
-  ));
-
   return (
     <>
-      {loading ? (
+      {loading || content == null ? (
         <LoadingScreen />
       ) : (
-        <ScrollView>
+        <ScrollView style={{padding: 8}}>
           <View style={Style.homeTopFlex}>
-            <Text style={Style.authTitle}>EUVI</Text>
+            <Text style={Style.authTitle}>{auth().currentUser.displayName}</Text>
             <TextInput style={Style.searchBox} placeholder="Type Here..."></TextInput>
           </View>
           <View style={Style.homeServicesFlex}>{servicelist}</View>
           <Text style={{fontSize: 32, fontWeight: 'bold'}}>New</Text>
           <ScrollView showsHorizontalScrollIndicator={false} horizontal>
-            {moviePostersList}
-          </ScrollView>
-          <Text style={{fontSize: 32, fontWeight: 'bold'}}>Movies</Text>
-          <ScrollView showsHorizontalScrollIndicator={false} horizontal>
-            {moviePostersList}
+            {content.map((content) => (
+              <Content contentId={content.Id} screen={this} />
+            ))}
           </ScrollView>
         </ScrollView>
       )}

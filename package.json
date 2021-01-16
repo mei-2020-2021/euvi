@@ -20,7 +20,7 @@
     "@react-navigation/material-top-tabs": "^5.2.19",
     "@react-navigation/native": "^5.7.6",
     "@types/express": "^4.17.9",
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "express": "^4.17.1",
     "react": "16.13.1",
     "react-native": "0.63.3",

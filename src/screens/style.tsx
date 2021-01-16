@@ -14,7 +14,7 @@ const Style = StyleSheet.create({
     borderRadius: 16,
   },
   authTitle: {
-    paddingLeft: 16,
+    paddingLeft: 8,
     marginTop: 16,
     marginBottom: 16,
     fontSize: 32,
