@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react';
-import {View, Image, Text, ScrollView} from 'react-native';
+import {View, Image, Text, ScrollView, Button} from 'react-native';
 import WatchedScreen from '../screens/loggedIn/watchlist/past';
 import WatchingScreen from '../screens/loggedIn/watchlist/present';
 import ToWatchScreen from '../screens/loggedIn/watchlist/future';
@@ -90,20 +90,56 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
 
   return (
     <View style={{flexDirection: 'row', padding: 8}}>
-      <Image key={contentId} style={{height: 150, width: (2 / 3) * 150}} resizeMode="cover" source={{uri: imageUrl}} />
+      <Image
+        key={contentId}
+        style={[{height: 150, width: (2 / 3) * 150}, screen == 'watched' ? {opacity: 0.75} : null]}
+        resizeMode="cover"
+        source={{uri: imageUrl, cache: 'force-cache'}}
+      />
 
       {screen == 'home' ? null : (
         <ScrollView style={{paddingHorizontal: 16, height: 150}}>
-          <Text
+          <View
             style={{
-              fontSize: 18,
-              fontWeight: 'bold',
+              flexDirection: 'row',
+              marginBottom: 4,
+              flexWrap: 'wrap',
               width: Dimensions.get('window').width - 400 / 3 - 48,
-              marginBottom: 8,
+              alignItems: 'baseline',
             }}>
-            {title}
-            <Text style={{}}>IMDb: {imdbRating}</Text>
-          </Text>
+            <Text
+              style={{
+                fontSize: 18,
+                fontWeight: 'bold',
+                marginRight: 4,
+                marginBottom: 4,
+              }}>
+              {title}
+            </Text>
+            <Text
+              style={{
+                fontSize: 12,
+                color: '#555555',
+                fontWeight: 'bold',
+                marginRight: 8,
+                marginBottom: 4,
+              }}>
+              {releaseYear}
+            </Text>
+            <Text
+              style={{
+                color: '#000',
+                backgroundColor: '#f5c518',
+                fontSize: 10,
+                overflow: 'hidden',
+                borderRadius: 4,
+                padding: 4,
+                fontWeight: 'bold',
+                marginBottom: 4,
+              }}>
+              IMDb: {imdbRating}
+            </Text>
+          </View>
           <View style={{flexDirection: 'row', marginBottom: 8}}>
             {services.map((service) => (
               <Image
@@ -111,7 +147,7 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
                 style={{
                   width: 40,
                   height: 40,
-                  borderRadius: 8,
+                  borderRadius: 4,
                   borderColor: '#000',
                   borderWidth: 1,
                   marginRight: 4,
@@ -119,26 +155,47 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
               />
             ))}
           </View>
-          <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+          <View style={{flexDirection: 'row', flexWrap: 'wrap', marginBottom: 4}}>
             {genres.map((genre) => (
               <Text
                 style={{
                   backgroundColor: genreColorMap[genre.Id].background,
                   color: genreColorMap[genre.Id].text,
                   fontSize: 10,
-                  borderRadius: 8,
+                  borderRadius: 4,
                   padding: 6,
                   marginRight: 4,
                   marginBottom: 4,
                   overflow: 'hidden',
+                  fontWeight: 'bold',
                 }}>
                 {genre.Value}
               </Text>
             ))}
           </View>
+          {screen == 'watched' ? (
+            <>
+              <Text
+                style={{
+                  backgroundColor: '#555555',
+                  color: '#fff',
+                  fontSize: 10,
+                  borderRadius: 4,
+                  padding: 6,
+                  marginRight: 4,
+                  marginBottom: 4,
+                  overflow: 'hidden',
+                  fontWeight: 'bold',
+                  marginEnd: 'auto',
+                }}>
+                Seen:
+              </Text>
+            </>
+          ) : null}
+          <Button onPress={() => {}} title={'Teste'}></Button>
         </ScrollView>
       )}
-      {screen == 'watched' ? null : null}
+
       {screen == 'watching' ? <Text>watching</Text> : null}
       {screen == 'toWatch' ? <Text>toWatch</Text> : null}
     </View>

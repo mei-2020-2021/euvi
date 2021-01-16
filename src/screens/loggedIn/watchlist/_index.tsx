@@ -9,30 +9,18 @@ import PresentScreen from './present';
 import FutureScreen from './future';
 
 function ProfileScreen() {
-  const [user, setUser] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    setUser(auth().currentUser);
-    setLoading(false);
-  }, []);
-
   const Tab = createMaterialTopTabNavigator();
 
   return (
-    <>
-      {loading ? (
-        <LoadingScreen />
-      ) : (
-        <View style={{height: '100%'}}>
-          <Tab.Navigator tabBarOptions={{labelStyle: {textTransform: 'capitalize', fontWeight: 'bold', fontSize: 20}}}>
-            <Tab.Screen name="Watched" component={PastScreen} />
-            <Tab.Screen name="Watching" component={PresentScreen} />
-            <Tab.Screen name="To Watch" component={FutureScreen} />
-          </Tab.Navigator>
-        </View>
-      )}
-    </>
+    <View style={{height: '100%'}}>
+      <Tab.Navigator
+        initialRouteName="Watching"
+        tabBarOptions={{labelStyle: {textTransform: 'capitalize', fontWeight: 'bold', fontSize: 20}}}>
+        <Tab.Screen name="Seen" component={PastScreen} />
+        <Tab.Screen name="Watching" component={PresentScreen} />
+        <Tab.Screen name="To See" component={FutureScreen} />
+      </Tab.Navigator>
+    </View>
   );
 }
 export default ProfileScreen;
