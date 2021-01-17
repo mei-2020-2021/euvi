@@ -10,7 +10,7 @@ function WatchingScreen({navigation}) {
   const [watchingContent, setWatchingContent] = React.useState([]);
 
   React.useEffect(() => {
-    fetch('http://localhost:6969/content')
+    fetch('http://localhost:6969/content/watchlist?uid=' + auth().currentUser.uid + '&statusType=1')
       .then((res) => res.json())
       .then((data) => {
         setWatchingContent(data);

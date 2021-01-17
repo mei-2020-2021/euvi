@@ -6,6 +6,7 @@ import LoadingScreen from '../loading';
 import WatchlistStackScreen from './watchlist/_index_stack';
 import CommunityScreen from './community/_index';
 import HomeScreen from './home';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function LoggedOutScreen() {
   const [user, setUser] = React.useState(null);
@@ -25,9 +26,30 @@ function LoggedOutScreen() {
       ) : (
         <View style={{height: '100%'}}>
           <BottomTab.Navigator>
-            <BottomTab.Screen name="Home" component={HomeScreen} />
-            <BottomTab.Screen name="Watchlist" component={WatchlistStackScreen} />
-            <BottomTab.Screen name="Community" component={CommunityScreen} />
+            <BottomTab.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{
+                tabBarLabel: 'Home',
+                tabBarIcon: ({color, size}) => <Icon name="movie-search" color={color} size={size} />,
+              }}
+            />
+            <BottomTab.Screen
+              name="Watchlist"
+              component={WatchlistStackScreen}
+              options={{
+                tabBarLabel: 'Watchlist',
+                tabBarIcon: ({color, size}) => <Icon name="view-carousel" color={color} size={size} />,
+              }}
+            />
+            <BottomTab.Screen
+              name="Community"
+              component={CommunityScreen}
+              options={{
+                tabBarLabel: 'Community',
+                tabBarIcon: ({color, size}) => <Icon name="account-group" color={color} size={size} />,
+              }}
+            />
           </BottomTab.Navigator>
         </View>
       )}
