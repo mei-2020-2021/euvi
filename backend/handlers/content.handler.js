@@ -1,10 +1,15 @@
 const express = require('express');
 const Content = require('../sequelize/models/content.model');
+const Service = require('../sequelize/models/service.model');
+const { _attributes } = require('../sequelize/_index');
 const router = express.Router();
+const Genre = require('../sequelize/models/genre.model');
+const ContentType = require('../sequelize/models/contentType.model');
+
 
 router.get('/', async function (req, res) {
   const id = req.query.id;
-
+  
   if (id) {
     const content = await Content.findByPk(id, {include: {all: true, nested: false}});
     return res.status(200).json(content);
@@ -12,6 +17,147 @@ router.get('/', async function (req, res) {
     const allContent = await Content.findAll({include: {all: true, nested: false}});
     return res.status(200).json(allContent);
   }
+});
+
+router.get('/search', async function (req, res) {
+  const { Op } = require("sequelize");
+  const genres = req.query.genre;
+  const type = req.query.type;
+  const title = req.query.title;
+    
+  var allcontent = []
+  
+  if(title && genres && type){
+    var array = genres.split(',');
+    var lista = []
+    array.forEach(function(element){
+      lista.push({Value: element}) 
+    })
+    var typeId = 0
+    if(type=='movie'){
+      typeId = 1
+    } else {
+      typeId = 2
+    }
+    const content = await Content.findAll({
+      where:{
+        Title: title,
+        ContentTypeId: typeId
+      },
+      include: [{
+        model: Genre,
+        where:{
+          [Op.or]: lista            
+        }
+      }]
+    })
+    allcontent.push(content)
+
+
+  } else if(title && genres){
+    var array = genres.split(',');
+    var lista = []
+    array.forEach(function(element){
+      lista.push({Value: element}) 
+    })
+    const content = await Content.findAll({
+      where:{
+        Title: title,
+      },
+      include: [{
+        model: Genre,
+        where:{
+          [Op.or]: lista            
+        }
+      }]
+    })
+    allcontent.push(content)
+
+
+  } else if(title && type){
+    var typeId = 0
+    if(type=='movie'){
+      typeId = 1
+    } else {
+      typeId = 2
+    }
+    const content = await Content.findAll({
+      where:{
+        Title: title,
+        ContentTypeId: typeId
+      },
+    })
+    allcontent.push(content)
+
+
+  } else if(type && genres){
+    var array = genres.split(',');
+    var lista = []
+    array.forEach(function(element){
+      lista.push({Value: element}) 
+    })
+    var typeId = 0
+    if(type=='movie'){
+      typeId = 1
+    } else {
+      typeId = 2
+    }
+    const content = await Content.findAll({
+      where:{
+        ContentTypeId: typeId
+      },
+      include: [{
+        model: Genre,
+        where:{
+          [Op.or]: lista            
+        }
+      }]
+    })
+    allcontent.push(content)
+
+
+  } else if (title){
+    const contentTitle = await Content.findAll({
+      where:{
+        Title: title
+      } 
+  });
+  allcontent.push(contentTitle)
+  
+  
+  } else if (type) {
+    var typeId = 0
+    if(type=='movie'){
+      typeId = 1
+    } else {
+      typeId = 2
+    }
+    const contentType = await Content.findAll({
+        where:{
+          ContentTypeId: typeId
+        } 
+    });
+    allcontent.push(contentType)
+
+
+  }else if(genres){
+    var array = genres.split(',');
+    var lista = []
+    array.forEach(function(element){
+      lista.push({Value: element}) 
+    })
+    const contentGenre = await Content.findAll({
+      include: [{
+        model: Genre,
+        where:{
+          [Op.or]: lista            
+        }
+      }]
+    })
+    allcontent.push(contentGenre)
+  }
+
+  return res.status(200).json(allcontent);
 });
 
 module.exports = router;
