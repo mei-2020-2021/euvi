@@ -178,7 +178,7 @@ router.post('/', async function (req, res) {
     }
   });
 
-  await friendshipUser1.addContentRecommendation(contentSoul)
+  await friendshipUser1.addContentRecommendation(contentSoul);
   
   // Associate Genre to Content
   contentSoul.addGenres([genreAnimation, genreAdventure, genreComedy]);
@@ -280,6 +280,9 @@ router.post('/', async function (req, res) {
     ImdbRating: 7.5,
     ContentTypeId: 1,
   });
+  
+  return res.status(200).send();
 });
+
 
 module.exports = router;
