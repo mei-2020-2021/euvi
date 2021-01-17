@@ -15,8 +15,10 @@ router.get('/', async function (req, res) {
             as: 'Users',
             where: {
                 Id : userId
-            }
-        }]
+            },
+            nested: true
+        }],
+        attributes: ['Name', 'OwnerId']
     })
     return res.status(200).json(groups);
 });

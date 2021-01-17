@@ -32,7 +32,7 @@ function NewFriendScreen() {
             ) : (
                     <View style={{ padding: 8 }}>
                         <View style={styles.width_100}>
-                            <Autocomplete onDropdownClose={() => onDropdownClose()} onDropdownShow={() => onDropdownShow()} inputStyle={[styles.width_100, styles.autocompleteBoder]} waitInterval={200} resetOnSelect={true} handleSelectItem={(item) => handleSelectItem(item)} style={styles.input} placeholder="Add a friend" minimumCharactersCount={0} data={userList} valueExtractor={item => item.FirstName + "" + item.LastName} />
+                            <Autocomplete inputStyle={[styles.width_100, styles.autocompleteBoder]} waitInterval={200} resetOnSelect={true} handleSelectItem={(item) => handleSelectItem(item)} style={styles.input} placeholder="Add a friend" minimumCharactersCount={0} data={userList} valueExtractor={item => item.FirstName + "" + item.LastName} />
                         </View>
                         <Button title="Add Friend!" onPress={() => Alert.alert(friend)} style={styles.submitButton} />
                     </View>

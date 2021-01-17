@@ -11,22 +11,48 @@ function CommunityHomeScreen({ navigation }) {
     const [user, setUser] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const [list, setList] = React.useState(null);
+    const [groupList, setGroupList] = React.useState([]);
+    const [friendList, setFriendList] = React.useState([]);
 
     React.useEffect(() => {
-        setUser(auth().currentUser);
+        fetch('http://192.168.1.238:6969/users?uid=' + auth().currentUser.uid)
+            .then((res) => res.json())
+            .then((data) => {
+                setUser(data.Id.toString());
+            });
+        fetch('http://192.168.1.238:6969/group?userId=' + user)
+            .then((res) => res.json())
+            .then((data) => {
+                var groupListData = []
+                data.forEach(group => {
+                    const info = { name: group.Name, ownerId: group.OwnerId }
+                    groupListData.push(info)
+                });
+                setGroupList(groupListData)
+            });
+        fetch('http://192.168.1.238:6969/friendship?userId=' + user)
+            .then((res) => res.json())
+            .then((data) => {
+                var friendListData = []
+                data.forEach(friend => {
+                    const info = { id: friend.Id, firstName: friend.FirstName, lastName: friend.LastName }
+                    friendListData.push(info)
+                });
+                setFriendList(friendListData)
+            });
         setList(() => {
             return [
                 {
                     id: 1,
                     isGroup: true,
                     title: 'Groups',
-                    body: [{ id: 1, name: "Grupo 1", owner: "Joao" }, { id: 2, name: "Grupo 2", owner: "Alfredo" }, { id: 3, name: "Grupo 3", owner: "Ricardo" }, { id: 4, name: "Grupo 4", owner: "Ricardo" }],
+                    body: groupList
                 },
                 {
                     id: 2,
                     isGroup: false,
                     title: 'Friends',
-                    body: [{ id: 1, name: "Ana" }, { id: 2, name: "Joao" }, { id: 3, name: "Alfredo" }, { id: 4, name: "Ricardo" }],
+                    body: friendList,
                 }
             ]
         })
@@ -36,32 +62,36 @@ function CommunityHomeScreen({ navigation }) {
     function _head(item) {
         return (<View style={Style.homeTopFlex}>
             <Text style={Style.authTitle}>{item.title}</Text>
-            <Icon.Button
-                name="rocket"
-                onPress={() => {item.id == 1 ? (navigation.navigate('NewGroup')) : (navigation.navigate('NewFriend'))}}
+            <Icon
+                name="plus"
+                onPress={() => { item.id == 1 ? (navigation.navigate('NewGroup')) : (navigation.navigate('NewFriend')) }}
             >
-            </Icon.Button>
+            </Icon>
         </View>)
     }
 
     function _body(item) {
         return (
             <View style={{ padding: 8 }}>
-                
-                {item.isGroup == 1 ? (
-                item.body.map(el => {return (
-                    <View style={Style.homeTopFlex}>
-                        <Text style={styles.item}>{el.name}</Text>
-                        <Text style={styles.item}>Owner: {el.owner}</Text>
-                    </View>
-                    )})
-            ) : (
-                item.body.map(el => {return (
-                    <View>
-                        <Text style={styles.item}>{el.name}</Text>
-                    </View>
-                    )})
-                )}
+
+                {item.isGroup ? (
+                    item.body.map(el => {
+                        return (
+                            <View style={Style.homeTopFlex}>
+                                <Text style={styles.item}>{el.name}</Text>
+                                {el.ownerId == user ? (<Text style={styles.item}>Owner</Text>) : (<></>)}
+                            </View>
+                        )
+                    })
+                ) : (
+                        item.body.map(el => {
+                            return (
+                                <View>
+                                    <Text style={styles.item}>{el.firstName + " " + el.lastName}</Text>
+                                </View>
+                            )
+                        })
+                    )}
             </View>
         );
     }
@@ -80,6 +110,7 @@ function CommunityHomeScreen({ navigation }) {
                             />
                         </View>
                         <AccordionList
+                            expandedIndex = {1}
                             list={list}
                             header={_head}
                             body={_body}
