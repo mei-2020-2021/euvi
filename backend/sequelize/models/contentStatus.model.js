@@ -11,6 +11,9 @@ ContentStatus.init(
       type: Sequelize.DataTypes.INTEGER,
       defaultValue: 0
     },
+    WatchedAt: {
+      type: Sequelize.DataTypes.DATE
+    },
   },
   {
     sequelize,
@@ -19,7 +22,7 @@ ContentStatus.init(
   },
 );
 
-User.belongsToMany(Content, {as: 'WatchlistContent', through: ContentStatus, primaryKey: true, foreignKey: 'ContentId'});
-Content.belongsToMany(User, {as: 'Viewer', through: ContentStatus, primaryKey: true, foreignKey: 'UserId'});
+User.belongsToMany(Content, {as: 'WatchlistContent', through: ContentStatus, primaryKey: true, foreignKey: 'UserId'});
+Content.belongsToMany(User, {as: 'Viewer', through: ContentStatus, primaryKey: true, foreignKey: 'ContentId'});
 
 module.exports = ContentStatus;

@@ -8,13 +8,13 @@ const GroupUsers = require('../sequelize/models/groupUsers.model');
 
 
 router.get('/', async function (req, res) {
-    const userId = req.query.userId
+    const userUID = req.query.uid
     const groups = await Group.findAll({
         include: [{
             model: User,
             as: 'Users',
             where: {
-                Id : userId
+                Uid : userUID
             }
         }]
     })
@@ -24,18 +24,22 @@ router.get('/', async function (req, res) {
 
 router.post('/group', async function (req, res) {
     const groupName = req.query.name;
-    const ownerId = req.query.ownerId;
-    const allUsersId = req.query.users
-    var array = allUsersId.split(',');
-
+    const ownerUID = req.query.ownerUid;
+    const allUsersUID = req.query.usersUid
+    var array = allUsersUID.split(',');
+    const user = await User.findOne({
+        where:{
+          Uid: ownerUID
+        }
+      });
     const contentGroup1 = await Group.create({
         Name: groupName,
-        OwnerId: ownerId
+        OwnerId: user.Id
       });
     array.forEach(async function(element){
         const getAllUsers = await User.findOne({
             where:{
-                Id: element
+                Uid: element
               } 
         })
         await contentGroup1.addUser(getAllUsers);
