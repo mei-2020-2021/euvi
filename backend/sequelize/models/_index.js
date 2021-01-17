@@ -9,7 +9,8 @@ const ContentStatus = require('./contentStatus.model');
 const SeriesEpisode = require('./seriesEpisode.model');
 const Friendship = require('./friendship.model');
 const Recommendation = require('./recommendation.model');
+const GroupUsers = require('./groupUsers.model');
 
-const models = [User, Group, ContentType, Content, Genre, StatusType, ContentStatus, Service, SeriesEpisode, Friendship, Recommendation];
+const models = [User, Group, ContentType, Content, Genre, StatusType, ContentStatus, Service, SeriesEpisode, Friendship, Recommendation, GroupUsers];
 
 module.exports = models;

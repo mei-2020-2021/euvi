@@ -88,14 +88,21 @@ router.post('/', async function (req, res) {
   contentUser1.addFriend(contentUser4)
 
   //Create Group
-  const contentGroup = await Group.create({
+  const contentGroup1 = await Group.create({
     Name: 'Group A',
+    OwnerId: 2
   })
-  contentUser1.addGroup(contentGroup);
-  contentGroup.addUser(contentUser2);
-  contentGroup.addUser(contentUser3);
-  contentGroup.addUser(contentUser4);
-  contentGroup.addUser(contentUser5);
+  const contentGroup2 = await Group.create({
+    Name: 'Group B',
+    OwnerId: 2
+  })
+  contentGroup1.addUser(contentUser1);
+  contentGroup1.addUser(contentUser2);
+  contentGroup1.addUser(contentUser3);
+  contentGroup1.addUser(contentUser4);
+  contentGroup1.addUser(contentUser5);
+
+  contentGroup2.addUser(contentUser1);
 
   //Content-Type
   const contentTypeMovie = await ContentType.create({
@@ -255,6 +262,7 @@ router.post('/', async function (req, res) {
     ImdbRating: 7.5,
     ContentTypeId: 1,
   });
+  return res.status(200).send()
 });
 
 module.exports = router;
