@@ -27,8 +27,27 @@ router.get('/addService', async function (req, res) {
       Id: serviceId,
     },
   });
-
   await user.addServices(service);
+  return res.status(200).json();
+});
+
+router.get('/removeService', async function (req, res) {
+  const userUid = req.query.uid;
+  const serviceId = req.query.serviceId;
+
+  const user = await User.findOne({
+    where: {
+      Uid: userUid,
+    },
+  });
+
+  const service = await Service.findOne({
+    where: {
+      Id: serviceId,
+    },
+  });
+
+  await user.removeServices(service);
   return res.status(200).send();
 });
 
