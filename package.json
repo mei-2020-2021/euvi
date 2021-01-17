@@ -36,6 +36,8 @@
     "react-native-screens": "^2.11.0",
     "react-native-simple-radio-button": "^2.7.4",
     "react-native-tab-view": "^2.15.2",
+    "react-native-webview": "^11.0.3",
+    "react-native-youtube-iframe": "^1.4.0",
     "sequelize": "^6.3.5",
     "sqlite3": "^5.0.0"
   },

@@ -13,7 +13,7 @@ function HomeScreen() {
   const [content, setContent] = React.useState([]);
 
   React.useEffect(() => {
-    fetch('http://192.168.1.238:6969/content')
+    fetch('http://localhost:6969/content')
       .then((res) => res.json())
       .then((data) => {
         setContent(data);
