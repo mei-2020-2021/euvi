@@ -17,7 +17,17 @@ router.get('/', async function (req, res) {
     const content = await Content.findByPk(id, {include: {all: true, nested: false}});
     return res.status(200).json(content);
   } else {
-    const allContent = await Content.findAll({include: {all: true, nested: false}});
+    const allContent = await Content.findAll({
+      include: {
+        all: true,
+        nested: false,
+      },
+      where: {
+        ContentTypeId: {
+          [Op.ne]: 3,
+        },
+      },
+    });
     return res.status(200).json(allContent);
   }
 });
@@ -161,32 +171,17 @@ router.get('/search', async function (req, res) {
 
 router.get('/watchlist', async function (req, res) {
   const uid = req.query.uid;
-  const statusType = parseInt(req.query.StatusTypeId);
+  const statusTypeId = parseInt(req.query.statusTypeId);
   if (uid) {
     const user = await User.findOne({
       where: {
         Uid: uid,
       },
     });
-
     if (user.Id) {
-      /*const contents = await Content.findAll({
-        include: [{
-          model: User,
-          as: 'Viewer',
-          where: {
-            Id: user.Id,
-          }
-        }]
-      });
-      const something = await contents.map(content => {
-        if(content.dataValues.ContentStatus.StatusTypeId == statusType){
-          return content.dataValues;
-        }
-      })*/
       const [contents, metadata] = await sequelize.query(
-        'SELECT Contents.* from Users LEFT JOIN ContentStatus ON Users.Id = ContentStatus.UserId LEFT JOIN Contents ON ContentStatus.ContentId = Contents.Id WHERE ContentStatus.StatusTypeId = ' +
-          statusType +
+        'SELECT Contents.* from Users LEFT JOIN ContentStatus ON Users.Id = ContentStatus.UserId LEFT JOIN Contents ON ContentStatus.ContentId = Contents.Id WHERE ContentTypeId != 3 AND ContentStatus.StatusTypeId = ' +
+          statusTypeId +
           ' AND Users.Id = ' +
           user.Id,
       );
@@ -204,7 +199,6 @@ router.get('/contentStatus', async function (req, res) {
         Uid: uid,
       },
     });
-
     if (user.Id) {
       const [something, metadata] = await sequelize.query(
         'SELECT StatusTypes.Value from Users LEFT JOIN ContentStatus ON Users.Id = ContentStatus.UserId LEFT JOIN Contents ON ContentStatus.ContentId = Contents.Id LEFT JOIN StatusTypes ON StatusTypes.Id = ContentStatus.StatusTypeId WHERE Contents.Id =' +
