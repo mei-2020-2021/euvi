@@ -15,4 +15,8 @@ router.use('/friendship', friendshipHandler);
 
 const groupHandler = require('./group.handler');
 router.use('/group', groupHandler);
+
+const profileHandler = require('./profile.handler');
+router.use('/profile', profileHandler);
+
 module.exports = router;

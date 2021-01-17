@@ -24,4 +24,30 @@ router.get('/', async function (req, res) {
   return res.status(200).json(friendsList);
 });
 
+router.post('/friendship', async function (req, res) {
+  const userId = req.query.userId;
+  const friendId = req.query.friendId;
+
+  var all = []
+
+  const getUser = await User.findOne({
+    where: {
+      Id: userId
+    }
+  }) 
+  const getFriend = await User.findOne({
+    where: {
+      Id: friendId
+    }
+  })
+  all.push(getUser)
+  all.push(getFriend)
+
+  await getUser.addFriend(getFriend)
+
+  res.status(200).json(all)
+});
+
+
+
 module.exports = router;
