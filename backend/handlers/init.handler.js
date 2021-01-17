@@ -7,20 +7,96 @@ const sequelize = require('../sequelize/_index');
 const axios = require('axios');
 const Genre = require('../sequelize/models/genre.model');
 const User = require('../sequelize/models/user.model');
+const Group = require('../sequelize/models/group.model')
 const Service = require('../sequelize/models/service.model');
 const {connect} = require('./user.handler');
 
 router.post('/', async function (req, res) {
   //Create user
-  const contentUser = await User.create({
-    Uid: 123,
+  const contentUser1 = await User.create({
+    Uid: 1,
     FirstName: 'Bruno',
     LastName: 'Rato',
     BirthDate: 1/2/1998,
-    Email: 'asdf@hotmail.com',
+    Email: 'bruno.rato@hotmail.com',
   });
-  
-  
+  const contentUser2 = await User.create({
+    Uid: 2,
+    FirstName: 'André',
+    LastName: 'Ribeiro',
+    BirthDate: 1/2/1998,
+    Email: 'andre.ribeiro@hotmail.com',
+  });
+  const contentUser3 = await User.create({
+    Uid: 3,
+    FirstName: 'Alexandre',
+    LastName: 'Monteiro',
+    BirthDate: 1/2/1998,
+    Email: 'alexandre.monteiro@hotmail.com',
+  });
+  const contentUser4 = await User.create({
+    Uid: 4,
+    FirstName: 'Francisco',
+    LastName: 'Cavaco',
+    BirthDate: 1/2/1998,
+    Email: 'francisco.cavaco@hotmail.com',
+  });
+  const contentUser5 = await User.create({
+    Uid: 5,
+    FirstName: 'Alicia',
+    LastName: 'Cabral',
+    BirthDate: 1/2/1998,
+    Email: 'alicia.cabral@hotmail.com',
+  });
+  const contentUser6 = await User.create({
+    Uid: 6,
+    FirstName: 'Ines',
+    LastName: 'Sa',
+    BirthDate: 1/2/1998,
+    Email: 'ines.sa@hotmail.com',
+  });
+  const contentUser7 = await User.create({
+    Uid: 7,
+    FirstName: 'Leonor',
+    LastName: 'Cordeiro',
+    BirthDate: 1/2/1998,
+    Email: 'leonor.cordeiro@hotmail.com',
+  });
+  const contentUser8 = await User.create({
+    Uid: 8,
+    FirstName: 'Madalena',
+    LastName: 'Gonçalves',
+    BirthDate: 1/2/1998,
+    Email: 'madalena.goncalves@hotmail.com',
+  });
+  const contentUser9 = await User.create({
+    Uid: 9,
+    FirstName: 'Anita',
+    LastName: 'Peres',
+    BirthDate: 1/2/1998,
+    Email: 'anita.peres@hotmail.com',
+  });
+  const contentUser10 = await User.create({
+    Uid: 10,
+    FirstName: 'David',
+    LastName: 'Silva',
+    BirthDate: 1/2/1998,
+    Email: 'david.silva@hotmail.com',
+  });
+  contentUser1.addFriend(contentUser2)
+  contentUser1.addFriend(contentUser3)
+  contentUser1.addFriend(contentUser4)
+
+  //Create Group
+  const contentGroup = await Group.create({
+    Name: 'Group A',
+  })
+  contentUser1.addGroup(contentGroup);
+  contentGroup.addUser(contentUser2);
+  contentGroup.addUser(contentUser3);
+  contentGroup.addUser(contentUser4);
+  contentGroup.addUser(contentUser5);
+
   //Content-Type
   const contentTypeMovie = await ContentType.create({
     Value: 'Movie',
