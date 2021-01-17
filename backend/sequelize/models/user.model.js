@@ -38,6 +38,6 @@ User.init(
   },
 );
 
-User.hasMany(User, {as: 'Friends'});
+
 
 module.exports = User;

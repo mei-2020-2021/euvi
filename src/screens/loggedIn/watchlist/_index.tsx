@@ -1,8 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import auth from '@react-native-firebase/auth';
-import LoadingScreen from '../../loading';
 
 import PastScreen from './past';
 import PresentScreen from './present';

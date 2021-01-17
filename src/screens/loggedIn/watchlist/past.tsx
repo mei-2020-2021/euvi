@@ -4,10 +4,10 @@ import auth from '@react-native-firebase/auth';
 import {Dimensions, Image, StyleSheet, Text, View, ScrollView} from 'react-native';
 import Style from '../../style';
 import LoadingScreen from '../../loading';
-import {TextInput} from 'react-native-gesture-handler';
+import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import Content from '../../../components/Content';
 
-function WatchedScreen() {
+function WatchedScreen({navigation}) {
   const [loading, setLoading] = React.useState(true);
   const [watchedContent, setWatchedContent] = React.useState([]);
 
@@ -28,7 +28,12 @@ function WatchedScreen() {
         <View style={{width: '100%', height: '100%'}}>
           <ScrollView style={{padding: 8}} showsHorizontalScrollIndicator={false}>
             {watchedContent.map((content) => (
-              <Content contentId={content.Id} screen={'watched'} />
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('ContentScreen', {contentId: content.Id, title: content.Title});
+                }}>
+                <Content contentId={content.Id} screen={'watched'} />
+              </TouchableOpacity>
             ))}
           </ScrollView>
         </View>

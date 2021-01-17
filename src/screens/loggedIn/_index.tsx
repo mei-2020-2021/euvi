@@ -3,13 +3,9 @@ import {View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import auth from '@react-native-firebase/auth';
 import LoadingScreen from '../loading';
-
-import WatchlistScreen from './watchlist/_index';
-import CommunityScreen  from './community/_index';
-
-
+import WatchlistStackScreen from './watchlist/_index_stack';
+import CommunityScreen from './community/_index';
 import HomeScreen from './home';
-import ProfileScreen from './profile';
 
 function LoggedOutScreen() {
   const [user, setUser] = React.useState(null);
@@ -30,7 +26,7 @@ function LoggedOutScreen() {
         <View style={{height: '100%'}}>
           <BottomTab.Navigator>
             <BottomTab.Screen name="Home" component={HomeScreen} />
-            <BottomTab.Screen name="Watchlist" component={WatchlistScreen} />
+            <BottomTab.Screen name="Watchlist" component={WatchlistStackScreen} />
             <BottomTab.Screen name="Community" component={CommunityScreen} />
           </BottomTab.Navigator>
         </View>

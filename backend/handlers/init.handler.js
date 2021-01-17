@@ -7,21 +7,97 @@ const sequelize = require('../sequelize/_index');
 const axios = require('axios');
 const Genre = require('../sequelize/models/genre.model');
 const User = require('../sequelize/models/user.model');
+const Group = require('../sequelize/models/group.model')
 const Service = require('../sequelize/models/service.model');
 const {connect} = require('./user.handler');
 const User = require('../sequelize/models/user.model');
 
 router.post('/', async function (req, res) {
   //Create user
-  const contentUser = await User.create({
-    Uid: 123,
+  const contentUser1 = await User.create({
+    Uid: 1,
     FirstName: 'Bruno',
     LastName: 'Rato',
     BirthDate: 1/2/1998,
-    Email: 'asdf@hotmail.com',
+    Email: 'bruno.rato@hotmail.com',
   });
-  
-  
+  const contentUser2 = await User.create({
+    Uid: 2,
+    FirstName: 'André',
+    LastName: 'Ribeiro',
+    BirthDate: 1/2/1998,
+    Email: 'andre.ribeiro@hotmail.com',
+  });
+  const contentUser3 = await User.create({
+    Uid: 3,
+    FirstName: 'Alexandre',
+    LastName: 'Monteiro',
+    BirthDate: 1/2/1998,
+    Email: 'alexandre.monteiro@hotmail.com',
+  });
+  const contentUser4 = await User.create({
+    Uid: 4,
+    FirstName: 'Francisco',
+    LastName: 'Cavaco',
+    BirthDate: 1/2/1998,
+    Email: 'francisco.cavaco@hotmail.com',
+  });
+  const contentUser5 = await User.create({
+    Uid: 5,
+    FirstName: 'Alicia',
+    LastName: 'Cabral',
+    BirthDate: 1/2/1998,
+    Email: 'alicia.cabral@hotmail.com',
+  });
+  const contentUser6 = await User.create({
+    Uid: 6,
+    FirstName: 'Ines',
+    LastName: 'Sa',
+    BirthDate: 1/2/1998,
+    Email: 'ines.sa@hotmail.com',
+  });
+  const contentUser7 = await User.create({
+    Uid: 7,
+    FirstName: 'Leonor',
+    LastName: 'Cordeiro',
+    BirthDate: 1/2/1998,
+    Email: 'leonor.cordeiro@hotmail.com',
+  });
+  const contentUser8 = await User.create({
+    Uid: 8,
+    FirstName: 'Madalena',
+    LastName: 'Gonçalves',
+    BirthDate: 1/2/1998,
+    Email: 'madalena.goncalves@hotmail.com',
+  });
+  const contentUser9 = await User.create({
+    Uid: 9,
+    FirstName: 'Anita',
+    LastName: 'Peres',
+    BirthDate: 1/2/1998,
+    Email: 'anita.peres@hotmail.com',
+  });
+  const contentUser10 = await User.create({
+    Uid: 10,
+    FirstName: 'David',
+    LastName: 'Silva',
+    BirthDate: 1/2/1998,
+    Email: 'david.silva@hotmail.com',
+  });
+  contentUser1.addFriend(contentUser2)
+  contentUser1.addFriend(contentUser3)
+  contentUser1.addFriend(contentUser4)
+
+  //Create Group
+  const contentGroup = await Group.create({
+    Name: 'Group A',
+  })
+  contentUser1.addGroup(contentGroup);
+  contentGroup.addUser(contentUser2);
+  contentGroup.addUser(contentUser3);
+  contentGroup.addUser(contentUser4);
+  contentGroup.addUser(contentUser5);
+
   //Content-Type
   const contentTypeMovie = await ContentType.create({
     Value: 'Movie',
@@ -90,7 +166,7 @@ router.post('/', async function (req, res) {
       "Aspiring musician Miguel, confronted with his family's ancestral ban on music, enters the Land of the Dead to find his great-great-grandfather, a legendary singer.",
     ImageUrl:
       'https://m.media-amazon.com/images/M/MV5BYjQ5NjM0Y2YtNjZkNC00ZDhkLWJjMWItN2QyNzFkMDE3ZjAxXkEyXkFqcGdeQXVyODIxMzk5NjA@._V1_.jpg',
-    TrailerUrl: 'https://www.youtube.com/watch?v=Ga6RYejo6Hk',
+    TrailerUrl: 'https://youtu.be/Ga6RYejo6Hk',
     ImdbRating: 8.4,
     ContentTypeId: 1,
   });
@@ -102,7 +178,7 @@ router.post('/', async function (req, res) {
       'A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.',
     ImageUrl:
       'https://m.media-amazon.com/images/M/MV5BN2EyZjM3NzUtNWUzMi00MTgxLWI0NTctMzY4M2VlOTdjZWRiXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_FMjpg_UY215_.jpg',
-    TrailerUrl: 'https://www.youtube.com/watch?v=V75dMMIW2B4',
+    TrailerUrl: 'https://youtu.be/V75dMMIW2B4',
     ImdbRating: 8.8,
     ContentTypeId: 1,
   });
@@ -112,7 +188,7 @@ router.post('/', async function (req, res) {
     Sinopse:
       "Jon Arbuckle buys a second pet, a dog named Odie. However, Odie is then abducted and it is up to Jon's cat, Garfield, to find and rescue the canine.",
     ImageUrl: 'https://m.media-amazon.com/images/M/MV5BMTIzMTc1OTUxOV5BMl5BanBnXkFtZTYwNTMxODc3._V1_.jpg',
-    TrailerUrl: 'https://www.youtube.com/watch?v=GV5y4yTDtBI',
+    TrailerUrl: 'https://youtu.be/GV5y4yTDtBI',
     ImdbRating: 5.0,
     ContentTypeId: 1,
   });
@@ -124,7 +200,7 @@ router.post('/', async function (req, res) {
       'A tribe of cats called the Jellicles must decide yearly which one will ascend to the Heaviside Layer and come back to a new Jellicle life.',
     ImageUrl:
       'https://m.media-amazon.com/images/M/MV5BNjRlNTY3MTAtOTViMS00ZjE5LTkwZGItMGYwNGQwMjg2NTEwXkEyXkFqcGdeQXVyNjg2NjQwMDQ@._V1_.jpg',
-    TrailerUrl: 'https://www.youtube.com/watch?v=gq50F-IDXDc',
+    TrailerUrl: 'https://youtu.be/gq50F-IDXDc',
     ImdbRating: 2.8,
     ContentTypeId: 1,
   });
@@ -134,7 +210,7 @@ router.post('/', async function (req, res) {
     Sinopse:
       'A poor yet passionate young man falls in love with a rich young woman, giving her a sense of freedom, but they are soon separated because of their social differences.',
     ImageUrl: 'https://m.media-amazon.com/images/M/MV5BMTk3OTM5Njg5M15BMl5BanBnXkFtZTYwMzA0ODI3._V1_.jpg',
-    TrailerUrl: 'https://www.youtube.com/watch?v=yDJIcYE32NU',
+    TrailerUrl: 'https://youtu.be/yDJIcYE32NU',
     ImdbRating: 7.8,
     ContentTypeId: 1,
   });
@@ -145,7 +221,7 @@ router.post('/', async function (req, res) {
       "Earth's mightiest heroes must come together and learn to fight as a team if they are going to stop the mischievous Loki and his alien army from enslaving humanity.",
     ImageUrl:
       'https://m.media-amazon.com/images/M/MV5BNDYxNjQyMjAtNTdiOS00NGYwLWFmNTAtNThmYjU5ZGI2YTI1XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg',
-    TrailerUrl: 'https://www.youtube.com/watch?v=udKE1ksKWDE',
+    TrailerUrl: 'https://youtu.be/udKE1ksKWDE',
     ImdbRating: 8.0,
     ContentTypeId: 1,
   });
@@ -156,7 +232,7 @@ router.post('/', async function (req, res) {
       'Three buddies wake up from a bachelor party in Las Vegas, with no memory of the previous night and the bachelor missing. They make their way around the city in order to find their friend before his wedding.',
     ImageUrl:
       'https://m.media-amazon.com/images/M/MV5BNGQwZjg5YmYtY2VkNC00NzliLTljYTctNzI5NmU3MjE2ODQzXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg',
-    TrailerUrl: 'https://www.youtube.com/watch?v=tcdUhdOlz9M',
+    TrailerUrl: 'https://youtu.be/tcdUhdOlz9M',
     ImdbRating: 8.0,
     ContentTypeId: 1,
   });
@@ -166,7 +242,7 @@ router.post('/', async function (req, res) {
     Sinopse: 'A sled dog struggles for survival in the wilds of the Yukon.',
     ImageUrl:
       'https://m.media-amazon.com/images/M/MV5BZDA1ZmQ2OGMtZDhkMC00ZjRkLWE3ZTMtMzA5ZTk0YjM1OGRmXkEyXkFqcGdeQXVyNzI1NzMxNzM@._V1_.jpg',
-    TrailerUrl: 'https://www.youtube.com/watch?v=5P8R2zAhEwg',
+    TrailerUrl: 'https://youtu.be/5P8R2zAhEwg',
     ImdbRating: 6.8,
     ContentTypeId: 1,
   });
@@ -176,7 +252,7 @@ router.post('/', async function (req, res) {
     Sinopse:
       'Paranormal investigators Ed and Lorraine Warren work to help a family terrorized by a dark presence in their farmhouse.',
     ImageUrl: 'https://m.media-amazon.com/images/M/MV5BMTM3NjA1NDMyMV5BMl5BanBnXkFtZTcwMDQzNDMzOQ@@._V1_.jpg',
-    TrailerUrl: 'https://www.youtube.com/watch?v=k10ETZ41q5o',
+    TrailerUrl: 'https://youtu.be/k10ETZ41q5o',
     ImdbRating: 7.5,
     ContentTypeId: 1,
   });
