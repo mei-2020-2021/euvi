@@ -1,14 +1,26 @@
 const express = require('express');
 const Content = require('../sequelize/models/content.model');
 const ContentType = require('../sequelize/models/contentType.model');
+const StatusType = require('../sequelize/models/statusType.model')
 const router = express.Router();
 const sequelize = require('../sequelize/_index');
 const axios = require('axios');
 const Genre = require('../sequelize/models/genre.model');
+const User = require('../sequelize/models/user.model');
 const Service = require('../sequelize/models/service.model');
 const {connect} = require('./user.handler');
 
 router.post('/', async function (req, res) {
+  //Create user
+  const contentUser = await User.create({
+    Uid: 123,
+    FirstName: 'Bruno',
+    LastName: 'Rato',
+    BirthDate: 1/2/1998,
+    Email: 'asdf@hotmail.com',
+  });
+  
+  
   //Content-Type
   const contentTypeMovie = await ContentType.create({
     Value: 'Movie',
@@ -44,6 +56,17 @@ router.post('/', async function (req, res) {
     Value: 'Family',
   });
 
+  //StatusType
+  const statusWatching = await StatusType.create({
+    Value: 'Watching'
+  });
+  const statusWatched = await StatusType.create({
+    Value: 'Watched'
+  });
+  const statusToWatch = await StatusType.create({
+    Value: 'To Watch'
+  });
+
   const contentSoul = await Content.create({
     Title: 'Soul',
     ReleaseYear: '2020',
@@ -70,6 +93,7 @@ router.post('/', async function (req, res) {
     ImdbRating: 8.4,
     ContentTypeId: 1,
   });
+  contentCoco.addGenres([genreAdventure, genreComedy]);
   const contentLOTR = await Content.create({
     Title: 'The Lord of the Rings: The Fellowship of the Ring',
     ReleaseYear: '2001',
@@ -91,6 +115,7 @@ router.post('/', async function (req, res) {
     ImdbRating: 5.0,
     ContentTypeId: 1,
   });
+  contentGarfield.addGenres([genreComedy]);
   const contentCats = await Content.create({
     Title: 'Cats',
     ReleaseYear: '2019',
