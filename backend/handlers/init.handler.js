@@ -1,11 +1,11 @@
 const express = require('express');
 const Content = require('../sequelize/models/content.model');
 const ContentType = require('../sequelize/models/contentType.model');
-const StatusType = require('../sequelize/models/statusType.model')
+const StatusType = require('../sequelize/models/statusType.model');
 const router = express.Router();
 const Genre = require('../sequelize/models/genre.model');
 const User = require('../sequelize/models/user.model');
-const Group = require('../sequelize/models/group.model')
+const Group = require('../sequelize/models/group.model');
 const Service = require('../sequelize/models/service.model');
 const ContentStatus = require('../sequelize/models/contentStatus.model');
 const Friendship = require('../sequelize/models/friendship.model');
@@ -48,15 +48,14 @@ const init = async () => {
 
   //StatusType
   const statusWatching = await StatusType.create({
-    Value: 'Watching'
+    Value: 'Watching',
   });
   const statusWatched = await StatusType.create({
-    Value: 'Watched'
+    Value: 'Watched',
   });
   const statusToWatch = await StatusType.create({
-    Value: 'To Watch'
+    Value: 'To Watch',
   });
-
 
   //Create user
   const contentUserRato = await User.create({
@@ -67,21 +66,21 @@ const init = async () => {
     Email: 'bmcdcar@hotmail.com',
   });
   const contentUserMartins = await User.create({
-    Uid: "Bdsp4LQi9HVo9wBAFRckbNdAn1H3",
+    Uid: 'Bdsp4LQi9HVo9wBAFRckbNdAn1H3',
     FirstName: 'Miguel',
     LastName: 'Martins',
     BirthDate: 2 / 4 / 1999,
     Email: 'miguelmartins737@gmail.com',
   });
   const contentUserRicardo = await User.create({
-    Uid: "qaD2O1tRQtPlOSrS4wc6PvBUI9F2",
+    Uid: 'qaD2O1tRQtPlOSrS4wc6PvBUI9F2',
     FirstName: 'Ricardo',
     LastName: 'Faria',
     BirthDate: 7 / 9 / 1999,
     Email: 'ricardoafonfaria@gmail.com',
   });
   const contentUserPereira = await User.create({
-    Uid: "Nc94sEHEhBP2769dzPPOXQ7blQE3",
+    Uid: 'Nc94sEHEhBP2769dzPPOXQ7blQE3',
     FirstName: 'Miguel',
     LastName: 'Pereira',
     BirthDate: 8 / 9 / 1999,
@@ -154,12 +153,12 @@ const init = async () => {
   //Create Group
   const contentGroup1 = await Group.create({
     Name: 'Group A',
-    OwnerId: 5
-  })
+    OwnerId: 5,
+  });
   const contentGroup2 = await Group.create({
     Name: 'Group B',
-    OwnerId: 1
-  })
+    OwnerId: 1,
+  });
 
   // ------------------------------------ Movie Content -------------------------------------------------------//
   const contentSoul = await Content.create({
@@ -270,12 +269,12 @@ const init = async () => {
   });
 
   // Soul Movie
-  await contentUserRato.addWatchlistContent(contentSoul, { through: { Feedback: -1 } });
+  await contentUserRato.addWatchlistContent(contentSoul, {through: {Feedback: -1}});
   const contentStatusSoulUser1 = await ContentStatus.findOne({
     where: {
       ContentId: contentSoul.Id,
       UserId: contentUserRato.Id,
-    }
+    },
   });
   await statusWatching.setContentStatus(contentStatusSoulUser1);
   await contentSoul.addGenres([genreAnimation, genreAdventure, genreComedy]);
@@ -287,31 +286,30 @@ const init = async () => {
   // Garfield Movie
   await contentGarfield.addGenres([genreComedy]);
 
-
   // ------------------------------------ Shows Content -------------------------------------------------------//
   // ------------Stranger Things----------- //
   const contentStrangerThings = await Content.create({
-      Title: 'Stranger Things',
-      ReleaseYear: '2016 - Current',
-      Sinopse:
-        'When a young boy disappears, his mother, a police chief and his friends must confront terrifying supernatural forces in order to get him back.',
-      ImageUrl:
-        'https://m.media-amazon.com/images/M/MV5BMjEzMDAxOTUyMV5BMl5BanBnXkFtZTgwNzAxMzYzOTE@._V1_FMjpg_UY324_.jpg',
-      TrailerUrl: 'https://youtu.be/b9EkMc79ZSU',
-      ImdbRating: 8.7,
-      ContentTypeId: 2,
-
-    });
+    Title: 'Stranger Things',
+    ReleaseYear: '2016 - Current',
+    Sinopse:
+      'When a young boy disappears, his mother, a police chief and his friends must confront terrifying supernatural forces in order to get him back.',
+    ImageUrl:
+      'https://m.media-amazon.com/images/M/MV5BMjEzMDAxOTUyMV5BMl5BanBnXkFtZTgwNzAxMzYzOTE@._V1_FMjpg_UY324_.jpg',
+    TrailerUrl: 'https://youtu.be/b9EkMc79ZSU',
+    ImdbRating: 8.7,
+    ContentTypeId: 2,
+  });
   // Episodes
   const contentStrangerThingsS1E1 = await Content.create({
-    Title:'Chapter One - The Vanishing of Will Byers',
+    Title: 'Chapter One - The Vanishing of Will Byers',
     ReleaseYear: '2016',
-    Sinopse: 'At the U.S. Dept. of Energy an unexplained event occurs. Then when a young Dungeons and Dragons playing boy named Will disappears after a night with his friends, his mother Joyce and the town of Hawkins are plunged into darkness.', 
+    Sinopse:
+      'At the U.S. Dept. of Energy an unexplained event occurs. Then when a young Dungeons and Dragons playing boy named Will disappears after a night with his friends, his mother Joyce and the town of Hawkins are plunged into darkness.',
     ContentTypeId: 3,
-    Duration: 47
-  })
+    Duration: 47,
+  });
 
-  await contentStrangerThings.addEpisode(contentStrangerThingsS1E1, { through: { SeasonNumber: 1, EpisodeNumber: 1 } })
+  await contentStrangerThings.addEpisode(contentStrangerThingsS1E1, {through: {SeasonNumber: 1, EpisodeNumber: 1}});
   // ---------------------------------------------------------------------------------------------------------//
 
   // Add Services to User
@@ -320,14 +318,14 @@ const init = async () => {
   // Add Services to Content
 
   // Add Friends
-  await contentUserRato.addFriend(contentUser5)
-  await contentUser5.addFriend(contentUserRato)
+  await contentUserRato.addFriend(contentUser5);
+  await contentUser5.addFriend(contentUserRato);
 
-  await contentUserRato.addFriend(contentUser6)
-  await contentUser6.addFriend(contentUserRato)
+  await contentUserRato.addFriend(contentUser6);
+  await contentUser6.addFriend(contentUserRato);
 
-  await contentUserRato.addFriend(contentUser7)
-  await contentUser7.addFriend(contentUserRato)
+  await contentUserRato.addFriend(contentUser7);
+  await contentUser7.addFriend(contentUserRato);
 
   // Add Groups
   await contentGroup1.addUser(contentUserRato);
@@ -342,28 +340,24 @@ const init = async () => {
   const friendshipUser1 = await Friendship.findOne({
     where: {
       UserId: contentUser7.Id,
-      FriendId: contentUserRato.Id
-    }
+      FriendId: contentUserRato.Id,
+    },
   });
   const friendshipUser2 = await Friendship.findOne({
     where: {
       UserId: contentUser7.Id,
-      FriendId: contentUserRato.Id
-    }
+      FriendId: contentUserRato.Id,
+    },
   });
   const friendshipUser3 = await Friendship.findOne({
     where: {
       UserId: contentUser5.Id,
-      FriendId: contentUserRato.Id
-    }
+      FriendId: contentUserRato.Id,
+    },
   });
   await friendshipUser1.addContentRecommendation(contentSoul);
   await friendshipUser2.addContentRecommendation(contentAvengers);
   await friendshipUser3.addContentRecommendation(contentCoco);
-
-
-
-
-}
+};
 
 module.exports = init;
