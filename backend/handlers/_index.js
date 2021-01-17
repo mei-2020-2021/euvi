@@ -22,4 +22,8 @@ router.use('/profile', profileHandler);
 const recommendationHandler = require('./recommendation.handler');
 router.use('/recommendation', recommendationHandler);
 
+const servicesHandler = require('./services.handler');
+router.use('/services', servicesHandler);
+
+
 module.exports = router;

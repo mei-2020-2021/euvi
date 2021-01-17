@@ -290,28 +290,202 @@ const init = async () => {
 
   // ------------------------------------ Shows Content -------------------------------------------------------//
   // ------------Stranger Things----------- //
-  const contentStrangerThings = await Content.create({
-      Title: 'Stranger Things',
-      ReleaseYear: '2016 - Current',
+  const contentLupin = await Content.create({
+      Title: 'Lupin',
+      ReleaseYear: '2021 - Current',
       Sinopse:
-        'When a young boy disappears, his mother, a police chief and his friends must confront terrifying supernatural forces in order to get him back.',
+        'Inspired by the adventures of Arsène Lupin, gentleman thief Assane Diop sets out to avenge his father for an injustice inflicted by a wealthy family.',
       ImageUrl:
-        'https://m.media-amazon.com/images/M/MV5BMjEzMDAxOTUyMV5BMl5BanBnXkFtZTgwNzAxMzYzOTE@._V1_FMjpg_UY324_.jpg',
-      TrailerUrl: 'https://youtu.be/b9EkMc79ZSU',
-      ImdbRating: 8.7,
+        'https://m.media-amazon.com/images/M/MV5BNzRlNGUzMmEtYTg0Ni00N2U2LTg4YWEtNDdlNmMwYjBlZDQ0XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UY216_.jpg',
+      TrailerUrl: 'https://youtu.be/ga0iTWXCGa0',
+      ImdbRating: 7.8,
+      Duration: 231,
       ContentTypeId: 2,
-
     });
   // Episodes
-  const contentStrangerThingsS1E1 = await Content.create({
-    Title:'Chapter One - The Vanishing of Will Byers',
-    ReleaseYear: '2016',
-    Sinopse: 'At the U.S. Dept. of Energy an unexplained event occurs. Then when a young Dungeons and Dragons playing boy named Will disappears after a night with his friends, his mother Joyce and the town of Hawkins are plunged into darkness.', 
+  const contentLupinS1E1 = await Content.create({
+    Title:'Chapter 1',
+    ReleaseYear: '2021',
+    Sinopse: 'Years after a tragic injustice involving his father, Assane seeks to settle a score, and a debt, by stealing a diamond necklace. However, the heist takes an unexpected turn.', 
     ContentTypeId: 3,
     Duration: 47
   })
+  const contentLupinS1E2 = await Content.create({
+    Title:'Chapter 2',
+    ReleaseYear: '2021',
+    Sinopse: "Assane hatches a plot to contact Comet, an inmate who steers him to a clue about Babakar's demise. Anne Pellegrini comes clean about her past.", 
+    ContentTypeId: 3,
+    Duration: 52
+  })
+  const contentLupinS1E3 = await Content.create({
+    Title:'Chapter 3',
+    ReleaseYear: '2021',
+    Sinopse: "Assane confronts commissioner Dumont, and plants a decoy to divert the police. Hubert Pellegrini's connection to Babakar's fate is revealed.", 
+    ContentTypeId: 3,
+    Duration: 42
+  })
+  const contentLupinS1E4 = await Content.create({
+    Title:'Chapter 4',
+    ReleaseYear: '2021',
+    Sinopse: 'Assane enlists the help of Journalist Fabienne Beriot to retrieve incriminating evidence on Hubert Pellegrini. Officer Guedira connects the dots around the Louvre heist.', 
+    ContentTypeId: 3,
+    Duration: 47
+  })
+  const contentLupinS1E5 = await Content.create({
+    Title:'Chapter 5',
+    ReleaseYear: '2021',
+    Sinopse: 'While on his way to Etretat with Claire and Raoul, Assane encounters and unwelcome figure. In a bind, Assane sends a message to Captain Laugier.', 
+    ContentTypeId: 3,
+    Duration: 43
+  })
 
-  await contentStrangerThings.addEpisode(contentStrangerThingsS1E1, { through: { SeasonNumber: 1, EpisodeNumber: 1 } })
+  // ------------Queens Gambit----------- //
+  const contentQueensGambit = await Content.create({
+    Title: "Queen's Gambit",
+    ReleaseYear: '2020',
+    Sinopse:
+      'Orphaned at the tender age of nine, prodigious introvert Beth Harmon discovers and masters the game of chess in 1960s USA. But child stardom comes at a price.',
+    ImageUrl:
+      'https://upload.wikimedia.org/wikipedia/en/d/d3/The_Queen%27s_Gambit.jpg',
+    TrailerUrl: 'https://youtu.be/CDrieqwSdgI',
+    ImdbRating: 8.6,
+    Duration: 395,
+    ContentTypeId: 2,
+
+  });
+// Episodes
+const contentQueensGambitS1E1 = await Content.create({
+  Title:'Openings',
+  ReleaseYear: '2020',
+  Sinopse: 'Sent to an orphanage at age 9, Beth develops an uncanny knack for chess and a growing dependence on the green tranquilizers given to the children.', 
+  ContentTypeId: 3,
+  Duration: 59
+})
+
+const contentQueensGambitS1E2 = await Content.create({
+  Title:'Exchanges',
+  ReleaseYear: '2020',
+  Sinopse: 'Suddenly plunged into a confusing new life in suburbia, teenage Beth studies her high school classmates and hatches a plan to enter a chess tournament.', 
+  ContentTypeId: 3,
+  Duration: 65
+})
+
+const contentQueensGambitS1E3 = await Content.create({
+  Title:'Doubled Pawns',
+  ReleaseYear: '2020',
+  Sinopse: 'The trip to Cincinnati launches Beth and her mother into a whirlwind of travel and press coverage. Beth sets her sights on the U.S. open in Las Vegas.', 
+  ContentTypeId: 3,
+  Duration: 46
+})
+
+const contentQueensGambitS1E4 = await Content.create({
+  Title:'Middle Game',
+  ReleaseYear: '2020',
+  Sinopse: 'Russian class opens the door to a new social scene. In Mexico City, Beth meets the intimidating Borgov, while her mother cozies up with a pen pal.', 
+  ContentTypeId: 3,
+  Duration: 49
+})
+
+const contentQueensGambitS1E5 = await Content.create({
+  Title:'Fork',
+  ReleaseYear: '2020',
+  Sinopse: 'Back home in Kentucky, a shaken Beth reconnects with a former opponent who offers to help sharpen her game ahead of the U.S. Championship.', 
+  ContentTypeId: 3,
+  Duration: 48
+})
+
+const contentQueensGambitS1E6 = await Content.create({
+  Title:'Adjournment',
+  ReleaseYear: '2020',
+  Sinopse: 'After training with Benny in New York, Beth heads to Paris for her rematch with Borgov. But a wild night sends her into a self-destructive spiral.', 
+  ContentTypeId: 3,
+  Duration: 60
+})
+
+const contentQueensGambitS1E7 = await Content.create({
+  Title:'EndGame',
+  ReleaseYear: '2020',
+  Sinopse: 'A visit from an old friend forces Beth to reckon with her past and rethink her priorities, just in time for the biggest match of her life.', 
+  ContentTypeId: 3,
+  Duration: 68
+})
+
+// ------------Chernobyl----------- //
+
+const contentChernobyl = await Content.create({
+  Title: 'Chernobyl',
+  ReleaseYear: '2019',
+  Sinopse:
+    "In April 1986, an explosion at the Chernobyl nuclear power plant in the Union of Soviet Socialist Republics becomes one of the world's worst man-made catastrophes.",
+  ImageUrl: 'https://upload.wikimedia.org/wikipedia/pt/9/92/PosterChernobyl.jpg',
+  TrailerUrl: 'https://youtu.be/s9APLXM9Ei8',
+  ImdbRating: 9.4,
+  Duration: 327,
+  ContentTypeId: 2,
+
+});
+// Episodes
+const contentChernobylS1E1 = await Content.create({
+Title:'1:23:45',
+ReleaseYear: '2019',
+Sinopse: 'Plant workers and firefighters put their lives on the line to control a catastrophic April 1986 explosion at a Soviet nuclear power plant.', 
+ContentTypeId: 3,
+Duration: 58
+})
+
+const contentChernobylS1E2 = await Content.create({
+Title:'Please Remain Calm',
+ReleaseYear: '2019',
+Sinopse: 'With untold millions at risk, Ulana makes a desperate attempt to reach Valery and warn him about the threat of a second explosion.', 
+ContentTypeId: 3,
+Duration: 65
+})
+
+const contentChernobylS1E3 = await Content.create({
+Title:'Open Wide, O Earth',
+ReleaseYear: '2019',
+Sinopse: "Valery creates a detailed plan to decontaminate Chernobyl; Lyudmilla ignores warnings about her firefighter husband's contamination.", 
+ContentTypeId: 3,
+Duration: 65
+})
+
+const contentChernobylS1E4 = await Content.create({
+Title:'Openings',
+ReleaseYear: '2019',
+Sinopse: 'The Happiness of All Mankind', 
+ContentTypeId: 3,
+Duration: 67
+})
+
+const contentChernobylS1E5 = await Content.create({
+Title:'Vichnaya Pamyat',
+ReleaseYear: '2019',
+Sinopse: 'Valery, Boris and Ulana risk their lives and reputations to expose the truth about Chernobyl.', 
+ContentTypeId: 3,
+Duration: 72
+})
+
+
+  await contentLupin.addEpisode(contentLupinS1E1, { through: { SeasonNumber: 1, EpisodeNumber: 1 } })
+  await contentLupin.addEpisode(contentLupinS1E2, { through: { SeasonNumber: 1, EpisodeNumber: 2 } })
+  await contentLupin.addEpisode(contentLupinS1E3, { through: { SeasonNumber: 1, EpisodeNumber: 3 } })
+  await contentLupin.addEpisode(contentLupinS1E4, { through: { SeasonNumber: 1, EpisodeNumber: 4 } })
+  await contentLupin.addEpisode(contentLupinS1E5, { through: { SeasonNumber: 1, EpisodeNumber: 5 } })
+
+  await contentQueensGambit.addEpisode(contentQueensGambitS1E1, { through: { SeasonNumber: 1, EpisodeNumber: 1 } })
+  await contentQueensGambit.addEpisode(contentQueensGambitS1E2, { through: { SeasonNumber: 1, EpisodeNumber: 2 } })
+  await contentQueensGambit.addEpisode(contentQueensGambitS1E3, { through: { SeasonNumber: 1, EpisodeNumber: 3 } })
+  await contentQueensGambit.addEpisode(contentQueensGambitS1E4, { through: { SeasonNumber: 1, EpisodeNumber: 4 } })
+  await contentQueensGambit.addEpisode(contentQueensGambitS1E5, { through: { SeasonNumber: 1, EpisodeNumber: 5 } })
+  await contentQueensGambit.addEpisode(contentQueensGambitS1E6, { through: { SeasonNumber: 1, EpisodeNumber: 6 } })
+  await contentQueensGambit.addEpisode(contentQueensGambitS1E7, { through: { SeasonNumber: 1, EpisodeNumber: 7 } })
+
+  await contentChernobyl.addEpisode(contentChernobylS1E1, { through: { SeasonNumber: 1, EpisodeNumber: 1 } })
+  await contentChernobyl.addEpisode(contentChernobylS1E2, { through: { SeasonNumber: 1, EpisodeNumber: 2 } })
+  await contentChernobyl.addEpisode(contentChernobylS1E3, { through: { SeasonNumber: 1, EpisodeNumber: 3 } })
+  await contentChernobyl.addEpisode(contentChernobylS1E4, { through: { SeasonNumber: 1, EpisodeNumber: 4 } })
+  await contentChernobyl.addEpisode(contentChernobylS1E5, { through: { SeasonNumber: 1, EpisodeNumber: 5 } })
+
   // ---------------------------------------------------------------------------------------------------------//
 
   // Add Services to User
