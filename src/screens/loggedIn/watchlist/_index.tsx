@@ -6,7 +6,7 @@ import PastScreen from './past';
 import PresentScreen from './present';
 import FutureScreen from './future';
 
-function WachlistScreen() {
+function WatchlistScreen() {
   const Tab = createMaterialTopTabNavigator();
 
   return (
@@ -21,4 +21,4 @@ function WachlistScreen() {
     </View>
   );
 }
-export default WachlistScreen;
+export default WatchlistScreen;

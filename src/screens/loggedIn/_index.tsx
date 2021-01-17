@@ -8,7 +8,7 @@ import CommunityScreen from './community/_index';
 import HomeScreen from './home';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-function LoggedOutScreen() {
+function LoggedInScreen() {
   const [user, setUser] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
@@ -56,4 +56,4 @@ function LoggedOutScreen() {
     </>
   );
 }
-export default LoggedOutScreen;
+export default LoggedInScreen;

@@ -4,11 +4,11 @@ import auth from '@react-native-firebase/auth';
 import {Dimensions, Image, StyleSheet, Text, View, ScrollView} from 'react-native';
 import Style from '../style';
 import LoadingScreen from '../loading';
-import {TextInput} from 'react-native-gesture-handler';
+import {TextInput, TouchableHighlight, TouchableOpacity} from 'react-native-gesture-handler';
 import fetch from 'node-fetch';
 import Content from '../../components/Content';
 
-function HomeScreen() {
+function HomeScreen({navigation}) {
   const [loading, setLoading] = React.useState(true);
   const [content, setContent] = React.useState([]);
 
@@ -40,7 +40,9 @@ function HomeScreen() {
       ) : (
         <ScrollView style={{padding: 8}}>
           <View style={Style.homeTopFlex}>
-            <Text style={Style.authTitle}>{auth().currentUser.displayName}</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('ProfileScreen')}>
+              <Text style={Style.authTitle}>{auth().currentUser.displayName}</Text>
+            </TouchableOpacity>
             <TextInput style={Style.searchBox} placeholder="Type Here..."></TextInput>
           </View>
           <View style={Style.homeServicesFlex}>{servicelist}</View>
