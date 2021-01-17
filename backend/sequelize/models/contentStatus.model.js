@@ -8,7 +8,8 @@ class ContentStatus extends Sequelize.Model {}
 ContentStatus.init(
   {
     Feedback: {
-      type: Sequelize.DataTypes.ENUM('negative', 'neutral', 'positive'),
+      type: Sequelize.DataTypes.INTEGER,
+      defaultValue: 0
     },
   },
   {

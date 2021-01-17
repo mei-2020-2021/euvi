@@ -10,4 +10,9 @@ router.use('/content', contentHandler);
 const initHandler = require('./init.handler');
 router.use('/init', initHandler);
 
+const friendshipHandler = require('./friendship.handler');
+router.use('/friendship', friendshipHandler);
+
+const groupHandler = require('./group.handler');
+router.use('/group', groupHandler);
 module.exports = router;

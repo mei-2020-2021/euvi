@@ -1,10 +1,11 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../_index');
 const User = require('./user.model')
+const Group = require('./group.model');
 
-class Group extends Sequelize.Model {}
+class GroupUsers extends Sequelize.Model {}
 
-Group.init(
+GroupUsers.init(
   {
     Id: {
 		type: Sequelize.DataTypes.INTEGER,
@@ -12,18 +13,14 @@ Group.init(
         primaryKey: true,
         autoIncrement: true
 	},
-    
-    Name: {
-    	type: Sequelize.DataTypes.STRING,
-		allowNull: false,
-    },
   },
   {
     sequelize,
-    modelName: 'Group',
+    modelName: 'GroupUsers',
   },
 );
 
-User.hasOne(Group, {as: "Owner"})
+User.belongsToMany(Group, { through: 'GroupUsers'});
+Group.belongsToMany(User, { through: 'GroupUsers'});
 
 module.exports = Group;
