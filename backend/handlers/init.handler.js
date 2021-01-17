@@ -31,6 +31,10 @@ const init = async () => {
     IconUrl:
       'https://cdn.vox-cdn.com/thumbor/AwKSiDyDnwy_qoVdLPyoRPUPo00=/39x0:3111x2048/1400x1400/filters:focal(39x0:3111x2048):format(png)/cdn.vox-cdn.com/uploads/chorus_image/image/49901753/netflixlogo.0.0.png',
   });
+  const serviceNetflix = await Service.create({
+    Value: 'Apple TV+',
+    IconUrl: 'https://pbs.twimg.com/profile_images/1110241147773829121/x5CQIvx7_400x400.png',
+  });
 
   //Genres
   const genreAnimation = await Genre.create({
