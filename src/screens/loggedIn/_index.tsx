@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import auth from '@react-native-firebase/auth';
 import LoadingScreen from '../loading';
-import WatchlistStackScreen from './watchlist/_index_stack';
+import WatchlistScreen from './watchlist/_index';
 import CommunityScreen from './community/_index';
 import HomeScreen from './home';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -36,7 +36,7 @@ function LoggedInScreen() {
             />
             <BottomTab.Screen
               name="Watchlist"
-              component={WatchlistStackScreen}
+              component={WatchlistScreen}
               options={{
                 tabBarLabel: 'Watchlist',
                 tabBarIcon: ({color, size}) => <Icon name="view-carousel" color={color} size={size} />,

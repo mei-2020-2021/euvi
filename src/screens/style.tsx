@@ -16,7 +16,6 @@ const Style = StyleSheet.create({
   authTitle: {
     paddingLeft: 8,
     marginTop: 16,
-    marginBottom: 16,
     fontSize: 32,
     fontWeight: 'bold',
   },
@@ -33,17 +32,19 @@ const Style = StyleSheet.create({
   },
   homeServicesFlex: {
     flexDirection: 'row',
+    marginLeft: 8,
+    marginBottom: 8,
   },
   searchBox: {
     fontSize: 20,
-    fontWeight: '300',
-    padding: 10,
+    fontWeight: 'bold',
+    padding: 12,
     marginTop: 16,
     marginBottom: 16,
     marginRight: 16,
-    backgroundColor: '#FFF',
+    backgroundColor: '#f5c518',
     borderRadius: 10,
-    width: '50%',
+    flexDirection: 'row',
   },
   icon: {
     width: 30,

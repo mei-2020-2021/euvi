@@ -9,6 +9,7 @@ const Genre = require('../sequelize/models/genre.model');
 const ContentType = require('../sequelize/models/contentType.model');
 const {Op} = require('sequelize');
 const sequelize = require('../sequelize/_index');
+const {connect} = require('./user.handler');
 
 router.get('/', async function (req, res) {
   const id = req.query.id;
@@ -209,6 +210,57 @@ router.get('/contentStatus', async function (req, res) {
       return res.status(200).json(something);
     }
   }
+});
+
+router.get('/trendingNow', async function (req, res) {
+  const uid = req.query.uid;
+
+  const allContent = await Content.findAll({
+    include: {
+      all: true,
+      nested: false,
+    },
+    where: {
+      ContentTypeId: {
+        [Op.ne]: 3,
+      },
+    },
+  });
+  return res.status(200).json(allContent);
+});
+
+router.get('/topMovies', async function (req, res) {
+  const uid = req.query.uid;
+
+  const allContent = await Content.findAll({
+    include: {
+      all: true,
+      nested: false,
+    },
+    where: {
+      ContentTypeId: {
+        [Op.ne]: 3,
+      },
+    },
+  });
+  return res.status(200).json(allContent);
+});
+
+router.get('/topSeries', async function (req, res) {
+  const uid = req.query.uid;
+
+  const allContent = await Content.findAll({
+    include: {
+      all: true,
+      nested: false,
+    },
+    where: {
+      ContentTypeId: {
+        [Op.ne]: 3,
+      },
+    },
+  });
+  return res.status(200).json(allContent);
 });
 
 module.exports = router;
