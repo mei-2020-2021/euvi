@@ -3,6 +3,7 @@ const User = require('../sequelize/models/user.model');
 const Content = require('../sequelize/models/content.model');
 const ContentStatus = require('../sequelize/models/contentStatus.model');
 const Service = require('../sequelize/models/service.model');
+const StatusType = require('../sequelize/models/statusType.model')
 const {_attributes} = require('../sequelize/_index');
 const router = express.Router();
 const Genre = require('../sequelize/models/genre.model');
@@ -211,6 +212,154 @@ router.get('/contentStatus', async function (req, res) {
     }
   }
 });
+
+router.post('/createStatus', async function (req, res) {
+  const statusId = parseInt(req.query.statusTypeId);
+  const userUID = req.query.uid
+  const contentId = req.query.contentId
+
+  const statusType = await StatusType.findOne({
+    where:{
+      Id: statusId
+    }
+  });
+
+  const user = await User.findOne({
+    where:{
+      Uid: userUID
+    }
+  });
+
+  const content = await Content.findOne({
+    where:{
+      Id: contentId
+    }
+  });
+
+  await user.addWatchlistContent(content);
+
+  const contentStatus= await ContentStatus.update({StatusTypeId: statusId},{
+    where: {
+      ContentId: contentId,
+      UserId: user.Id,
+    }
+  });
+});
+
+
+router.get('/feedback', async function (req, res) {
+  const userUid = req.query.uid;
+  const contentId = req.query.contentId
+
+  const user = await User.findOne({
+    where:{
+      Uid: userUid
+    }
+  });
+  const contentFeedback= await ContentStatus.findOne({
+    where: {
+      ContentId: contentId,
+      UserId: user.Id,
+    },
+    attributes: ['Feedback']
+  });
+  res.status(200).json(contentFeedback.Feedback)
+});
+
+router.post('/feedback', async function (req, res) {
+  const userUid = req.query.uid;
+  const contentId = req.query.contentId
+  const feedback = req.query.feedback
+
+  const user = await User.findOne({
+    where:{
+      Uid: userUid
+    }
+  });
+  const contentFeedback= await ContentStatus.update({ Feedback: feedback }, {
+    where: {
+      ContentId: contentId,
+      UserId: user.Id,
+    }
+  });
+  res.status(200).json(contentFeedback)
+});
+
+
+router.post('/updateStatusType', async function (req, res) {
+  const userUid = req.query.uid
+  const contentId = req.query.contentId
+  const contentStatusTypeId = req.query.StatusTypeId
+  var today = new Date();
+  var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+  var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  var dateTime = date+' '+time;
+
+  const user = await User.findOne({
+    where:{
+      Uid: userUid
+    }
+  });
+
+  const content = await Content.findOne({
+    where:{
+      Id: contentId
+    }
+  });
+  
+
+  if(contentStatusTypeId == 2){
+    const contentStatus= await ContentStatus.update({WatchedAt: dateTime},{
+      where: {
+        ContentId: contentId,
+        UserId: user.Id,
+      }
+    });
+    const contentStatus1= await ContentStatus.update({StatusTypeId: contentStatusTypeId},{
+      where: {
+        ContentId: contentId,
+        UserId: user.Id,
+      }
+    });
+    res.status(200).json(contentStatus)
+
+  } else {
+    const contentStatus= await ContentStatus.update({StatusTypeId: contentStatusTypeId},{
+      where: {
+        ContentId: contentId,
+        UserId: user.Id,
+      }
+    });
+    res.status(200).json(contentStatus)
+  }
+});
+
+
+router.get('/updateStatusType', async function (req, res) {
+  const userUid = req.query.uid;
+  const contentId = req.query.contentId
+
+  const user = await User.findOne({
+    where:{
+      Uid: userUid
+    }
+  });
+
+  const content = await Content.findOne({
+    where:{
+      Id: contentId
+    }
+  });
+
+  const contentWatchedAt= await ContentStatus.findOne({
+    where: {
+      ContentId: contentId,
+      UserId: user.Id,
+    },
+  });
+  res.status(200).json(contentWatchedAt.WatchedAt)
+});
+
 
 router.get('/trendingNow', async function (req, res) {
   const uid = req.query.uid;

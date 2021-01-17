@@ -8,13 +8,13 @@ const GroupUsers = require('../sequelize/models/groupUsers.model');
 
 
 router.get('/', async function (req, res) {
-    const userId = req.query.userId
+    const userUID = req.query.uid
     const groups = await Group.findAll({
         include: [{
             model: User,
             as: 'Users',
             where: {
-                Id : userId
+                Uid : userUID
             },
             nested: true
         }],
@@ -44,7 +44,7 @@ router.post('/createGroup', async function (req, res) {
     array.forEach(async function(element){
         const getAllUsers = await User.findOne({
             where:{
-                Id: element
+                Uid: element
               } 
         })
         await contentGroup1.addUser(getAllUsers);
