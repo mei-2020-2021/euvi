@@ -18,7 +18,7 @@ ContentStatus.init(
   },
 );
 
-User.belongsToMany(Content, {through: ContentStatus});
-Content.belongsToMany(User, {through: ContentStatus});
+User.belongsToMany(Content, {as: 'WatchlistContent', through: ContentStatus, primaryKey: true, foreignKey: 'ContentId'});
+Content.belongsToMany(User, {as: 'Viewer', through: ContentStatus, primaryKey: true, foreignKey: 'UserId'});
 
 module.exports = ContentStatus;

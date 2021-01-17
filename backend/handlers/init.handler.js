@@ -10,6 +10,8 @@ const User = require('../sequelize/models/user.model');
 const Group = require('../sequelize/models/group.model')
 const Service = require('../sequelize/models/service.model');
 const {connect} = require('./user.handler');
+const ContentStatus = require('../sequelize/models/contentStatus.model');
+const Friendship = require('../sequelize/models/friendship.model');
 
 router.post('/', async function (req, res) {
   //Create user
@@ -155,7 +157,30 @@ router.post('/', async function (req, res) {
     ContentTypeId: 1,
   });
 
-  contentSoul.addService(serviceDisney);
+  // Associate Content with User
+  await contentUser1.addWatchlistContent(contentSoul);
+
+  const contentStatusSoulUser1 = await ContentStatus.findOne({
+    where:{
+      ContentId: contentSoul.Id,
+      UserId: contentUser1.Id
+    }
+  });
+
+  await statusWatching.setContentStatus(contentStatusSoulUser1);
+
+  // Add Recommendation
+
+  const friendshipUser1 = await Friendship.findOne({
+    where:{
+      UserId: contentUser1.Id,
+      FriendId: contentUser2.Id
+    }
+  });
+
+  await friendshipUser1.addContentRecommendation(contentSoul)
+  
+  // Associate Genre to Content
   contentSoul.addGenres([genreAnimation, genreAdventure, genreComedy]);
 
   const contentCoco = await Content.create({

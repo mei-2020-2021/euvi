@@ -20,5 +20,5 @@ Recommendation.init(
 );
 
 Content.belongsToMany(Friendship, {as: 'Friendship', through: Recommendation, primaryKey: true, foreignKey: 'FriendshipId'});
-Friendship.belongsToMany(Content, {as: 'Content', through: Recommendation, primaryKey: true, foreignKey: 'ContentId'});
+Friendship.belongsToMany(Content, {as: 'ContentRecommendation', through: Recommendation, primaryKey: true, foreignKey: 'ContentId'});
 module.exports = Recommendation;
