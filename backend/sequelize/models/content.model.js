@@ -31,6 +31,9 @@ Content.init(
     ImdbRating: {
       type: Sequelize.DataTypes.FLOAT,
     },
+    Duration: {
+      type: Sequelize.DataTypes.INTEGER,
+    },
   },
   {
     sequelize,

@@ -13,10 +13,9 @@ function HomeScreen() {
   const [content, setContent] = React.useState([]);
 
   React.useEffect(() => {
-    fetch('http://localhost:6969/content')
+    fetch('http://192.168.1.238:6969/content')
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setContent(data);
         setLoading(false);
       });
@@ -48,7 +47,7 @@ function HomeScreen() {
           <Text style={{fontSize: 32, fontWeight: 'bold', paddingLeft: 8}}>Trending</Text>
           <ScrollView showsHorizontalScrollIndicator={false} horizontal>
             {content.map((content) => (
-              <Content contentId={content.Id} screen={'home'} />
+              <Content key={content.Id} contentId={content.Id} screen={'home'} />
             ))}
           </ScrollView>
         </ScrollView>

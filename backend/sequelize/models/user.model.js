@@ -9,27 +9,27 @@ User.init(
       type: Sequelize.DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     Uid: {
       type: Sequelize.DataTypes.STRING,
-    	allowNull: false,
+      allowNull: false,
     },
     FirstName: {
-    	type: Sequelize.DataTypes.STRING,
-    	allowNull: false,
+      type: Sequelize.DataTypes.STRING,
+      allowNull: false,
     },
     LastName: {
-    	type: Sequelize.DataTypes.STRING,
-    	allowNull: false,
+      type: Sequelize.DataTypes.STRING,
+      allowNull: false,
     },
     BirthDate: {
-    	type: Sequelize.DataTypes.DATE,
-    	allowNull: false,
+      type: Sequelize.DataTypes.DATE,
+      allowNull: false,
     },
     Email: {
-    	type: Sequelize.DataTypes.STRING,
-		  allowNull: false,
+      type: Sequelize.DataTypes.STRING,
+      allowNull: false,
     },
   },
   {
@@ -37,5 +37,7 @@ User.init(
     modelName: 'User',
   },
 );
+
+User.hasMany(User, {as: 'Friends'});
 
 module.exports = User;
