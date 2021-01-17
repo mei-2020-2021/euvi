@@ -20,6 +20,6 @@ Friendship.init(
 );
 
 
-User.belongsToMany(User, {as: 'User', through: Friendship, primaryKey: true, foreignKey: 'UserId'});
-User.belongsToMany(User, {as: 'Friend', through: Friendship, primaryKey: true, foreignKey: 'FriendId'});
+User.belongsToMany(User, {as: 'Friend', through: Friendship, primaryKey: true, foreignKey: 'UserId'});
+User.belongsToMany(User, {as: 'User', through: Friendship, primaryKey: true, foreignKey: 'FriendId'});
 module.exports = Friendship;
