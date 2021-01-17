@@ -3,20 +3,20 @@ const User = require('../sequelize/models/user.model');
 const router = express.Router();
 const sequelize = require('../sequelize/_index');
 const {Op} = require('sequelize');
+const Service = require('../sequelize/models/service.model');
 
 router.get('/', async function (req, res) {
-  const id = req.query.id
-  const uid = req.query.uid
+  const id = req.query.id;
+  const uid = req.query.uid;
 
   if (id) {
     const user = await User.findByPk(id);
     return res.status(200).json(user);
   } else if (uid) {
-    const user = await User.find({
-      having: {
-        uid: {
-          [Op.eq]: uid,
-        },
+    const user = await User.findOne({
+      include: Service,
+      where: {
+        Uid: uid,
       },
     });
     return res.status(200).json(user);

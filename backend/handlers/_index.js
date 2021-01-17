@@ -19,4 +19,7 @@ router.use('/group', groupHandler);
 const profileHandler = require('./profile.handler');
 router.use('/profile', profileHandler);
 
+const recommendationHandler = require('./recommendation.handler');
+router.use('/recommendation', recommendationHandler);
+
 module.exports = router;

@@ -6,7 +6,7 @@ const { Op } = require('sequelize');
 const Friendship = require('../sequelize/models/friendship.model');
 
 router.get('/', async function (req, res) {
-  const id = req.query.id
+  const id = req.query.userId
 
   const friendships = await Friendship.findAll({
     where: {

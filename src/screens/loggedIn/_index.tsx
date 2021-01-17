@@ -3,12 +3,12 @@ import {View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import auth from '@react-native-firebase/auth';
 import LoadingScreen from '../loading';
-import WatchlistStackScreen from './watchlist/_index_stack';
+import WatchlistScreen from './watchlist/_index';
 import CommunityScreen from './community/_index';
 import HomeScreen from './home';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-function LoggedOutScreen() {
+function LoggedInScreen() {
   const [user, setUser] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
@@ -36,7 +36,7 @@ function LoggedOutScreen() {
             />
             <BottomTab.Screen
               name="Watchlist"
-              component={WatchlistStackScreen}
+              component={WatchlistScreen}
               options={{
                 tabBarLabel: 'Watchlist',
                 tabBarIcon: ({color, size}) => <Icon name="view-carousel" color={color} size={size} />,
@@ -56,4 +56,4 @@ function LoggedOutScreen() {
     </>
   );
 }
-export default LoggedOutScreen;
+export default LoggedInScreen;

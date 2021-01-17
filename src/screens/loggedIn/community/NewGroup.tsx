@@ -6,8 +6,8 @@ import Style from '../../style'
 import { Autocomplete } from "react-native-dropdown-autocomplete";
 import { TextInput } from 'react-native-gesture-handler';
 
-function NewGroupScreen() {
-
+function NewGroupScreen({ route }) {
+    console.log("Hello "+ route.params.friendsList)
     const [user, setUser] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const [friendsList, setFriendsList] = React.useState(null);
