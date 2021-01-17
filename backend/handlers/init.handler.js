@@ -59,71 +59,92 @@ const init = async () => {
 
 
   //Create user
-  const contentUser1 = await User.create({
-    Uid: 1,
-    FirstName: 'Bruno',
-    LastName: 'Rato',
+  const contentUserRato = await User.create({
+    Uid: 'nZGFSKipAjUtyDoT2cAKXe4ykMt2',
+    FirstName: 'Demo',
+    LastName: 'User',
     BirthDate: 1 / 2 / 1998,
-    Email: 'bruno.rato@hotmail.com',
+    Email: 'bmcdcar@hotmail.com',
   });
-  const contentUser2 = await User.create({
-    Uid: 2,
+  const contentUserMartins = await User.create({
+    Uid: "Bdsp4LQi9HVo9wBAFRckbNdAn1H3",
+    FirstName: 'Miguel',
+    LastName: 'Martins',
+    BirthDate: 2 / 4 / 1999,
+    Email: 'miguelmartins737@gmail.com',
+  });
+  const contentUserRicardo = await User.create({
+    Uid: "qaD2O1tRQtPlOSrS4wc6PvBUI9F2",
+    FirstName: 'Ricardo',
+    LastName: 'Faria',
+    BirthDate: 7 / 9 / 1999,
+    Email: 'ricardoafonfaria@gmail.com',
+  });
+  const contentUserPereira = await User.create({
+    Uid: "Nc94sEHEhBP2769dzPPOXQ7blQE3",
+    FirstName: 'Miguel',
+    LastName: 'Pereira',
+    BirthDate: 8 / 9 / 1999,
+    Email: 'massf@iscte-iul.pt',
+  });
+  const contentUser5 = await User.create({
+    Uid: 5,
     FirstName: 'André',
     LastName: 'Ribeiro',
     BirthDate: 1 / 2 / 1998,
     Email: 'andre.ribeiro@hotmail.com',
   });
-  const contentUser3 = await User.create({
-    Uid: 3,
+  const contentUser6 = await User.create({
+    Uid: 6,
     FirstName: 'Alexandre',
     LastName: 'Monteiro',
     BirthDate: 1 / 2 / 1998,
     Email: 'alexandre.monteiro@hotmail.com',
   });
-  const contentUser4 = await User.create({
-    Uid: 4,
+  const contentUser7 = await User.create({
+    Uid: 7,
     FirstName: 'Francisco',
     LastName: 'Cavaco',
     BirthDate: 1 / 2 / 1998,
     Email: 'francisco.cavaco@hotmail.com',
   });
-  const contentUser5 = await User.create({
-    Uid: 5,
+  const contentUser8 = await User.create({
+    Uid: 8,
     FirstName: 'Alicia',
     LastName: 'Cabral',
     BirthDate: 1 / 2 / 1998,
     Email: 'alicia.cabral@hotmail.com',
   });
-  const contentUser6 = await User.create({
-    Uid: 6,
+  const contentUser9 = await User.create({
+    Uid: 9,
     FirstName: 'Ines',
     LastName: 'Sa',
     BirthDate: 1 / 2 / 1998,
     Email: 'ines.sa@hotmail.com',
   });
-  const contentUser7 = await User.create({
-    Uid: 7,
+  const contentUser10 = await User.create({
+    Uid: 10,
     FirstName: 'Leonor',
     LastName: 'Cordeiro',
     BirthDate: 1 / 2 / 1998,
     Email: 'leonor.cordeiro@hotmail.com',
   });
-  const contentUser8 = await User.create({
-    Uid: 8,
+  const contentUser11 = await User.create({
+    Uid: 11,
     FirstName: 'Madalena',
     LastName: 'Gonçalves',
     BirthDate: 1 / 2 / 1998,
     Email: 'madalena.goncalves@hotmail.com',
   });
-  const contentUser9 = await User.create({
-    Uid: 9,
+  const contentUser12 = await User.create({
+    Uid: 12,
     FirstName: 'Anita',
     LastName: 'Peres',
     BirthDate: 1 / 2 / 1998,
     Email: 'anita.peres@hotmail.com',
   });
-  const contentUser10 = await User.create({
-    Uid: 10,
+  const contentUser13 = await User.create({
+    Uid: 13,
     FirstName: 'David',
     LastName: 'Silva',
     BirthDate: 1 / 2 / 1998,
@@ -133,11 +154,11 @@ const init = async () => {
   //Create Group
   const contentGroup1 = await Group.create({
     Name: 'Group A',
-    OwnerId: 2
+    OwnerId: 5
   })
   const contentGroup2 = await Group.create({
     Name: 'Group B',
-    OwnerId: 2
+    OwnerId: 1
   })
 
   // ------------------------------------ Movie Content -------------------------------------------------------//
@@ -249,11 +270,11 @@ const init = async () => {
   });
 
   // Soul Movie
-  await contentUser1.addWatchlistContent(contentSoul, { through: { Feedback: -1 } });
+  await contentUserRato.addWatchlistContent(contentSoul, { through: { Feedback: -1 } });
   const contentStatusSoulUser1 = await ContentStatus.findOne({
     where: {
       ContentId: contentSoul.Id,
-      UserId: contentUser1.Id,
+      UserId: contentUserRato.Id,
     }
   });
   await statusWatching.setContentStatus(contentStatusSoulUser1);
@@ -294,46 +315,46 @@ const init = async () => {
   // ---------------------------------------------------------------------------------------------------------//
 
   // Add Services to User
-  await contentUser1.addServices([serviceDisney, serviceNetflix]);
+  await contentUserRato.addServices([serviceDisney, serviceNetflix]);
 
   // Add Services to Content
 
   // Add Friends
-  await contentUser1.addFriend(contentUser2)
-  await contentUser2.addFriend(contentUser1)
+  await contentUserRato.addFriend(contentUser5)
+  await contentUser5.addFriend(contentUserRato)
 
-  await contentUser1.addFriend(contentUser3)
-  await contentUser3.addFriend(contentUser1)
+  await contentUserRato.addFriend(contentUser6)
+  await contentUser6.addFriend(contentUserRato)
 
-  await contentUser1.addFriend(contentUser4)
-  await contentUser4.addFriend(contentUser1)
+  await contentUserRato.addFriend(contentUser7)
+  await contentUser7.addFriend(contentUserRato)
 
   // Add Groups
-  await contentGroup1.addUser(contentUser1);
-  await contentGroup1.addUser(contentUser2);
-  await contentGroup1.addUser(contentUser3);
-  await contentGroup1.addUser(contentUser4);
+  await contentGroup1.addUser(contentUserRato);
+  await contentGroup1.addUser(contentUser7);
+  await contentGroup1.addUser(contentUser8);
+  await contentGroup1.addUser(contentUser9);
   await contentGroup1.addUser(contentUser5);
 
-  await contentGroup2.addUser(contentUser1);
+  await contentGroup2.addUser(contentUserRato);
 
   // Add Recommendations
   const friendshipUser1 = await Friendship.findOne({
     where: {
-      UserId: contentUser2.Id,
-      FriendId: contentUser1.Id
+      UserId: contentUser7.Id,
+      FriendId: contentUserRato.Id
     }
   });
   const friendshipUser2 = await Friendship.findOne({
     where: {
-      UserId: contentUser2.Id,
-      FriendId: contentUser1.Id
+      UserId: contentUser7.Id,
+      FriendId: contentUserRato.Id
     }
   });
   const friendshipUser3 = await Friendship.findOne({
     where: {
-      UserId: contentUser3.Id,
-      FriendId: contentUser1.Id
+      UserId: contentUser5.Id,
+      FriendId: contentUserRato.Id
     }
   });
   await friendshipUser1.addContentRecommendation(contentSoul);

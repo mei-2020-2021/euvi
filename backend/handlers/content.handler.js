@@ -206,9 +206,11 @@ router.get('/contentStatus', async function (req, res) {
     });
 
     if (user.Id) {
-      'SELECT ContentId from Contents WHERE ContententId = ' + contentId + ' AND ContentTypeId ';
       const [something, metadata] = await sequelize.query(
-        'SELECT * from ContentStatus WHERE AND UserId = ' + user.Id + ' AND ContentId = ' + contentId,
+        'SELECT StatusTypes.Value from Users LEFT JOIN ContentStatus ON Users.Id = ContentStatus.UserId LEFT JOIN Contents ON ContentStatus.ContentId = Contents.Id LEFT JOIN StatusTypes ON StatusTypes.Id = ContentStatus.StatusTypeId WHERE Contents.Id =' +
+          contentId +
+          ' AND Users.Id = ' +
+          user.Id,
       );
       return res.status(200).json(something);
     }

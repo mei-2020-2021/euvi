@@ -12,12 +12,10 @@ router.get('/', async function (req, res) {
     const user = await User.findByPk(id);
     return res.status(200).json(user);
   } else if (uid) {
-    const user = await User.find({
-      having: {
-        uid: {
-          [Op.eq]: uid,
-        },
-      },
+    const user = await User.findOne({
+      where: {
+        Uid: uid,
+      }
     });
     return res.status(200).json(user);
   } else {
