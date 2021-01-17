@@ -10,7 +10,6 @@ const User = require('../sequelize/models/user.model');
 const Group = require('../sequelize/models/group.model')
 const Service = require('../sequelize/models/service.model');
 const {connect} = require('./user.handler');
-const User = require('../sequelize/models/user.model');
 
 router.post('/', async function (req, res) {
   //Create user
