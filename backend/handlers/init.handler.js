@@ -3,109 +3,14 @@ const Content = require('../sequelize/models/content.model');
 const ContentType = require('../sequelize/models/contentType.model');
 const StatusType = require('../sequelize/models/statusType.model')
 const router = express.Router();
-const sequelize = require('../sequelize/_index');
-const axios = require('axios');
 const Genre = require('../sequelize/models/genre.model');
 const User = require('../sequelize/models/user.model');
 const Group = require('../sequelize/models/group.model')
 const Service = require('../sequelize/models/service.model');
-const {connect} = require('./user.handler');
 const ContentStatus = require('../sequelize/models/contentStatus.model');
 const Friendship = require('../sequelize/models/friendship.model');
 
-router.post('/', async function (req, res) {
-  //Create user
-  const contentUser1 = await User.create({
-    Uid: 1,
-    FirstName: 'Bruno',
-    LastName: 'Rato',
-    BirthDate: 1/2/1998,
-    Email: 'bruno.rato@hotmail.com',
-  });
-  const contentUser2 = await User.create({
-    Uid: 2,
-    FirstName: 'André',
-    LastName: 'Ribeiro',
-    BirthDate: 1/2/1998,
-    Email: 'andre.ribeiro@hotmail.com',
-  });
-  const contentUser3 = await User.create({
-    Uid: 3,
-    FirstName: 'Alexandre',
-    LastName: 'Monteiro',
-    BirthDate: 1/2/1998,
-    Email: 'alexandre.monteiro@hotmail.com',
-  });
-  const contentUser4 = await User.create({
-    Uid: 4,
-    FirstName: 'Francisco',
-    LastName: 'Cavaco',
-    BirthDate: 1/2/1998,
-    Email: 'francisco.cavaco@hotmail.com',
-  });
-  const contentUser5 = await User.create({
-    Uid: 5,
-    FirstName: 'Alicia',
-    LastName: 'Cabral',
-    BirthDate: 1/2/1998,
-    Email: 'alicia.cabral@hotmail.com',
-  });
-  const contentUser6 = await User.create({
-    Uid: 6,
-    FirstName: 'Ines',
-    LastName: 'Sa',
-    BirthDate: 1/2/1998,
-    Email: 'ines.sa@hotmail.com',
-  });
-  const contentUser7 = await User.create({
-    Uid: 7,
-    FirstName: 'Leonor',
-    LastName: 'Cordeiro',
-    BirthDate: 1/2/1998,
-    Email: 'leonor.cordeiro@hotmail.com',
-  });
-  const contentUser8 = await User.create({
-    Uid: 8,
-    FirstName: 'Madalena',
-    LastName: 'Gonçalves',
-    BirthDate: 1/2/1998,
-    Email: 'madalena.goncalves@hotmail.com',
-  });
-  const contentUser9 = await User.create({
-    Uid: 9,
-    FirstName: 'Anita',
-    LastName: 'Peres',
-    BirthDate: 1/2/1998,
-    Email: 'anita.peres@hotmail.com',
-  });
-  const contentUser10 = await User.create({
-    Uid: 10,
-    FirstName: 'David',
-    LastName: 'Silva',
-    BirthDate: 1/2/1998,
-    Email: 'david.silva@hotmail.com',
-  });
-  contentUser1.addFriend(contentUser2)
-  contentUser1.addFriend(contentUser3)
-  contentUser1.addFriend(contentUser4)
-
-  //Create Group
-  const contentGroup1 = await Group.create({
-    Name: 'Group A',
-    OwnerId: 2
-  })
-  const contentGroup2 = await Group.create({
-    Name: 'Group B',
-    OwnerId: 2
-  })
-  contentGroup1.addUser(contentUser1);
-  contentGroup1.addUser(contentUser2);
-  contentGroup1.addUser(contentUser3);
-  contentGroup1.addUser(contentUser4);
-  contentGroup1.addUser(contentUser5);
-
-  contentGroup2.addUser(contentUser1);
-
+const init = async () => {
   //Content-Type
   const contentTypeMovie = await ContentType.create({
     Value: 'Movie',
@@ -152,6 +57,90 @@ router.post('/', async function (req, res) {
     Value: 'To Watch'
   });
 
+
+  //Create user
+  const contentUser1 = await User.create({
+    Uid: 1,
+    FirstName: 'Bruno',
+    LastName: 'Rato',
+    BirthDate: 1 / 2 / 1998,
+    Email: 'bruno.rato@hotmail.com',
+  });
+  const contentUser2 = await User.create({
+    Uid: 2,
+    FirstName: 'André',
+    LastName: 'Ribeiro',
+    BirthDate: 1 / 2 / 1998,
+    Email: 'andre.ribeiro@hotmail.com',
+  });
+  const contentUser3 = await User.create({
+    Uid: 3,
+    FirstName: 'Alexandre',
+    LastName: 'Monteiro',
+    BirthDate: 1 / 2 / 1998,
+    Email: 'alexandre.monteiro@hotmail.com',
+  });
+  const contentUser4 = await User.create({
+    Uid: 4,
+    FirstName: 'Francisco',
+    LastName: 'Cavaco',
+    BirthDate: 1 / 2 / 1998,
+    Email: 'francisco.cavaco@hotmail.com',
+  });
+  const contentUser5 = await User.create({
+    Uid: 5,
+    FirstName: 'Alicia',
+    LastName: 'Cabral',
+    BirthDate: 1 / 2 / 1998,
+    Email: 'alicia.cabral@hotmail.com',
+  });
+  const contentUser6 = await User.create({
+    Uid: 6,
+    FirstName: 'Ines',
+    LastName: 'Sa',
+    BirthDate: 1 / 2 / 1998,
+    Email: 'ines.sa@hotmail.com',
+  });
+  const contentUser7 = await User.create({
+    Uid: 7,
+    FirstName: 'Leonor',
+    LastName: 'Cordeiro',
+    BirthDate: 1 / 2 / 1998,
+    Email: 'leonor.cordeiro@hotmail.com',
+  });
+  const contentUser8 = await User.create({
+    Uid: 8,
+    FirstName: 'Madalena',
+    LastName: 'Gonçalves',
+    BirthDate: 1 / 2 / 1998,
+    Email: 'madalena.goncalves@hotmail.com',
+  });
+  const contentUser9 = await User.create({
+    Uid: 9,
+    FirstName: 'Anita',
+    LastName: 'Peres',
+    BirthDate: 1 / 2 / 1998,
+    Email: 'anita.peres@hotmail.com',
+  });
+  const contentUser10 = await User.create({
+    Uid: 10,
+    FirstName: 'David',
+    LastName: 'Silva',
+    BirthDate: 1 / 2 / 1998,
+    Email: 'david.silva@hotmail.com',
+  });
+
+  //Create Group
+  const contentGroup1 = await Group.create({
+    Name: 'Group A',
+    OwnerId: 2
+  })
+  const contentGroup2 = await Group.create({
+    Name: 'Group B',
+    OwnerId: 2
+  })
+
+  // ------------------------------------ Movie Content -------------------------------------------------------//
   const contentSoul = await Content.create({
     Title: 'Soul',
     ReleaseYear: '2020',
@@ -163,33 +152,6 @@ router.post('/', async function (req, res) {
     ImdbRating: 8.1,
     ContentTypeId: 1,
   });
-
-  // Associate Content with User
-  await contentUser1.addWatchlistContent(contentSoul);
-
-  const contentStatusSoulUser1 = await ContentStatus.findOne({
-    where:{
-      ContentId: contentSoul.Id,
-      UserId: contentUser1.Id
-    }
-  });
-
-  await statusWatching.setContentStatus(contentStatusSoulUser1);
-
-  // Add Recommendation
-
-  const friendshipUser1 = await Friendship.findOne({
-    where:{
-      UserId: contentUser1.Id,
-      FriendId: contentUser2.Id
-    }
-  });
-
-  await friendshipUser1.addContentRecommendation(contentSoul);
-  
-  // Associate Genre to Content
-  contentSoul.addGenres([genreAnimation, genreAdventure, genreComedy]);
-
   const contentCoco = await Content.create({
     Title: 'Coco',
     ReleaseYear: '2017',
@@ -201,7 +163,6 @@ router.post('/', async function (req, res) {
     ImdbRating: 8.4,
     ContentTypeId: 1,
   });
-  contentCoco.addGenres([genreAdventure, genreComedy]);
   const contentLOTR = await Content.create({
     Title: 'The Lord of the Rings: The Fellowship of the Ring',
     ReleaseYear: '2001',
@@ -223,7 +184,6 @@ router.post('/', async function (req, res) {
     ImdbRating: 5.0,
     ContentTypeId: 1,
   });
-  contentGarfield.addGenres([genreComedy]);
   const contentCats = await Content.create({
     Title: 'Cats',
     ReleaseYear: '2019',
@@ -287,8 +247,102 @@ router.post('/', async function (req, res) {
     ImdbRating: 7.5,
     ContentTypeId: 1,
   });
-  return res.status(200).send()
-});
+
+  // Soul Movie
+  await contentUser1.addWatchlistContent(contentSoul, { through: { Feedback: -1 } });
+  const contentStatusSoulUser1 = await ContentStatus.findOne({
+    where: {
+      ContentId: contentSoul.Id,
+      UserId: contentUser1.Id,
+    }
+  });
+  await statusWatching.setContentStatus(contentStatusSoulUser1);
+  await contentSoul.addGenres([genreAnimation, genreAdventure, genreComedy]);
+  await contentSoul.addServices([serviceDisney]);
+
+  // Coco Movie
+  await contentCoco.addGenres([genreAdventure, genreComedy]);
+
+  // Garfield Movie
+  await contentGarfield.addGenres([genreComedy]);
 
 
-module.exports = router;
+  // ------------------------------------ Shows Content -------------------------------------------------------//
+  // ------------Stranger Things----------- //
+  const contentStrangerThings = await Content.create({
+      Title: 'Stranger Things',
+      ReleaseYear: '2016 - Current',
+      Sinopse:
+        'When a young boy disappears, his mother, a police chief and his friends must confront terrifying supernatural forces in order to get him back.',
+      ImageUrl:
+        'https://m.media-amazon.com/images/M/MV5BMjEzMDAxOTUyMV5BMl5BanBnXkFtZTgwNzAxMzYzOTE@._V1_FMjpg_UY324_.jpg',
+      TrailerUrl: 'https://youtu.be/b9EkMc79ZSU',
+      ImdbRating: 8.7,
+      ContentTypeId: 2,
+
+    });
+  // Episodes
+  const contentStrangerThingsS1E1 = await Content.create({
+    Title:'Chapter One - The Vanishing of Will Byers',
+    ReleaseYear: '2016',
+    Sinopse: 'At the U.S. Dept. of Energy an unexplained event occurs. Then when a young Dungeons and Dragons playing boy named Will disappears after a night with his friends, his mother Joyce and the town of Hawkins are plunged into darkness.', 
+    ContentTypeId: 3,
+    Duration: 47
+  })
+
+  await contentStrangerThings.addEpisode(contentStrangerThingsS1E1, { through: { SeasonNumber: 1, EpisodeNumber: 1 } })
+  // ---------------------------------------------------------------------------------------------------------//
+
+  // Add Services to User
+  await contentUser1.addServices([serviceDisney, serviceNetflix]);
+
+  // Add Services to Content
+
+  // Add Friends
+  await contentUser1.addFriend(contentUser2)
+  await contentUser2.addFriend(contentUser1)
+
+  await contentUser1.addFriend(contentUser3)
+  await contentUser3.addFriend(contentUser1)
+
+  await contentUser1.addFriend(contentUser4)
+  await contentUser4.addFriend(contentUser1)
+
+  // Add Groups
+  await contentGroup1.addUser(contentUser1);
+  await contentGroup1.addUser(contentUser2);
+  await contentGroup1.addUser(contentUser3);
+  await contentGroup1.addUser(contentUser4);
+  await contentGroup1.addUser(contentUser5);
+
+  await contentGroup2.addUser(contentUser1);
+
+  // Add Recommendations
+  const friendshipUser1 = await Friendship.findOne({
+    where: {
+      UserId: contentUser2.Id,
+      FriendId: contentUser1.Id
+    }
+  });
+  const friendshipUser2 = await Friendship.findOne({
+    where: {
+      UserId: contentUser2.Id,
+      FriendId: contentUser1.Id
+    }
+  });
+  const friendshipUser3 = await Friendship.findOne({
+    where: {
+      UserId: contentUser3.Id,
+      FriendId: contentUser1.Id
+    }
+  });
+  await friendshipUser1.addContentRecommendation(contentSoul);
+  await friendshipUser2.addContentRecommendation(contentAvengers);
+  await friendshipUser3.addContentRecommendation(contentCoco);
+
+
+
+
+}
+
+module.exports = init;

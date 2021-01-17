@@ -24,7 +24,7 @@ SeriesEpisode.init(
   },
 );
 
-Content.belongsToMany(Content, {as: 'Series', through: SeriesEpisode, primaryKey: true, foreignKey: 'SeriesId'});
-Content.belongsToMany(Content, {as: 'Episode', through: SeriesEpisode, primaryKey: true, foreignKey: 'EpisodeId'});
+Content.belongsToMany(Content, {as: 'Series', through: SeriesEpisode, primaryKey: true, foreignKey: 'EpisodeId'});
+Content.belongsToMany(Content, {as: 'Episode', through: SeriesEpisode, primaryKey: true, foreignKey: 'SeriesId'});
 
 module.exports = SeriesEpisode;

@@ -10,10 +10,10 @@ router.get('/', async function (req, res) {
 
   const friendships = await Friendship.findAll({
     where: {
-      FriendId: id,
+      UserId: id,
     }
   })
-  const friendsIds = friendships.map(friendship => {return({Id: friendship.dataValues.UserId})})
+  const friendsIds = friendships.map(friendship => {return({Id: friendship.dataValues.FriendId})})
   const friendsList = await User.findAll(
     {
       where: {

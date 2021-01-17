@@ -31,7 +31,7 @@ Service.init(
 
 Service.belongsToMany(Content, { through: 'ContentService' });
 Content.belongsToMany(Service, { through: 'ContentService' });
-User.belongsToMany(Content, { through: 'UserService' });
-Content.belongsToMany(User, { through: 'UserService' });
+Service.belongsToMany(User, { through: 'UserService' });
+User.belongsToMany(Service, { through: 'UserService' });
 
 module.exports = Service;
