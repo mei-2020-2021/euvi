@@ -18,45 +18,47 @@ function CommunityHomeScreen({ navigation }) {
         fetch('http://192.168.1.238:6969/users?uid=' + auth().currentUser.uid)
             .then((res) => res.json())
             .then((data) => {
+                console.log(data)
                 setUser(data.Id.toString());
-            });
-        fetch('http://192.168.1.238:6969/group?userId=' + user)
-            .then((res) => res.json())
-            .then((data) => {
-                var groupListData = []
-                data.forEach(group => {
-                    const info = { name: group.Name, ownerId: group.OwnerId }
-                    groupListData.push(info)
-                });
-                setGroupList(groupListData)
-            });
-        fetch('http://192.168.1.238:6969/friendship?userId=' + user)
-            .then((res) => res.json())
-            .then((data) => {
-                var friendListData = []
-                data.forEach(friend => {
-                    const info = { id: friend.Id, firstName: friend.FirstName, lastName: friend.LastName }
-                    friendListData.push(info)
-                });
-                setFriendList(friendListData)
-            });
-        setList(() => {
-            return [
-                {
-                    id: 1,
-                    isGroup: true,
-                    title: 'Groups',
-                    body: groupList
-                },
-                {
-                    id: 2,
-                    isGroup: false,
-                    title: 'Friends',
-                    body: friendList,
-                }
-            ]
-        })
-        setLoading(false);
+                return data.Id
+            }).then((id) => fetch('http://192.168.1.238:6969/group?userId=' + id)
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log(data)
+                    var groupListData = []
+                    data.forEach(group => {
+                        const info = { name: group.Name, ownerId: group.OwnerId }
+                        groupListData.push(info)
+                    });
+                    setGroupList(groupListData)
+                    return id
+                })).then((id) => fetch('http://192.168.1.238:6969/friendship?userId=' + id)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        console.log(data)
+                        var friendListData = []
+                        data.forEach(friend => {
+                            const info = { id: friend.Id, firstName: friend.FirstName, lastName: friend.LastName }
+                            friendListData.push(info)
+                        });
+                        console.log(friendListData)
+                        setFriendList(friendListData)
+                    })).then(() => setList(() => {
+                        return [
+                            {
+                                id: 1,
+                                isGroup: true,
+                                title: 'Groups',
+                                body: groupList
+                            },
+                            {
+                                id: 2,
+                                isGroup: false,
+                                title: 'Friends',
+                                body: friendList,
+                            }
+                        ]
+                    })).then(() => setLoading(false))
     }, []);
 
     function _head(item) {
@@ -64,7 +66,7 @@ function CommunityHomeScreen({ navigation }) {
             <Text style={Style.authTitle}>{item.title}</Text>
             <Icon
                 name="plus"
-                onPress={() => { item.id == 1 ? (navigation.navigate('NewGroup')) : (navigation.navigate('NewFriend')) }}
+                onPress={() => { item.id == 1 ? (navigation.navigate('NewGroup', { friendsList: friendList })) : (navigation.navigate('NewFriend')) }}
             >
             </Icon>
         </View>)
@@ -110,7 +112,7 @@ function CommunityHomeScreen({ navigation }) {
                             />
                         </View>
                         <AccordionList
-                            expandedIndex = {1}
+                            expandedIndex={1}
                             list={list}
                             header={_head}
                             body={_body}
