@@ -24,16 +24,23 @@ router.get('/', async function (req, res) {
 });
 
 
-router.post('/group', async function (req, res) {
+router.post('/createGroup', async function (req, res) {
     const groupName = req.query.name;
     const ownerId = req.query.ownerId;
     const allUsersId = req.query.users
     var array = allUsersId.split(',');
 
+    const owner = await User.findOne({
+        where: {
+            Uid : ownerId
+        }
+    })
     const contentGroup1 = await Group.create({
         Name: groupName,
-        OwnerId: ownerId
+        OwnerId: owner.Id
       });
+
+    await contentGroup1.addUser(owner);
     array.forEach(async function(element){
         const getAllUsers = await User.findOne({
             where:{
@@ -42,7 +49,7 @@ router.post('/group', async function (req, res) {
         })
         await contentGroup1.addUser(getAllUsers);
     })
-        
+    return res.status(200);
 });
 
 module.exports = router;

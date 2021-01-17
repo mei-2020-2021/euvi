@@ -6,23 +6,27 @@ import Style from '../../style'
 import { Autocomplete } from "react-native-dropdown-autocomplete";
 
 
-function NewFriendScreen() {
+function NewFriendScreen( {navigation} ) {
     const [user, setUser] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
-    const [friend, setFriend] = React.useState(null);
+    const [friend, setFriend] = React.useState([]);
     const [userList, setUserList] = React.useState([]);
 
     React.useEffect(() => {
         setUser(auth().currentUser);
-        setLoading(false);
-        setUserList(() => {
-            return [{ id: 1, Uid: "1", FirstName: "Leonor", LastName: "Cordeiro" }, { id: 2, Uid: "2", FirstName: "Madalena ", LastName: "Gonçalves" }, { id: 3, Uid: "3", FirstName: "Anita ", LastName: "Peres" }, { id: 4, Uid: "4", FirstName: "David ", LastName: "Silva" }]
+        fetch('http://192.168.1.238:6969/users/friends?uid='+auth().currentUser.uid)
+        .then((res) => res.json())
+        .then((data) => {
+            setUserList(data)
+            setLoading(false);
         });
     }, []);
 
 
-    function handleSelectItem(item) {
-        setFriend([...friend, item])
+    async function handleSelectItem(item) {
+        await fetch('http://192.168.1.238:6969/friendship/friendship?uid='+ user.uid + '&frienduid=' + item.Uid,{
+            method: 'POST'
+          }).then(navigation.goBack())
     }
 
     return (
@@ -32,9 +36,8 @@ function NewFriendScreen() {
             ) : (
                     <View style={{ padding: 8 }}>
                         <View style={styles.width_100}>
-                            <Autocomplete inputStyle={[styles.width_100, styles.autocompleteBoder]} waitInterval={200} resetOnSelect={true} handleSelectItem={(item) => handleSelectItem(item)} style={styles.input} placeholder="Add a friend" minimumCharactersCount={0} data={userList} valueExtractor={item => item.FirstName + "" + item.LastName} />
+                            <Autocomplete inputStyle={[styles.width_100, styles.autocompleteBoder]} waitInterval={200} resetOnSelect={true} handleSelectItem={(item) => handleSelectItem(item)} style={styles.input} placeholder="Add a friend" minimumCharactersCount={0} data={userList} valueExtractor={item => item.FirstName + " " + item.LastName} />
                         </View>
-                        <Button title="Add Friend!" onPress={() => Alert.alert(friend)} style={styles.submitButton} />
                     </View>
                 )}
         </>
