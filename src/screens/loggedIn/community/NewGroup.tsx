@@ -6,8 +6,7 @@ import Style from '../../style'
 import { Autocomplete } from "react-native-dropdown-autocomplete";
 import { TextInput } from 'react-native-gesture-handler';
 
-function NewGroupScreen({ route }) {
-    console.log("Hello "+ route.params.friendsList)
+function NewGroupScreen({ route, navigation }) {
     const [user, setUser] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const [friendsList, setFriendsList] = React.useState(null);
@@ -17,15 +16,24 @@ function NewGroupScreen({ route }) {
     React.useEffect(() => {
         setUser(auth().currentUser);
         setFriendsList(() => {
-            return [{ id: 1, Uid: "1", FirstName: "Leonor", LastName: "Cordeiro" }, { id: 2, Uid: "2", FirstName: "Madalena ", LastName: "Gonçalves" }, { id: 3, Uid: "3", FirstName: "Anita ", LastName: "Peres" }, { id: 4, Uid: "4", FirstName: "David ", LastName: "Silva" }]
+            return route.params.friendsList
         });
         setLoading(false);
     }, []);
 
     function handleSelectItem(item) {
         setGroupFriendList([...groupFriendList, item])
+        
     }
 
+    async function createGroup() {
+        var users = groupFriendList.map(el => {return el.id+''})
+        
+        await fetch('http://192.168.1.238:6969/group/createGroup?ownerId='+ user.uid + '&name=' + groupName + '&users='+ users.toString(),{
+            method: 'POST'
+          }).then(navigation.goBack())
+    }
+    
     return (
         <>
             {loading ? (
@@ -34,16 +42,16 @@ function NewGroupScreen({ route }) {
                     <View style={{ padding: 8 }}>
                         <TextInput onChangeText={(groupName: string) => SetGroupName(groupName)} style={[styles.width_100, Style.authInput]} placeholder="Group name..."></TextInput>
                         <View style={styles.width_100}>
-                            <Autocomplete inputStyle={[styles.width_100, styles.autocompleteBoder]} waitInterval={200} resetOnSelect={true} handleSelectItem={(item) => handleSelectItem(item)} style={styles.input} placeholder="Add a friend" minimumCharactersCount={0} data={friendsList} valueExtractor={item => item.FirstName + "" + item.LastName} />
+                            <Autocomplete inputStyle={[styles.width_100, styles.autocompleteBoder]} waitInterval={200} resetOnSelect={true} handleSelectItem={(item) => handleSelectItem(item)} style={styles.input} placeholder="Add a friend" minimumCharactersCount={0} data={friendsList} valueExtractor={item => {return item.firstName + " " + item.lastName}} />
                         </View>
                         {groupFriendList.length > 0 ? (groupFriendList.map(el => {
                             return (
                                 <View style={Style.homeTopFlex}>
-                                    <Text>{el.FirstName + " " + el.LastName}</Text>
+                                    <Text>{el.firstName + " " + el.lastName}</Text>
                                     <></>
                                 </View>)
                         })) : (<></>)}
-                        <Button style={styles.submitButton} title="Create group!" onPress={() => Alert.alert(groupName)} />
+                        <Button style={styles.submitButton} title="Create group!" onPress={() => createGroup()} />
                     </View>
                 )}
         </>
