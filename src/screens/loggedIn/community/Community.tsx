@@ -4,6 +4,7 @@ import LoadingScreen from '../../loading';
 import { View, Text, StyleSheet, Button, Alert } from 'react-native';
 import Style from './../../style'
 import { AccordionList } from "accordion-collapse-react-native";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 function CommunityHomeScreen({ navigation }) {
 
@@ -35,10 +36,11 @@ function CommunityHomeScreen({ navigation }) {
     function _head(item) {
         return (<View style={Style.homeTopFlex}>
             <Text style={Style.authTitle}>{item.title}</Text>
-            <Button
-                title="Botao"
+            <Icon.Button
+                name="rocket"
                 onPress={() => {item.id == 1 ? (navigation.navigate('NewGroup')) : (navigation.navigate('NewFriend'))}}
-            />
+            >
+            </Icon.Button>
         </View>)
     }
 

@@ -7,6 +7,7 @@ const axios = require('axios');
 const Genre = require('../sequelize/models/genre.model');
 const Service = require('../sequelize/models/service.model');
 const {connect} = require('./user.handler');
+const User = require('../sequelize/models/user.model');
 
 router.post('/', async function (req, res) {
   //Content-Type
@@ -154,8 +155,6 @@ router.post('/', async function (req, res) {
     ImdbRating: 7.5,
     ContentTypeId: 1,
   });
-
-  res.status(200).send();
 });
 
 module.exports = router;
