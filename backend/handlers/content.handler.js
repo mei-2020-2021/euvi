@@ -416,6 +416,7 @@ router.get('/topSeries', async function (req, res) {
 router.get('/getSeriesInfo', async function (req, res) {
   const serieId = req.query.serieId;
   var list = []
+  var allInfo = []
   const duration = await Content.findOne({
     where:{
       Id: serieId
@@ -431,7 +432,10 @@ router.get('/getSeriesInfo', async function (req, res) {
   });
   list.push(duration)
   list.push(allContent)
-  return res.status(200).json(list);
+  var seasons ={Seasons: list[1][list[1].length-1].SeasonNumber}
+  allInfo.push(list[0])
+  allInfo.push(seasons)
+  return res.status(200).json(allInfo);
 });
 
 module.exports = router;

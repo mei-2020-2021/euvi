@@ -27,8 +27,28 @@ router.post('/addService', async function (req, res) {
       Id: serviceId
     }
   });
+  res.status(200).json(await user.addServices(service));
+  
+});
 
-  await user.addServices(service);
+router.post('/removeService', async function (req, res) {
+  const userUid = req.query.uid;
+  const serviceId = req.query.serviceId;
+
+  const user = await User.findOne({
+    where:{
+      Uid: userUid
+    }
+  });
+
+  const service = await Service.findOne({
+    where:{
+      Id: serviceId
+    }
+  });
+
+  await user.removeServices(service);
+  res.status(200).json(await user.removeServices(service));
 });
 
 router.get('/getNotUserService', async function (req, res) {
