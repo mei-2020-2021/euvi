@@ -13,7 +13,13 @@ function WatchlistScreen() {
     <View style={{height: '100%'}}>
       <Tab.Navigator
         initialRouteName="Watching"
-        tabBarOptions={{labelStyle: {textTransform: 'capitalize', fontWeight: 'bold', fontSize: 20}}}>
+        tabBarOptions={{
+          labelStyle: {
+            textTransform: 'capitalize',
+            fontWeight: 'bold',
+            fontSize: 20,
+          },
+        }}>
         <Tab.Screen name="Seen" component={PastScreen} />
         <Tab.Screen name="Watching" component={PresentScreen} />
         <Tab.Screen name="To See" component={FutureScreen} />
