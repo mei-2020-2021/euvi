@@ -79,7 +79,7 @@ function AddServiceScreen({navigation}) {
           <View style={{marginVertical: 16}}>
             <Text style={{fontSize: 24, fontWeight: 'bold', paddingLeft: 8, marginBottom: 8}}>Other services</Text>
             <View style={{flexDirection: 'row', marginLeft: 8, marginBottom: 8}}>
-              {addedServices.map((service) => (
+              {notAddedServices.map((service) => (
                 <>
                   <Image
                     key={service.Id}
