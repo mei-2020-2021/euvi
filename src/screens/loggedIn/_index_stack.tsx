@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import LoggedInScreen from './_index';
 import ProfileScreen from './profile';
 import ContentScreen from './contentScreen';
+import AddServiceScreen from './addService';
 
 function LoggedInStackScreen() {
   const Stack = createStackNavigator();
@@ -22,6 +23,11 @@ function LoggedInStackScreen() {
           name="ContentScreen"
           component={ContentScreen}
           options={({route}) => ({title: route.params.title, headerBackTitleVisible: false})}
+        />
+        <Stack.Screen
+          name="AddServiceScreen"
+          component={AddServiceScreen}
+          options={{headerShown: false, headerBackTitleVisible: false}}
         />
       </Stack.Navigator>
     </View>

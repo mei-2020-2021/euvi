@@ -25,19 +25,19 @@ router.get('/', async function (req, res) {
 });
 
 router.post('/friendship', async function (req, res) {
-  const userUID = req.query.userUid;
-  const friendUID = req.query.friendUid;
+  const userUid = req.query.uid;
+  const friendUid = req.query.frienduid;
 
   var all = []
 
   const getUser = await User.findOne({
     where: {
-      Uid: userUID
+      Uid: userUid
     }
   }) 
   const getFriend = await User.findOne({
     where: {
-      Uid: friendUID
+      Uid: friendUid
     }
   })
   all.push(getUser)

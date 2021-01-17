@@ -24,7 +24,7 @@ function App() {
   return (
     <NavigationContainer>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={{height: '100%'}}>
+      <SafeAreaView style={{height: '100%', backgroundColor: '#15616d'}}>
         {loading ? <LoadingScreen /> : user ? <LoggedInStackScreen /> : <LoggedOutScreen />}
       </SafeAreaView>
     </NavigationContainer>

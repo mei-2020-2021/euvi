@@ -1,11 +1,11 @@
 const express = require('express');
 const Content = require('../sequelize/models/content.model');
 const ContentType = require('../sequelize/models/contentType.model');
-const StatusType = require('../sequelize/models/statusType.model')
+const StatusType = require('../sequelize/models/statusType.model');
 const router = express.Router();
 const Genre = require('../sequelize/models/genre.model');
 const User = require('../sequelize/models/user.model');
-const Group = require('../sequelize/models/group.model')
+const Group = require('../sequelize/models/group.model');
 const Service = require('../sequelize/models/service.model');
 const ContentStatus = require('../sequelize/models/contentStatus.model');
 const Friendship = require('../sequelize/models/friendship.model');
@@ -48,40 +48,39 @@ const init = async () => {
 
   //StatusType
   const statusWatching = await StatusType.create({
-    Value: 'Watching'
+    Value: 'Watching',
   });
   const statusWatched = await StatusType.create({
-    Value: 'Watched'
+    Value: 'Watched',
   });
   const statusToWatch = await StatusType.create({
-    Value: 'To Watch'
+    Value: 'To Watch',
   });
-
 
   //Create user
   const contentUserRato = await User.create({
     Uid: 'nZGFSKipAjUtyDoT2cAKXe4ykMt2',
-    FirstName: 'Demo',
-    LastName: 'User',
-    BirthDate: 1 / 2 / 1998,
+    FirstName: 'Ricardo',
+    LastName: 'Faria',
+    BirthDate: '07/09/1999',
     Email: 'bmcdcar@hotmail.com',
   });
   const contentUserMartins = await User.create({
-    Uid: "Bdsp4LQi9HVo9wBAFRckbNdAn1H3",
+    Uid: 'Bdsp4LQi9HVo9wBAFRckbNdAn1H3',
     FirstName: 'Miguel',
     LastName: 'Martins',
     BirthDate: 2 / 4 / 1999,
     Email: 'miguelmartins737@gmail.com',
   });
   const contentUserRicardo = await User.create({
-    Uid: "qaD2O1tRQtPlOSrS4wc6PvBUI9F2",
+    Uid: 'qaD2O1tRQtPlOSrS4wc6PvBUI9F2',
     FirstName: 'Ricardo',
     LastName: 'Faria',
     BirthDate: 7 / 9 / 1999,
     Email: 'ricardoafonfaria@gmail.com',
   });
   const contentUserPereira = await User.create({
-    Uid: "Nc94sEHEhBP2769dzPPOXQ7blQE3",
+    Uid: 'Nc94sEHEhBP2769dzPPOXQ7blQE3',
     FirstName: 'Miguel',
     LastName: 'Pereira',
     BirthDate: 8 / 9 / 1999,
@@ -154,12 +153,12 @@ const init = async () => {
   //Create Group
   const contentGroup1 = await Group.create({
     Name: 'Group A',
-    OwnerId: 5
-  })
+    OwnerId: 5,
+  });
   const contentGroup2 = await Group.create({
     Name: 'Group B',
-    OwnerId: 1
-  })
+    OwnerId: 1,
+  });
 
   // ------------------------------------ Movie Content -------------------------------------------------------//
   const contentSoul = await Content.create({
@@ -270,12 +269,12 @@ const init = async () => {
   });
 
   // Soul Movie
-  await contentUserRato.addWatchlistContent(contentSoul, { through: { Feedback: -1 } });
+  await contentUserRato.addWatchlistContent(contentSoul, {through: {Feedback: -1}});
   const contentStatusSoulUser1 = await ContentStatus.findOne({
     where: {
       ContentId: contentSoul.Id,
       UserId: contentUserRato.Id,
-    }
+    },
   });
   await statusWatching.setContentStatus(contentStatusSoulUser1);
   await contentSoul.addGenres([genreAnimation, genreAdventure, genreComedy]);
@@ -286,7 +285,6 @@ const init = async () => {
 
   // Garfield Movie
   await contentGarfield.addGenres([genreComedy]);
-
 
   // ------------------------------------ Shows Content -------------------------------------------------------//
   // ------------Stranger Things----------- //
@@ -494,14 +492,14 @@ Duration: 72
   // Add Services to Content
 
   // Add Friends
-  await contentUserRato.addFriend(contentUser5)
-  await contentUser5.addFriend(contentUserRato)
+  await contentUserRato.addFriend(contentUser5);
+  await contentUser5.addFriend(contentUserRato);
 
-  await contentUserRato.addFriend(contentUser6)
-  await contentUser6.addFriend(contentUserRato)
+  await contentUserRato.addFriend(contentUser6);
+  await contentUser6.addFriend(contentUserRato);
 
-  await contentUserRato.addFriend(contentUser7)
-  await contentUser7.addFriend(contentUserRato)
+  await contentUserRato.addFriend(contentUser7);
+  await contentUser7.addFriend(contentUserRato);
 
   // Add Groups
   await contentGroup1.addUser(contentUserRato);
@@ -516,28 +514,24 @@ Duration: 72
   const friendshipUser1 = await Friendship.findOne({
     where: {
       UserId: contentUser7.Id,
-      FriendId: contentUserRato.Id
-    }
+      FriendId: contentUserRato.Id,
+    },
   });
   const friendshipUser2 = await Friendship.findOne({
     where: {
       UserId: contentUser7.Id,
-      FriendId: contentUserRato.Id
-    }
+      FriendId: contentUserRato.Id,
+    },
   });
   const friendshipUser3 = await Friendship.findOne({
     where: {
       UserId: contentUser5.Id,
-      FriendId: contentUserRato.Id
-    }
+      FriendId: contentUserRato.Id,
+    },
   });
   await friendshipUser1.addContentRecommendation(contentSoul);
   await friendshipUser2.addContentRecommendation(contentAvengers);
   await friendshipUser3.addContentRecommendation(contentCoco);
-
-
-
-
-}
+};
 
 module.exports = init;

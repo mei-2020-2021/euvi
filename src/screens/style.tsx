@@ -38,13 +38,16 @@ const Style = StyleSheet.create({
   searchBox: {
     fontSize: 20,
     fontWeight: 'bold',
-    padding: 12,
+    padding: 8,
     marginTop: 16,
     marginBottom: 16,
     marginRight: 16,
     backgroundColor: '#f5c518',
     borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#000',
     flexDirection: 'row',
+    paddingHorizontal: 12,
   },
   icon: {
     width: 30,

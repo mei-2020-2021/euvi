@@ -25,12 +25,28 @@ function LoggedInScreen() {
         <LoadingScreen />
       ) : (
         <View style={{height: '100%'}}>
-          <BottomTab.Navigator>
+          <BottomTab.Navigator
+            tabBarOptions={{
+              activeTintColor: 'white',
+              inactiveTintColor: '#aaaaaa',
+              labelStyle: {fontWeight: 'bold'},
+              style: {
+                backgroundColor: '#15616d',
+              },
+            }}>
             <BottomTab.Screen
               name="Home"
               component={HomeScreen}
               options={{
                 tabBarLabel: 'Home',
+                tabBarIcon: ({color, size}) => <Icon name="view-dashboard" color={color} size={size} />,
+              }}
+            />
+            <BottomTab.Screen
+              name="Search"
+              component={HomeScreen}
+              options={{
+                tabBarLabel: 'Search',
                 tabBarIcon: ({color, size}) => <Icon name="movie-search" color={color} size={size} />,
               }}
             />
