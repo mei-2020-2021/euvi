@@ -12,7 +12,7 @@ function WatchlistScreen({navigation}) {
   const [toWatchContent, setToWatchContent] = React.useState([]);
 
   React.useEffect(() => {
-    fetch('http://localhost:6969/content')
+    fetch('http://192.168.1.238:6969/content')
       .then((res) => res.json())
       .then((data) => {
         setToWatchContent(data);

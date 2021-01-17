@@ -280,8 +280,6 @@ router.post('/', async function (req, res) {
     ImdbRating: 7.5,
     ContentTypeId: 1,
   });
-
-  res.status(200).send();
 });
 
 module.exports = router;
