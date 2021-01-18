@@ -64,8 +64,8 @@ const init = async () => {
   //Create user
   const contentUserRato = await User.create({
     Uid: 'nZGFSKipAjUtyDoT2cAKXe4ykMt2',
-    FirstName: 'Ricardo',
-    LastName: 'Faria',
+    FirstName: 'Demo',
+    LastName: 'User',
     BirthDate: '07/09/1999',
     Email: 'bmcdcar@hotmail.com',
   });
