@@ -194,7 +194,7 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
               fontSize: 10,
               overflow: 'hidden',
               borderRadius: 4,
-              padding: 4,
+              padding: 6,
               fontWeight: 'bold',
               marginBottom: 8,
               marginRight: 'auto',
@@ -234,28 +234,30 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
             </Text>
           ) : null}
           {screen == 'recommendations' ? (
-            <>
-              <View>
-                <Icon name="plus" color={"white"} size={10} />
-                <Text
-                  style={{
-                    backgroundColor: '#555555',
-                    color: '#fff',
-                    fontSize: 10,
-                    borderRadius: 4,
-                    padding: 6,
-                    marginRight: 4,
-                    marginBottom: 4,
-                    overflow: 'hidden',
-                    fontWeight: 'bold',
-                    marginEnd: 'auto',
-                  }}>
-                  Info
-                </Text>
-              </View>
-            </>
+            <View
+              style={{
+                flexDirection: 'row',
+                backgroundColor: '#555555',
+                alignItems: 'center',
+                padding: 6,
+                borderRadius: 4,
+                marginRight: 'auto',
+              }}>
+              <Icon name="plus" color={'white'} size={12} />
+              <Text
+                style={{
+                  color: '#fff',
+                  fontSize: 10,
+                  borderRadius: 4,
+                  marginRight: 4,
+                  overflow: 'hidden',
+                  fontWeight: 'bold',
+                  marginEnd: 'auto',
+                }}>
+                Info
+              </Text>
+            </View>
           ) : null}
-          <Button onPress={() => {}} title={'Teste'}></Button>
         </ScrollView>
       )}
 

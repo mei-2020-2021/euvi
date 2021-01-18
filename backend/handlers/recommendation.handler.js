@@ -13,7 +13,7 @@ router.get('/', async function (req, res) {
 
     const user = await User.findOne({
         where: {
-            Uid: uids
+            Uid: uid
         }
     })
     const [recommendations, metadata] = await sequelize.query(

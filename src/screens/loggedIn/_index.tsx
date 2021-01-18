@@ -7,6 +7,7 @@ import WatchlistScreen from './watchlist/_index';
 import CommunityScreen from './community/_index';
 import HomeScreen from './home';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import SearchContentScreen from './search/_index';
 
 function LoggedInScreen() {
   const [user, setUser] = React.useState(null);
@@ -44,7 +45,7 @@ function LoggedInScreen() {
             />
             <BottomTab.Screen
               name="Search"
-              component={HomeScreen}
+              component={SearchContentScreen}
               options={{
                 tabBarLabel: 'Search',
                 tabBarIcon: ({color, size}) => <Icon name="movie-search" color={color} size={size} />,

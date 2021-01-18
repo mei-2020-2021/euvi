@@ -4,7 +4,7 @@ const Content = require('../sequelize/models/content.model');
 const ContentStatus = require('../sequelize/models/contentStatus.model');
 const SeriesEpisode = require('../sequelize/models/seriesEpisode.model');
 const Service = require('../sequelize/models/service.model');
-const StatusType = require('../sequelize/models/statusType.model')
+const StatusType = require('../sequelize/models/statusType.model');
 const {_attributes} = require('../sequelize/_index');
 const router = express.Router();
 const Genre = require('../sequelize/models/genre.model');
@@ -216,226 +216,238 @@ router.get('/contentStatus', async function (req, res) {
 
 router.post('/createStatus', async function (req, res) {
   const statusId = parseInt(req.query.statusTypeId);
-  const userUID = req.query.uid
-  const contentId = req.query.contentId
+  const userUID = req.query.uid;
+  const contentId = req.query.contentId;
   var epIdList = [];
   var today = new Date();
-  var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-  var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  var dateTime = date+' '+time;
+  var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+  var time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+  var dateTime = date + ' ' + time;
   const statusType = await StatusType.findOne({
-    where:{
-      Id: statusId
-    }
+    where: {
+      Id: statusId,
+    },
   });
 
   const user = await User.findOne({
-    where:{
-      Uid: userUID
-    }
+    where: {
+      Uid: userUID,
+    },
   });
 
   await Content.findOne({
-    where:{
-      Id: contentId
-    }
+    where: {
+      Id: contentId,
+    },
   }).then(async (content) => {
-
-    if(content.ContentTypeId == 1){
-      if(statusId == 2){
-        await user.addWatchlistContent(content,{through:{StatusTypeId: statusId, WatchedAt: dateTime}})
-      }else{
-        await user.addWatchlistContent(content,{through:{StatusTypeId: statusId}});
+    if (content.ContentTypeId == 1) {
+      if (statusId == 2) {
+        await user.addWatchlistContent(content, {through: {StatusTypeId: statusId, WatchedAt: dateTime}});
+      } else {
+        await user.addWatchlistContent(content, {through: {StatusTypeId: statusId}});
       }
-      const contentStatus= await ContentStatus.update({StatusTypeId: statusId},{
+      const contentStatus = await ContentStatus.update(
+        {StatusTypeId: statusId},
+        {
+          where: {
+            ContentId: contentId,
+            UserId: user.Id,
+          },
+        },
+      );
+    } else if (content.ContentTypeId == 2) {
+      const allEpisodes = await SeriesEpisode.findAll({
         where: {
-          ContentId: contentId,
-          UserId: user.Id,
-        }
+          SeriesId: contentId,
+        },
       });
 
-    } else if(content.ContentTypeId == 2){
-      const allEpisodes = await SeriesEpisode.findAll({
-        where:{
-          SeriesId: contentId
-        }
-      })
-
-      for (var i = 0; i<allEpisodes.length;i++){
-        epIdList.push(allEpisodes[i].EpisodeId)
+      for (var i = 0; i < allEpisodes.length; i++) {
+        epIdList.push(allEpisodes[i].EpisodeId);
       }
-      console.log(epIdList.length)
-      for (var i=0; i<epIdList.length;i++){
+      console.log(epIdList.length);
+      for (var i = 0; i < epIdList.length; i++) {
         await Content.findOne({
-          where:{
-            Id: epIdList[i]
-          }
-        }).then(async function (episodes){
-          if(statusId == 2){
-            await user.addWatchlistContent(content,{through:{StatusTypeId: statusId, WatchedAt: dateTime}});
-            await user.addWatchlistContent(episodes,{through:{StatusTypeId: statusId, WatchedAt: dateTime}});
-          }else{
-            await user.addWatchlistContent(content,{through:{StatusTypeId: statusId}});
-            await user.addWatchlistContent(episodes,{through:{StatusTypeId: statusId}});
-          }
-        })
-        const contentStatus= await ContentStatus.update({StatusTypeId: statusId},{
           where: {
-            ContentId: epIdList[i],
-            UserId: user.Id,
+            Id: epIdList[i],
+          },
+        }).then(async function (episodes) {
+          if (statusId == 2) {
+            await user.addWatchlistContent(content, {through: {StatusTypeId: statusId, WatchedAt: dateTime}});
+            await user.addWatchlistContent(episodes, {through: {StatusTypeId: statusId, WatchedAt: dateTime}});
+          } else {
+            await user.addWatchlistContent(content, {through: {StatusTypeId: statusId}});
+            await user.addWatchlistContent(episodes, {through: {StatusTypeId: statusId}});
           }
         });
-        
+        const contentStatus = await ContentStatus.update(
+          {StatusTypeId: statusId},
+          {
+            where: {
+              ContentId: epIdList[i],
+              UserId: user.Id,
+            },
+          },
+        );
       }
     }
-    
-  })
-  return res.status(200).json(contentId)
+  });
+  return res.status(200).json(contentId);
 });
-
 
 router.get('/feedback', async function (req, res) {
   const userUid = req.query.uid;
-  const contentId = req.query.contentId
+  const contentId = req.query.contentId;
 
   const user = await User.findOne({
-    where:{
-      Uid: userUid
-    }
+    where: {
+      Uid: userUid,
+    },
   });
-  const contentFeedback= await ContentStatus.findOne({
+  const contentFeedback = await ContentStatus.findOne({
     where: {
       ContentId: contentId,
       UserId: user.Id,
     },
-    attributes: ['Feedback']
+    attributes: ['Feedback'],
   });
-  if(contentFeedback) {
-    return res.status(200).json(contentFeedback.Feedback)
-  }  else {
-    return res.status(200).json(null)
+  if (contentFeedback) {
+    return res.status(200).json(contentFeedback.Feedback);
+  } else {
+    return res.status(200).json(null);
   }
 });
 
 router.post('/feedback', async function (req, res) {
   const userUid = req.query.uid;
-  const contentId = req.query.contentId
-  const feedback = req.query.feedback
+  const contentId = req.query.contentId;
+  const feedback = req.query.feedback;
 
   const user = await User.findOne({
-    where:{
-      Uid: userUid
-    }
-  });
-  const contentFeedback= await ContentStatus.update({ Feedback: feedback }, {
     where: {
-      ContentId: contentId,
-      UserId: user.Id,
-    }
+      Uid: userUid,
+    },
   });
-  return res.status(200).json(contentFeedback)
+  const contentFeedback = await ContentStatus.update(
+    {Feedback: feedback},
+    {
+      where: {
+        ContentId: contentId,
+        UserId: user.Id,
+      },
+    },
+  );
+  return res.status(200).json(contentFeedback);
 });
 
-
 router.post('/updateStatusType', async function (req, res) {
-  const userUid = req.query.uid
-  const contentId = req.query.contentId
-  const contentStatusTypeId = req.query.StatusTypeId
+  const userUid = req.query.uid;
+  const contentId = req.query.contentId;
+  const contentStatusTypeId = req.query.StatusTypeId;
   var today = new Date();
-  var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-  var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  var dateTime = date+' '+time;
+  var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+  var time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+  var dateTime = date + ' ' + time;
 
   const user = await User.findOne({
-    where:{
-      Uid: userUid
-    }
+    where: {
+      Uid: userUid,
+    },
   });
 
   const content = await Content.findOne({
-    where:{
-      Id: contentId
-    }
+    where: {
+      Id: contentId,
+    },
   });
-  
 
-  if(contentStatusTypeId == 2){
-    const contentStatus= await ContentStatus.update({WatchedAt: dateTime},{
-      where: {
-        ContentId: contentId,
-        UserId: user.Id,
-      }
-    });
-    const contentStatus1= await ContentStatus.update({StatusTypeId: contentStatusTypeId},{
-      where: {
-        ContentId: contentId,
-        UserId: user.Id,
-      }
-    });
-    return res.status(200).json(contentStatus)
-
+  if (contentStatusTypeId == 2) {
+    const contentStatus = await ContentStatus.update(
+      {WatchedAt: dateTime},
+      {
+        where: {
+          ContentId: contentId,
+          UserId: user.Id,
+        },
+      },
+    );
+    const contentStatus1 = await ContentStatus.update(
+      {StatusTypeId: contentStatusTypeId},
+      {
+        where: {
+          ContentId: contentId,
+          UserId: user.Id,
+        },
+      },
+    );
+    return res.status(200).json(contentStatus);
   } else {
-    const contentStatus= await ContentStatus.update({StatusTypeId: contentStatusTypeId},{
-      where: {
-        ContentId: contentId,
-        UserId: user.Id,
-      }
-    });
-    return res.status(200).json(contentStatus)
+    const contentStatus = await ContentStatus.update(
+      {StatusTypeId: contentStatusTypeId},
+      {
+        where: {
+          ContentId: contentId,
+          UserId: user.Id,
+        },
+      },
+    );
+    return res.status(200).json(contentStatus);
   }
 });
 
-
 router.get('/watchedAt', async function (req, res) {
   const userUid = req.query.uid;
-  const contentId = req.query.contentId
+  const contentId = req.query.contentId;
 
   const user = await User.findOne({
-    where:{
-      Uid: userUid
-    }
+    where: {
+      Uid: userUid,
+    },
   });
 
   const content = await Content.findOne({
-    where:{
-      Id: contentId
-    }
+    where: {
+      Id: contentId,
+    },
   });
 
-  const contentWatchedAt= await ContentStatus.findOne({
+  const contentWatchedAt = await ContentStatus.findOne({
     where: {
       ContentId: contentId,
       UserId: user.Id,
     },
   });
-  return res.status(200).json(contentWatchedAt.WatchedAt)
+  return res.status(200).json(contentWatchedAt.WatchedAt);
 });
 
 router.get('/getStatusType', async function (req, res) {
   const userUid = req.query.uid;
-  const contentId = req.query.contentId
+  const contentId = req.query.contentId;
 
   const user = await User.findOne({
-    where:{
-      Uid: userUid
-    }
+    where: {
+      Uid: userUid,
+    },
   });
 
   const content = await Content.findOne({
-    where:{
-      Id: contentId
-    }
+    where: {
+      Id: contentId,
+    },
   });
 
-  const contentWatchedAt= await ContentStatus.findOne({
+  const contentWatchedAt = await ContentStatus.findOne({
     where: {
       ContentId: contentId,
       UserId: user.Id,
     },
   });
-  return res.status(200).json(contentWatchedAt.StatusTypeId)
-});
 
+  if (contentWatchedAt) {
+    return res.status(200).json(contentWatchedAt.StatusTypeId);
+  }
+  return res.status(200).json(null);
+});
 
 router.get('/trendingNow', async function (req, res) {
   const uid = req.query.uid;
@@ -490,114 +502,114 @@ router.get('/topSeries', async function (req, res) {
 
 router.get('/getSeriesInfo', async function (req, res) {
   const serieId = req.query.serieId;
-  var list = []
-  var allInfo = []
+  var list = [];
+  var allInfo = [];
   const duration = await Content.findOne({
-    where:{
-      Id: serieId
+    where: {
+      Id: serieId,
     },
-    attributes: ['Duration']
-  })
+    attributes: ['Duration'],
+  });
 
   const allContent = await SeriesEpisode.findAll({
     where: {
-      SeriesId: serieId
+      SeriesId: serieId,
     },
-    attributes: ['SeasonNumber', 'EpisodeNumber']
+    attributes: ['SeasonNumber', 'EpisodeNumber'],
   });
-  list.push(duration)
-  list.push(allContent)
-  var seasons ={Seasons: list[1][list[1].length-1].SeasonNumber}
-  allInfo.push(list[0])
-  allInfo.push(seasons)
+  list.push(duration);
+  list.push(allContent);
+  var seasons = {Seasons: list[1][list[1].length - 1].SeasonNumber};
+  allInfo.push(list[0]);
+  allInfo.push(seasons);
   return res.status(200).json(allInfo);
 });
 
-router.get('/progress', async function (req, res){
-  const userUid = req.query.uid;
-  const contentId = req.query.contentId
-  var list = []
-  var count = 0
-  var percentage = 0
-  const allEps = await SeriesEpisode.findAll({
-    where: {
-      SeriesId: contentId
-    }
-  })
-  const user = await User.findOne({
-    where:{
-      Uid: userUid
-    }
-  });
-  
-  for (var i = 0; i<allEps.length;i++){
-    list.push(allEps[i].EpisodeId)
-  }
-  
-  for (var i = 0; i<list.length;i++){
-    console.log(list[i])
-    console.log(user.Id)
-    await ContentStatus.findOne({
-      where: {
-        ContentId: list[i],
-        UserId: user.Id
-      }
-    }).then((allEpsStatus)=>{
-      if(allEpsStatus.StatusTypeId == 2){
-        count++;
-      }
-    })
-  }
-  percentage = (count*100)/list.length
-
-  console.log(list)
-  return res.status(200).json(percentage);
-})
-
-router.get('/currentSeasonEpisodes', async function (req, res){
+router.get('/progress', async function (req, res) {
   const userUid = req.query.uid;
   const contentId = req.query.contentId;
-  var list = []
-  var greatestEp = 0
-  var final = {}
-
+  var list = [];
+  var count = 0;
+  var percentage = 0;
   const allEps = await SeriesEpisode.findAll({
     where: {
-      SeriesId: contentId
-    }
-  })
-  const user = await User.findOne({
-    where:{
-      Uid: userUid
-    }
+      SeriesId: contentId,
+    },
   });
-  
-  for (var i = 0; i<allEps.length;i++){
-    list.push(allEps[i].EpisodeId)
+  const user = await User.findOne({
+    where: {
+      Uid: userUid,
+    },
+  });
+
+  for (var i = 0; i < allEps.length; i++) {
+    list.push(allEps[i].EpisodeId);
   }
 
-  for (var i = 0; i<list.length;i++){
+  for (var i = 0; i < list.length; i++) {
+    console.log(list[i]);
+    console.log(user.Id);
     await ContentStatus.findOne({
       where: {
         ContentId: list[i],
-        UserId: user.Id
+        UserId: user.Id,
+      },
+    }).then((allEpsStatus) => {
+      if (allEpsStatus.StatusTypeId == 2) {
+        count++;
       }
-    }).then((allEpsStatus)=>{
-      if(allEpsStatus.StatusTypeId == 2 && allEpsStatus.ContentId > greatestEp){
+    });
+  }
+  percentage = (count * 100) / list.length;
+
+  console.log(list);
+  return res.status(200).json(percentage);
+});
+
+router.get('/currentSeasonEpisodes', async function (req, res) {
+  const userUid = req.query.uid;
+  const contentId = req.query.contentId;
+  var list = [];
+  var greatestEp = 0;
+  var final = {};
+
+  const allEps = await SeriesEpisode.findAll({
+    where: {
+      SeriesId: contentId,
+    },
+  });
+  const user = await User.findOne({
+    where: {
+      Uid: userUid,
+    },
+  });
+
+  for (var i = 0; i < allEps.length; i++) {
+    list.push(allEps[i].EpisodeId);
+  }
+
+  for (var i = 0; i < list.length; i++) {
+    await ContentStatus.findOne({
+      where: {
+        ContentId: list[i],
+        UserId: user.Id,
+      },
+    }).then((allEpsStatus) => {
+      if (allEpsStatus.StatusTypeId == 2 && allEpsStatus.ContentId > greatestEp) {
         greatestEp = allEpsStatus.ContentId;
       }
-    })
+    });
   }
   await SeriesEpisode.findAll({
     where: {
-      EpisodeId: greatestEp
+      EpisodeId: greatestEp,
     },
-    attributes: ['SeasonNumber']
-  }).then((allEpsSeason)=>{
-    final = {Episode: greatestEp, Season: allEpsSeason[0].SeasonNumber}
-  })
-  
-  return res.status(200).json(final)
-})
+    attributes: ['SeasonNumber'],
+  }).then((allEpsSeason) => {
+    final = {Episode: greatestEp, Season: allEpsSeason[0].SeasonNumber};
+  });
+
+  return res.status(200).json(final);
+});
 
 module.exports = router;
