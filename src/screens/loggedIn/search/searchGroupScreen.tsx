@@ -44,7 +44,8 @@ function SearchGroupScreen({ navigation }) {
                     <View style={{ padding: 8, backgroundColor: 'white', height: '100%' }}>
                         {groupList.map((el) => {
                             return (
-                                <View
+                                <TouchableOpacity
+                                onPress={() => {navigation.navigate('contentSearch')}}
                                     style={{
                                         borderTopWidth: 1,
                                         borderColor: 'black',
@@ -64,7 +65,7 @@ function SearchGroupScreen({ navigation }) {
                                         }}>
                                         {el.Name}
                                     </Text>
-                                </View>
+                                </TouchableOpacity>
                             );
                         })}
                     </View>

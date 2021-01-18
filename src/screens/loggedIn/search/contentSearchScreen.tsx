@@ -12,6 +12,7 @@ function ContentSearchScreen({ navigation }) {
     const [user, setUser] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const [contentType, setContentType] = React.useState(1);
+    const [genreList, setGenreList] = React.useState([])
 
     function loadData() {
         fetch(IP + 'users?uid=' + auth().currentUser.uid)
@@ -50,6 +51,7 @@ function ContentSearchScreen({ navigation }) {
                         </View>
                         <TextInput placeholder='Search...'></TextInput>
                         <Button title={'Movie'} onPress={() => setContentType(1)}></Button>
+                        <Button title={'Show'} onPress={() => setContentType(2)}></Button>
                     </View>
                 )}
         </>
