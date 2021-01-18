@@ -212,6 +212,7 @@ const init = async () => {
       'https://i0.wp.com/roteirobaby.com.br/portal/wp-content/uploads/2020/05/Filme-Soul-2.jpg?resize=490%2C700&ssl=1',
     TrailerUrl: 'https://youtu.be/xOsLIiBStEs',
     ImdbRating: 8.1,
+    Duration: 100,
     ContentTypeId: 1,
   });
   const contentCoco = await Content.create({
@@ -223,6 +224,7 @@ const init = async () => {
       'https://m.media-amazon.com/images/M/MV5BYjQ5NjM0Y2YtNjZkNC00ZDhkLWJjMWItN2QyNzFkMDE3ZjAxXkEyXkFqcGdeQXVyODIxMzk5NjA@._V1_.jpg',
     TrailerUrl: 'https://youtu.be/Ga6RYejo6Hk',
     ImdbRating: 8.4,
+    Duration: 105,
     ContentTypeId: 1,
   });
   const contentLOTR = await Content.create({
@@ -234,6 +236,7 @@ const init = async () => {
       'https://m.media-amazon.com/images/M/MV5BN2EyZjM3NzUtNWUzMi00MTgxLWI0NTctMzY4M2VlOTdjZWRiXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_FMjpg_UY215_.jpg',
     TrailerUrl: 'https://youtu.be/V75dMMIW2B4',
     ImdbRating: 8.8,
+    Duration: 178,
     ContentTypeId: 1,
   });
   const contentGarfield = await Content.create({
@@ -244,6 +247,7 @@ const init = async () => {
     ImageUrl: 'https://m.media-amazon.com/images/M/MV5BMTIzMTc1OTUxOV5BMl5BanBnXkFtZTYwNTMxODc3._V1_.jpg',
     TrailerUrl: 'https://youtu.be/GV5y4yTDtBI',
     ImdbRating: 5.0,
+    Duration: 80,
     ContentTypeId: 1,
   });
   const contentCats = await Content.create({
@@ -255,6 +259,7 @@ const init = async () => {
       'https://m.media-amazon.com/images/M/MV5BNjRlNTY3MTAtOTViMS00ZjE5LTkwZGItMGYwNGQwMjg2NTEwXkEyXkFqcGdeQXVyNjg2NjQwMDQ@._V1_.jpg',
     TrailerUrl: 'https://youtu.be/gq50F-IDXDc',
     ImdbRating: 2.8,
+    Duration: 110,
     ContentTypeId: 1,
   });
   const contentNotebook = await Content.create({
@@ -265,6 +270,7 @@ const init = async () => {
     ImageUrl: 'https://m.media-amazon.com/images/M/MV5BMTk3OTM5Njg5M15BMl5BanBnXkFtZTYwMzA0ODI3._V1_.jpg',
     TrailerUrl: 'https://youtu.be/yDJIcYE32NU',
     ImdbRating: 7.8,
+    Duration: 150,
     ContentTypeId: 1,
   });
   const contentAvengers = await Content.create({
@@ -276,6 +282,7 @@ const init = async () => {
       'https://m.media-amazon.com/images/M/MV5BNDYxNjQyMjAtNTdiOS00NGYwLWFmNTAtNThmYjU5ZGI2YTI1XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg',
     TrailerUrl: 'https://youtu.be/udKE1ksKWDE',
     ImdbRating: 8.0,
+    Duration: 143,
     ContentTypeId: 1,
   });
   const contentHangover = await Content.create({
@@ -287,6 +294,7 @@ const init = async () => {
       'https://m.media-amazon.com/images/M/MV5BNGQwZjg5YmYtY2VkNC00NzliLTljYTctNzI5NmU3MjE2ODQzXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg',
     TrailerUrl: 'https://youtu.be/tcdUhdOlz9M',
     ImdbRating: 8.0,
+    Duration: 100,
     ContentTypeId: 1,
   });
   const contentTCOTW = await Content.create({
@@ -297,6 +305,7 @@ const init = async () => {
       'https://m.media-amazon.com/images/M/MV5BZDA1ZmQ2OGMtZDhkMC00ZjRkLWE3ZTMtMzA5ZTk0YjM1OGRmXkEyXkFqcGdeQXVyNzI1NzMxNzM@._V1_.jpg',
     TrailerUrl: 'https://youtu.be/5P8R2zAhEwg',
     ImdbRating: 6.8,
+    Duration: 100,
     ContentTypeId: 1,
   });
   const contentConjuring = await Content.create({
@@ -307,6 +316,7 @@ const init = async () => {
     ImageUrl: 'https://m.media-amazon.com/images/M/MV5BMTM3NjA1NDMyMV5BMl5BanBnXkFtZTcwMDQzNDMzOQ@@._V1_.jpg',
     TrailerUrl: 'https://youtu.be/k10ETZ41q5o',
     ImdbRating: 7.5,
+    Duration: 112,
     ContentTypeId: 1,
   });
 
@@ -524,7 +534,7 @@ const init = async () => {
     ReleaseYear: '2020',
     Sinopse:
       'An American astronaut struggles with leaving her husband and daughter behind to embark on a dangerous mission with an international space crew.',
-    ImageUrl: 'https://upload.wikimedia.org/wikipedia/pt/9/92/PosterChernobyl.jpg',
+    ImageUrl: 'https://m.media-amazon.com/images/M/MV5BZDg0NDAxOTctZjdmNy00ODVjLTgyMDItZjFmMjdjYTk3ZTYxXkEyXkFqcGdeQXVyNjEwNTM2Mzc@._V1_.jpg',
     TrailerUrl: 'https://youtu.be/3f_REapPwio',
     ImdbRating: 6.6,
     Duration: 498,
