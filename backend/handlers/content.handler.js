@@ -245,6 +245,7 @@ router.post('/createStatus', async function (req, res) {
       UserId: user.Id,
     }
   });
+  return res.status(200).json(contentStatus)
 });
 
 
@@ -264,7 +265,7 @@ router.get('/feedback', async function (req, res) {
     },
     attributes: ['Feedback']
   });
-  res.status(200).json(contentFeedback.Feedback)
+  return res.status(200).json(contentFeedback.Feedback)
 });
 
 router.post('/feedback', async function (req, res) {
@@ -283,7 +284,7 @@ router.post('/feedback', async function (req, res) {
       UserId: user.Id,
     }
   });
-  res.status(200).json(contentFeedback)
+  return res.status(200).json(contentFeedback)
 });
 
 
@@ -322,7 +323,7 @@ router.post('/updateStatusType', async function (req, res) {
         UserId: user.Id,
       }
     });
-    res.status(200).json(contentStatus)
+    return res.status(200).json(contentStatus)
 
   } else {
     const contentStatus= await ContentStatus.update({StatusTypeId: contentStatusTypeId},{
@@ -331,7 +332,7 @@ router.post('/updateStatusType', async function (req, res) {
         UserId: user.Id,
       }
     });
-    res.status(200).json(contentStatus)
+    return res.status(200).json(contentStatus)
   }
 });
 
@@ -358,7 +359,7 @@ router.get('/updateStatusType', async function (req, res) {
       UserId: user.Id,
     },
   });
-  res.status(200).json(contentWatchedAt.WatchedAt)
+  return res.status(200).json(contentWatchedAt.WatchedAt)
 });
 
 
@@ -437,5 +438,86 @@ router.get('/getSeriesInfo', async function (req, res) {
   allInfo.push(seasons)
   return res.status(200).json(allInfo);
 });
+
+router.get('/progress', async function (req, res){
+  const userUid = req.query.uid;
+  const contentId = req.query.contentId
+  var list = []
+  var count = 0
+  var percentage = 0
+  const allEps = await SeriesEpisode.findAll({
+    where: {
+      SeriesId: contentId
+    }
+  })
+  const user = await User.findOne({
+    where:{
+      Uid: userUid
+    }
+  });
+  
+  for (var i = 0; i<allEps.length;i++){
+    list.push(allEps[i].EpisodeId)
+  }
+  
+  for (var i = 0; i<list.length;i++){
+    console.log(list[i])
+    console.log(user.Id)
+    await ContentStatus.findOne({
+      where: {
+        ContentId: list[i],
+        UserId: user.Id
+      }
+    }).then((allEpsStatus)=>{
+      if(allEpsStatus.StatusTypeId == 2){
+        count++;
+      }
+    })
+  }
+  percentage = (count*100)/list.length
+
+  console.log(list)
+  return res.status(200).json(percentage);
+})
+
+router.get('/currentSeasonEpisodes', async function (req, res){
+  const userUid = req.query.uid;
+  const contentId = req.query.contentId;
+  var list = []
+  var greatestEp = 0
+  var season = 0
+
+  const allEps = await SeriesEpisode.findAll({
+    where: {
+      SeriesId: contentId
+    }
+  })
+  const user = await User.findOne({
+    where:{
+      Uid: userUid
+    }
+  });
+  
+  for (var i = 0; i<allEps.length;i++){
+    list.push(allEps[i].EpisodeId)
+  }
+
+  for (var i = 0; i<list.length;i++){
+    console.log(list[i])
+    console.log(user.Id)
+    await ContentStatus.findOne({
+      where: {
+        ContentId: list[i],
+        UserId: user.Id
+      }
+    }).then((allEpsStatus)=>{
+      if(allEpsStatus.StatusTypeId == 2 && allEpsStatus.ContentId > greatestEp){
+        greatestEp = allEpsStatus.ContentId;
+      }
+    })
+  }
+  
+  return res.status(200).json(greatestEp)
+})
 
 module.exports = router;
