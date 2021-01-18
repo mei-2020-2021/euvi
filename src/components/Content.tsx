@@ -4,6 +4,7 @@ import WatchedScreen from '../screens/loggedIn/watchlist/past';
 import WatchingScreen from '../screens/loggedIn/watchlist/present';
 import ToWatchScreen from '../screens/loggedIn/watchlist/future';
 import {Dimensions} from 'react-native';
+import {IP} from './../conf'
 
 import auth from '@react-native-firebase/auth';
 
@@ -74,7 +75,7 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
     //   setUserId(res.data.id);
     // });
 
-    fetch('http://localhost:6969/content?id=' + contentId)
+    fetch(IP + 'content?id=' + contentId)
       .then((res) => res.json())
       .then((data) => {
         setTitle(data.Title);

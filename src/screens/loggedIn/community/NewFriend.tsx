@@ -4,7 +4,7 @@ import LoadingScreen from '../../loading';
 import { View, Text, StyleSheet, Button, Alert } from 'react-native';
 import Style from '../../style'
 import { Autocomplete } from "react-native-dropdown-autocomplete";
-
+import {IP} from './../../../conf'
 
 function NewFriendScreen( {navigation} ) {
     const [user, setUser] = React.useState(null);
@@ -14,7 +14,7 @@ function NewFriendScreen( {navigation} ) {
 
     React.useEffect(() => {
         setUser(auth().currentUser);
-        fetch('http://localhost:6969/users/friends?uid='+auth().currentUser.uid)
+        fetch(IP + 'users/friends?uid='+auth().currentUser.uid)
         .then((res) => res.json())
         .then((data) => {
             setUserList(data)
@@ -24,7 +24,7 @@ function NewFriendScreen( {navigation} ) {
 
 
     async function handleSelectItem(item) {
-        await fetch('http://localhost:6969/friendship/friendship?uid='+ user.uid + '&frienduid=' + item.Uid,{
+        await fetch(IP + 'friendship/friendship?uid='+ user.uid + '&frienduid=' + item.Uid,{
             method: 'POST'
           }).then(navigation.goBack())
     }

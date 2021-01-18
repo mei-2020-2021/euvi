@@ -5,6 +5,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Style from './../../style';
 import { ScrollView } from 'react-native-gesture-handler';
 import Content from '../../../components/Content';
+import {IP} from './../../../conf'
 
 function RecommendationsScreen({ navigation, route }) {
     const [user, setUser] = React.useState(null);
@@ -12,7 +13,7 @@ function RecommendationsScreen({ navigation, route }) {
     const [recommendations, setRecommendations] = React.useState([]);
 
     function loadData() {
-        fetch('http://192.168.1.238:6969/users?uid=' + auth().currentUser.uid)
+        fetch(IP + 'users?uid=' + auth().currentUser.uid)
             .then((res) => res.json())
             .then((data) => {
                 const scopeUser = data;

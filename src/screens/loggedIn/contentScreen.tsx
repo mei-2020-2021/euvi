@@ -7,9 +7,11 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 import LoadingScreen from '../loading';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Style from '../style';
+import {IP} from './../../conf'
 
 function ContentScreen({ route, navigation }) {
   const { contentId } = route.params;
+  const [reload, setReload] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
   const [userId, setUserId] = React.useState(null);
   const [title, setTitle] = React.useState(null);
@@ -24,6 +26,7 @@ function ContentScreen({ route, navigation }) {
   const [typeId, setTTypeId] = useState(null);
   const [episodes, setEpisodes] = React.useState([]);
   const [status, setStatus] = React.useState(null);
+  const [feedback, setFeedback] = React.useState(null);
   const onStateChange = useCallback((state) => {
     if (state === 'ended') {
       setPlaying(false);
@@ -92,7 +95,7 @@ function ContentScreen({ route, navigation }) {
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      fetch('http://192.168.1.238:6969/content?id=' + contentId)
+      fetch(IP + 'content?id=' + contentId)
         .then((res) => res.json())
         .then((data) => {
           setTitle(data.Title);
@@ -128,15 +131,18 @@ function ContentScreen({ route, navigation }) {
             })
             setEpisodes(episodesData)
           }
-          fetch('http://192.168.1.238:6969/content/getStatusType?contentId=' + contentId + '&uid=' + auth().currentUser.uid)
+          fetch(IP + 'content/getStatusType?contentId=' + contentId + '&uid=' + auth().currentUser.uid)
             .then((res) => res.json())
             .then((data) => {
               setStatus(data)
+              fetch(IP + 'content/feedback?contentId=' + contentId + '&uid=' + auth().currentUser.uid)
+                .then((res) => res.json())
+                .then((data) => {setFeedback(data)})
             })
         });
     })
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation, reload]);
 
 
   function _head(item) {
@@ -161,11 +167,20 @@ function ContentScreen({ route, navigation }) {
     );
   }
 
+  async function giveFeedbackToContent(feedback) {
+    await fetch(IP + 'content/feedback?feedback=' + feedback + '&uid=' + auth().currentUser.uid + '&contentId=' + contentId ,{
+      method: 'POST'
+    }).then(() => {
+      setReload(!reload);
+    }); 
+  }
+
   async function associateContentWithUser(statusTypeId) {
-    console.log('http://192.168.1.238:6969/content/createStatus?statusTypeId=' + statusTypeId + '&uid=' + auth().currentUser.uid + '&contentId=' + contentId)
-    // await fetch('http://192.168.1.238:6969/content/createStatus?statusId=' + statusTypeId + '&userUID=' + auth().currentUser.uid + '&contentId=' + contentId,{
-    //   method: 'POST'
-    // })
+    await fetch(IP + 'content/createStatus?statusTypeId=' + statusTypeId + '&uid=' + auth().currentUser.uid + '&contentId=' + contentId ,{
+      method: 'POST'
+    }).then(() => {
+      setReload(!reload);
+    });
   }
   return (
     <>
@@ -301,8 +316,8 @@ function ContentScreen({ route, navigation }) {
               </View>
               {status==2 ? (
               <View>
-                <Button onPress={() => { }} title={'Like'}></Button>
-                <Button onPress={() => { }} title={'Dislike'}></Button>
+                <Button onPress={() => {giveFeedbackToContent(1) }} title={'Like'}></Button>
+                <Button onPress={() => {giveFeedbackToContent(-1)}} title={'Dislike'}></Button>
               </View>) : 
               (
               <>
@@ -311,6 +326,7 @@ function ContentScreen({ route, navigation }) {
               <View>
                 <Button onPress={() => {associateContentWithUser(2) }} title={'Seen'}></Button>
                 <Button onPress={() => {associateContentWithUser(3) }} title={'Add to Watchlist'}></Button>
+                {/* Se for uma serie */}
                 {typeId === 1 ? null : (
                   <Button onPress={() => {associateContentWithUser(1) }} title={'Start Watching'}></Button>
                 )}

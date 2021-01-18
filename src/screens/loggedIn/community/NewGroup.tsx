@@ -5,6 +5,7 @@ import { View, Text, StyleSheet, Button, Alert } from 'react-native';
 import Style from '../../style'
 import { Autocomplete } from "react-native-dropdown-autocomplete";
 import { TextInput } from 'react-native-gesture-handler';
+import {IP} from './../../../conf'
 
 function NewGroupScreen({ route, navigation }) {
     const [user, setUser] = React.useState(null);
@@ -29,7 +30,7 @@ function NewGroupScreen({ route, navigation }) {
     async function createGroup() {
         var users = groupFriendList.map(el => {return el.uid+''})
         
-        await fetch('http://localhost:6969/group/createGroup?ownerId='+ user.uid + '&name=' + groupName + '&users='+ users.toString(),{
+        await fetch(IP + 'group/createGroup?ownerId='+ user.uid + '&name=' + groupName + '&users='+ users.toString(),{
             method: 'POST'
           }).then(navigation.goBack())
     }

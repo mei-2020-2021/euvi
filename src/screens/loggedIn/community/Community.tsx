@@ -5,6 +5,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import Style from './../../style';
 import {AccordionList} from 'accordion-collapse-react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {IP} from './../../../conf'
 
 function CommunityHomeScreen({navigation}) {
   const [user, setUser] = React.useState(null);
@@ -15,12 +16,12 @@ function CommunityHomeScreen({navigation}) {
   const [recommendationList, setRecommendationList] = React.useState([]);
 
   function loadData() {
-    fetch('http://localhost:6969/users?uid=' + auth().currentUser.uid)
+    fetch(IP + 'users?uid=' + auth().currentUser.uid)
       .then((res) => res.json())
       .then((data) => {
         const scopeUser = data;
         setUser(scopeUser);
-        fetch('http://localhost:6969/group?uid=' + scopeUser.Uid)
+        fetch(IP + 'group?uid=' + scopeUser.Uid)
           .then((res) => res.json())
           .then((data) => {
             const scopeGroupsList = [];
@@ -29,7 +30,7 @@ function CommunityHomeScreen({navigation}) {
               scopeGroupsList.push(info);
             });
             setGroupList(scopeGroupsList);
-            fetch('http://localhost:6969/friendship?userId=' + scopeUser.Id)
+            fetch(IP + 'friendship?userId=' + scopeUser.Id)
               .then((res) => res.json())
               .then((data) => {
                 const scopeFriendsList = [];
@@ -38,7 +39,7 @@ function CommunityHomeScreen({navigation}) {
                   scopeFriendsList.push(info);
                 });
                 setFriendList(scopeFriendsList);
-                fetch('http://localhost:6969/recommendation?uid=' + scopeUser.Uid)
+                fetch(IP + 'recommendation?uid=' + scopeUser.Uid)
                   .then((res) => res.json())
                   .then((data) => {
                     setRecommendationList(data);
