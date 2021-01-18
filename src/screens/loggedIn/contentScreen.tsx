@@ -1,12 +1,13 @@
-import React, {useState, useCallback, useRef} from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import auth from '@react-native-firebase/auth';
-import {Dimensions, Image, Button, Text, View, ScrollView} from 'react-native';
+import { Dimensions, Image, Button, Text, View, ScrollView } from 'react-native';
 import fetch from 'node-fetch';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import LoadingScreen from '../loading';
+import { AccordionList } from 'accordion-collapse-react-native';
 
-function ContentScreen({route, navigation}) {
-  const {contentId} = route.params;
+function ContentScreen({ route, navigation }) {
+  const { contentId } = route.params;
   const [loading, setLoading] = React.useState(true);
   const [userId, setUserId] = React.useState(null);
   const [title, setTitle] = React.useState(null);
@@ -18,6 +19,8 @@ function ContentScreen({route, navigation}) {
   const [services, setServices] = React.useState([]);
   const [genres, setGenres] = React.useState([]);
   const [playing, setPlaying] = useState(false);
+  const [typeId, setTTypeId] = useState(null);
+  const [episodes, setEpisodes] = React.useState([]);
 
   const onStateChange = useCallback((state) => {
     if (state === 'ended') {
@@ -73,7 +76,7 @@ function ContentScreen({route, navigation}) {
   };
 
   React.useEffect(() => {
-    fetch('http://localhost:6969/content?id=' + contentId)
+    fetch('http://192.168.1.238:6969/content?id=' + contentId)
       .then((res) => res.json())
       .then((data) => {
         setTitle(data.Title);
@@ -85,6 +88,9 @@ function ContentScreen({route, navigation}) {
         setServices(data.Services);
         setGenres(data.Genres);
         setLoading(false);
+        setTTypeId(data.ContentTypeId);
+        setEpisodes(data.Episode)
+        
       });
   }, []);
 
@@ -93,120 +99,128 @@ function ContentScreen({route, navigation}) {
       {loading ? (
         <LoadingScreen />
       ) : (
-        <>
-          <View>
-            <YoutubePlayer
-              height={Dimensions.get('window').width / (16 / 9)}
-              play={playing}
-              videoId={trailerUrl.replace('https://youtu.be/', '')}
-              onChangeState={onStateChange}
-            />
-          </View>
-          <View style={{flexDirection: 'row', padding: 8}}>
-            <Image
-              key={contentId}
-              style={{height: 150, width: (2 / 3) * 150}}
-              resizeMode="cover"
-              source={{uri: imageUrl, cache: 'force-cache'}}
-            />
+          <>
+            <View>
+              <YoutubePlayer
+                height={Dimensions.get('window').width / (16 / 9)}
+                play={playing}
+                videoId={trailerUrl.replace('https://youtu.be/', '')}
+                onChangeState={onStateChange}
+              />
+            </View>
+            <View style={{ flexDirection: 'row', padding: 8 }}>
+              <Image
+                key={contentId}
+                style={{ height: 150, width: (2 / 3) * 150 }}
+                resizeMode="cover"
+                source={{ uri: imageUrl, cache: 'force-cache' }}
+              />
 
-            <ScrollView style={{paddingHorizontal: 16, height: 150}}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  marginBottom: 4,
-                  flexWrap: 'wrap',
-                  width: Dimensions.get('window').width - 400 / 3 - 48,
-                  alignItems: 'baseline',
-                }}>
-                <Text
+              <ScrollView style={{ paddingHorizontal: 16, height: 150 }}>
+                <View
                   style={{
-                    fontSize: 18,
-                    fontWeight: 'bold',
-                    marginRight: 4,
+                    flexDirection: 'row',
                     marginBottom: 4,
+                    flexWrap: 'wrap',
+                    width: Dimensions.get('window').width - 400 / 3 - 48,
+                    alignItems: 'baseline',
                   }}>
-                  {title}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 12,
-                    color: '#555555',
-                    fontWeight: 'bold',
-                    marginRight: 8,
-                    marginBottom: 4,
-                  }}>
-                  {releaseYear}
-                </Text>
-                <Text
-                  style={{
-                    color: '#000',
-                    backgroundColor: '#f5c518',
-                    fontSize: 10,
-                    overflow: 'hidden',
-                    borderRadius: 4,
-                    padding: 4,
-                    fontWeight: 'bold',
-                    marginBottom: 4,
-                  }}>
-                  IMDb: {imdbRating}
-                </Text>
-              </View>
-              <View style={{flexDirection: 'row', marginBottom: 8}}>
-                {services.map((service) => (
-                  <Image
-                    source={{uri: service.IconUrl}}
-                    style={{
-                      width: 40,
-                      height: 40,
-                      borderRadius: 4,
-                      borderColor: '#000',
-                      borderWidth: 1,
-                      marginRight: 4,
-                    }}
-                  />
-                ))}
-              </View>
-              <View style={{flexDirection: 'row', flexWrap: 'wrap', marginBottom: 4}}>
-                {genres.map((genre) => (
                   <Text
                     style={{
-                      backgroundColor: genreColorMap[genre.Id].background,
-                      color: genreColorMap[genre.Id].text,
-                      fontSize: 10,
-                      borderRadius: 4,
-                      padding: 6,
+                      fontSize: 18,
+                      fontWeight: 'bold',
                       marginRight: 4,
                       marginBottom: 4,
-                      overflow: 'hidden',
-                      fontWeight: 'bold',
                     }}>
-                    {genre.Value}
+                    {title}
                   </Text>
-                ))}
-              </View>
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      color: '#555555',
+                      fontWeight: 'bold',
+                      marginRight: 8,
+                      marginBottom: 4,
+                    }}>
+                    {releaseYear}
+                  </Text>
+                  <Text
+                    style={{
+                      color: '#000',
+                      backgroundColor: '#f5c518',
+                      fontSize: 10,
+                      overflow: 'hidden',
+                      borderRadius: 4,
+                      padding: 4,
+                      fontWeight: 'bold',
+                      marginBottom: 4,
+                    }}>
+                    IMDb: {imdbRating}
+                  </Text>
+                </View>
+                <View style={{ flexDirection: 'row', marginBottom: 8 }}>
+                  {services.map((service) => (
+                    <Image
+                      source={{ uri: service.IconUrl }}
+                      style={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: 4,
+                        borderColor: '#000',
+                        borderWidth: 1,
+                        marginRight: 4,
+                      }}
+                    />
+                  ))}
+                </View>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginBottom: 4 }}>
+                  {genres.map((genre) => (
+                    <Text
+                      style={{
+                        backgroundColor: genreColorMap[genre.Id].background,
+                        color: genreColorMap[genre.Id].text,
+                        fontSize: 10,
+                        borderRadius: 4,
+                        padding: 6,
+                        marginRight: 4,
+                        marginBottom: 4,
+                        overflow: 'hidden',
+                        fontWeight: 'bold',
+                      }}>
+                      {genre.Value}
+                    </Text>
+                  ))}
+                </View>
 
-              <Text
-                style={{
-                  backgroundColor: '#555555',
-                  color: '#fff',
-                  fontSize: 10,
-                  borderRadius: 4,
-                  padding: 6,
-                  marginRight: 4,
-                  marginBottom: 4,
-                  overflow: 'hidden',
-                  fontWeight: 'bold',
-                  marginEnd: 'auto',
-                }}>
-                Seen:
+                <Text
+                  style={{
+                    backgroundColor: '#555555',
+                    color: '#fff',
+                    fontSize: 10,
+                    borderRadius: 4,
+                    padding: 6,
+                    marginRight: 4,
+                    marginBottom: 4,
+                    overflow: 'hidden',
+                    fontWeight: 'bold',
+                    marginEnd: 'auto',
+                  }}>
+                  Seen:
               </Text>
 
-              <Button onPress={() => {}} title={'Teste'}></Button>
-            </ScrollView>
-          </View>
-        </>
-      )}
+                <Button onPress={() => { }} title={'Teste'}></Button>
+              </ScrollView>
+            </View>
+            <View>
+              <Button onPress={() => { }} title={'Seen'}></Button>
+              <Button onPress={() => { }} title={'Add to Watchlist'}></Button>
+              {typeId === 1 ? null : (
+                <><Button onPress={() => { }} title={'Start Watching'}></Button>
+                </>
+              )}
+            </View>
+          </>
+        )}
     </>
   );
 }

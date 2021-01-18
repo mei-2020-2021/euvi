@@ -1,7 +1,7 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
 import LoadingScreen from '../../loading';
-import { View, Text, StyleSheet, Button, Alert } from 'react-native';
+import { View, Text, StyleSheet} from 'react-native';
 import Style from './../../style';
 import { AccordionList } from 'accordion-collapse-react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -13,6 +13,7 @@ function CommunityHomeScreen({ navigation }) {
     const [list, setList] = React.useState(null);
     const [groupList, setGroupList] = React.useState([]);
     const [friendList, setFriendList] = React.useState([]);
+    const [recommendationList, setRecommendationList] = React.useState([]);
 
 
     function loadData() {
@@ -21,7 +22,7 @@ function CommunityHomeScreen({ navigation }) {
             .then((data) => {
                 const scopeUser = data;
                 setUser(scopeUser);
-                fetch('http://192.168.1.238:6969/group?userId=' + scopeUser.Id)
+                fetch('http://192.168.1.238:6969/group?uid=' + scopeUser.Uid)
                     .then((res) => res.json())
                     .then((data) => {
                         const scopeGroupsList = [];
@@ -30,7 +31,7 @@ function CommunityHomeScreen({ navigation }) {
                             scopeGroupsList.push(info);
                         });
                         setGroupList(scopeGroupsList);
-                        fetch('http://192.168.1.238:6969/friendship?userId=' + scopeUser.Id)
+                        fetch('http://192.168.1.238:6969/friendship?uid=' + scopeUser.Id)
                             .then((res) => res.json())
                             .then((data) => {
                                 const scopeFriendsList = [];
@@ -39,21 +40,26 @@ function CommunityHomeScreen({ navigation }) {
                                     scopeFriendsList.push(info);
                                 });
                                 setFriendList(scopeFriendsList);
-                                setList([
-                                    {
-                                        id: 1,
-                                        isGroup: true,
-                                        title: 'Groups',
-                                        body: scopeGroupsList,
-                                    },
-                                    {
-                                        id: 2,
-                                        isGroup: false,
-                                        title: 'Friends',
-                                        body: scopeFriendsList,
-                                    },
-                                ]);
-                                setLoading(false);
+                                fetch('http://192.168.1.238:6969/recommendation?uid=' + scopeUser.Uid)
+                                    .then((res) => res.json())
+                                    .then((data) => {
+                                        setRecommendationList(data)
+                                        setList([
+                                            {
+                                                id: 1,
+                                                isGroup: true,
+                                                title: 'Groups',
+                                                body: scopeGroupsList,
+                                            },
+                                            {
+                                                id: 2,
+                                                isGroup: false,
+                                                title: 'Friends',
+                                                body: scopeFriendsList,
+                                            },
+                                        ]);
+                                        setLoading(false);
+                                    })
                             });
                     });
             });
@@ -112,7 +118,14 @@ function CommunityHomeScreen({ navigation }) {
                     <View style={{ padding: 8 }}>
                         <View style={Style.homeTopFlex}>
                             <Text style={Style.authTitle}>Community</Text>
-                            <Button title="Botao" onPress={() => Alert.alert('Recomendações Notificações')} />
+                            <View>
+                                <Text
+                                    style={[styles.title, { color: 'red' }]}
+                                    onPress={() => navigation.navigate('Recommendations', { recommendations: recommendationList })}
+                                >
+                                    {recommendationList.length}
+                                </Text>
+                            </View>
                         </View>
                         <AccordionList
                             expandedIndex={1}
