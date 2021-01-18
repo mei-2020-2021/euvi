@@ -37,7 +37,7 @@ function SearchScreen({navigation}) {
         <View style={{justifyContent: 'space-between', flexDirection: 'row', padding: 8, backgroundColor: 'white', height: '100%'}}>
           <View>
             <Text>As User</Text>
-            <Button onPress={() => {}} title={'As User'}></Button>
+            <Button onPress={() => {navigation.navigate('contentSearch')}} title={'As User'}></Button>
           </View>
           <View>
             <Text>As Group</Text>
