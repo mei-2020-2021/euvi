@@ -39,6 +39,10 @@ const init = async () => {
     Value: 'HBO',
     IconUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/HBO_logo.svg/200px-HBO_logo.svg.png',
   });
+  const serviceAmazon = await Service.create({
+    Value: 'AmazonPrime Video',
+    IconUrl: 'https://store-images.s-microsoft.com/image/apps.27073.14618985536919905.dee6fc2f-7908-497d-8aa7-395befb36297.85cc91ac-8477-4705-bc24-4196d5bf85a2?mode=scale&q=90&h=270&w=270&background=%230078D7',
+  });
 
   //Genres
   const genreAnimation = await Genre.create({
@@ -966,6 +970,17 @@ Duration: 59
   await contentTheSociety.addGenres([genreMystery, genreSciFi, genreDrama]);
   await contentUmbrellaAcademy.addGenres([genreAction, genreAdventure, genreComedy]);
   // Add Services to Content
+  await contentSoul.addServices([serviceDisney])
+  await contentCoco.addServices([serviceDisney])
+  await contentLOTR.addServices([serviceAppleTvPlus, serviceNetflix])
+  await contentGarfield.addServices([serviceAppleTvPlus, serviceNetflix, serviceAmazon])
+  await contentCats.addServices([serviceHBO])
+  await contentAvengers.addServices([serviceAmazon, serviceDisney])
+  await contentHangover.addServices([serviceNetflix])
+  await contentTCOTW.addServices([serviceHBO, serviceDisney])
+  await contentNotebook.addServices([serviceAmazon, serviceAppleTvPlus, serviceNetflix])
+  await contentConjuring.addServices([serviceAppleTvPlus])
+
   await contentChernobyl.addServices([serviceHBO]);
   await contentLupin.addServices([serviceNetflix]);
   await contentQueensGambit.addServices([serviceNetflix]);
