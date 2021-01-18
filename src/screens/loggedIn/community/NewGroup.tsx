@@ -29,7 +29,7 @@ function NewGroupScreen({ route, navigation }) {
     async function createGroup() {
         var users = groupFriendList.map(el => {return el.id+''})
         
-        await fetch('http://192.168.1.238:6969/group/createGroup?ownerId='+ user.uid + '&name=' + groupName + '&users='+ users.toString(),{
+        await fetch('http://localhost:6969/group/createGroup?ownerId='+ user.uid + '&name=' + groupName + '&users='+ users.toString(),{
             method: 'POST'
           }).then(navigation.goBack())
     }

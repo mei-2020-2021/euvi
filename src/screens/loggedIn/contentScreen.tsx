@@ -75,20 +75,23 @@ function ContentScreen({route, navigation}) {
   };
 
   React.useEffect(() => {
-    fetch('http://localhost:6969/content?id=' + contentId)
-      .then((res) => res.json())
-      .then((data) => {
-        setTitle(data.Title);
-        setReleaseYear(data.ReleaseYear);
-        setSinopse(data.Sinopse);
-        setImageUrl(data.ImageUrl);
-        setTrailerUrl(data.TrailerUrl);
-        setImdbRating(data.ImdbRating);
-        setServices(data.Services);
-        setGenres(data.Genres);
-        setLoading(false);
-      });
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetch('http://localhost:6969/content?id=' + contentId)
+        .then((res) => res.json())
+        .then((data) => {
+          setTitle(data.Title);
+          setReleaseYear(data.ReleaseYear);
+          setSinopse(data.Sinopse);
+          setImageUrl(data.ImageUrl);
+          setTrailerUrl(data.TrailerUrl);
+          setImdbRating(data.ImdbRating);
+          setServices(data.Services);
+          setGenres(data.Genres);
+          setLoading(false);
+        });
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <>

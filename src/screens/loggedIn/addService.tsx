@@ -75,7 +75,7 @@ function AddServiceScreen({navigation}) {
                       borderRadius: 4,
                       borderColor: '#000',
                       borderWidth: 1,
-                      marginRight: 16,
+                      marginRight: 24,
                     }}
                   />
                   <View
@@ -84,12 +84,12 @@ function AddServiceScreen({navigation}) {
                       left: 48,
                       bottom: 12,
                       backgroundColor: '#fff',
-                      width: 22,
-                      height: 22,
-                      borderRadius: 11,
+                      width: 26,
+                      height: 26,
+                      borderRadius: 13,
                     }}>
                     <TouchableOpacity key={service.Id} onPress={() => removeService(service.Id)}>
-                      <Icon name="minus-circle-outline" color={'#dc3545'} size={22} />
+                      <Icon name="minus-circle-outline" color={'#dc3545'} size={26} />
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -110,7 +110,7 @@ function AddServiceScreen({navigation}) {
                       borderRadius: 4,
                       borderColor: '#000',
                       borderWidth: 1,
-                      marginRight: 16,
+                      marginRight: 24,
                     }}
                   />
                   <View
@@ -119,12 +119,12 @@ function AddServiceScreen({navigation}) {
                       left: 48,
                       bottom: 12,
                       backgroundColor: '#fff',
-                      width: 22,
-                      height: 22,
-                      borderRadius: 11,
+                      width: 26,
+                      height: 26,
+                      borderRadius: 13,
                     }}>
                     <TouchableOpacity key={service.Id} onPress={() => addService(service.Id)}>
-                      <Icon name="plus-circle-outline" color={'#28a745'} size={22} />
+                      <Icon name="plus-circle-outline" color={'#28a745'} size={26} />
                     </TouchableOpacity>
                   </View>
                 </View>

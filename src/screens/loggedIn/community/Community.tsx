@@ -16,12 +16,12 @@ function CommunityHomeScreen({ navigation }) {
 
 
     function loadData() {
-        fetch('http://192.168.1.238:6969/users?uid=' + auth().currentUser.uid)
+        fetch('http://localhost:6969/users?uid=' + auth().currentUser.uid)
             .then((res) => res.json())
             .then((data) => {
                 const scopeUser = data;
                 setUser(scopeUser);
-                fetch('http://192.168.1.238:6969/group?userId=' + scopeUser.Id)
+                fetch('http://localhost:6969/group?userId=' + scopeUser.Id)
                     .then((res) => res.json())
                     .then((data) => {
                         const scopeGroupsList = [];
@@ -30,7 +30,7 @@ function CommunityHomeScreen({ navigation }) {
                             scopeGroupsList.push(info);
                         });
                         setGroupList(scopeGroupsList);
-                        fetch('http://192.168.1.238:6969/friendship?userId=' + scopeUser.Id)
+                        fetch('http://localhost:6969/friendship?userId=' + scopeUser.Id)
                             .then((res) => res.json())
                             .then((data) => {
                                 const scopeFriendsList = [];

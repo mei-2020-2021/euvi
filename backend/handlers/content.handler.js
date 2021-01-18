@@ -389,7 +389,7 @@ router.get('/topMovies', async function (req, res) {
     },
     where: {
       ContentTypeId: {
-        [Op.ne]: 3,
+        [Op.eq]: 1,
       },
     },
   });
@@ -406,7 +406,7 @@ router.get('/topSeries', async function (req, res) {
     },
     where: {
       ContentTypeId: {
-        [Op.ne]: 3,
+        [Op.eq]: 2,
       },
     },
   });
