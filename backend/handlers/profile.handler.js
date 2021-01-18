@@ -52,7 +52,7 @@ router.get('/', async function (req, res) {
     const allContent = await ContentStatus.findAll({
         where: {
             UserId: user.Id,
-            StatusTypeId: 2
+            StatusTypeId: [1, 2]
         },
     }).then((allContent)=>{
         for(var i=0;i<allContent.length;i++){

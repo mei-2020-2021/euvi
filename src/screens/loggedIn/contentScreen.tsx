@@ -6,9 +6,13 @@ import fetch from 'node-fetch';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import LoadingScreen from '../loading';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconAntDesign from 'react-native-vector-icons/AntDesign';
+import IconFontisto from 'react-native-vector-icons/Fontisto';
+
 import Style from '../style';
-import { IP } from './../../conf';
+import {IP} from './../../conf';
+import StarRating from 'react-native-star-rating';
+import {TouchableHighlight} from 'react-native-gesture-handler';
 
 function ContentScreen({ route, navigation }) {
   const { contentId } = route.params;
@@ -233,71 +237,108 @@ function ContentScreen({ route, navigation }) {
       {loading ? (
         <LoadingScreen />
       ) : (
-          <>
-            <View>
-              <YoutubePlayer
-                height={Dimensions.get('window').width / (16 / 9)}
-                play={playing}
-                videoId={trailerUrl.replace('https://youtu.be/', '')}
-                onChangeState={onStateChange}
-              />
+        <ScrollView>
+          <View>
+            <YoutubePlayer
+              height={Dimensions.get('window').width / (16 / 9)}
+              play={playing}
+              videoId={trailerUrl.replace('https://youtu.be/', '')}
+              onChangeState={onStateChange}
+            />
+          </View>
+          <View style={{padding: 8}}>
+            <View style={[Style.homeTopFlex, {marginBottom: 8}]}>
+              <TouchableOpacity onPress={() => navigation.goBack()} style={{padding: 8, marginTop: 16}}>
+                <IconMaterialIcons name="arrow-back-ios" color={'#000'} size={22} />
+              </TouchableOpacity>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  marginBottom: 4,
+                  width: Dimensions.get('window').width - 46,
+                  alignItems: 'baseline',
+                }}>
+                <Text
+                  style={{
+                    marginTop: 16,
+                    fontSize: 28,
+                    fontWeight: 'bold',
+                    marginRight: 16,
+                  }}>
+                  {title}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: '#555555',
+                    fontWeight: 'bold',
+                    marginRight: 8,
+                    marginBottom: 4,
+                  }}>
+                  {releaseYear}
+                </Text>
+              </View>
             </View>
-            <View style={{ padding: 8 }}>
-              <View style={[Style.homeTopFlex, { marginBottom: 8 }]}>
-                <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 8, marginTop: 16 }}>
-                  <IconMaterialIcons name="arrow-back-ios" color={'#000'} size={22} />
-                </TouchableOpacity>
+            <View style={{flexDirection: 'row', padding: 8}}>
+              <Image
+                key={contentId}
+                style={{height: 200, width: (2 / 3) * 200}}
+                resizeMode="cover"
+                source={{uri: imageUrl, cache: 'force-cache'}}
+              />
+
+              <View style={{paddingHorizontal: 16, height: 200}}>
+                <View style={{marginRight: 'auto', marginBottom: 8, flexDirection: 'row', alignItems: 'center'}}>
+                  <IconFontisto name="imdb" color={'black'} size={28} />
+                  <Text style={{paddingLeft: 4, paddingRight: 1}}>:</Text>
+                  <StarRating
+                    halfStarEnabled={true}
+                    disabled={true}
+                    maxStars={5}
+                    rating={parseFloat(imdbRating) / 2}
+                    fullStarColor={'#f5c518'}
+                    halfStarColor={'#f5c518'}
+                    emptyStarColor={'#f5c518'}
+                    emptyStar={'star-border'}
+                    fullStar={'star'}
+                    halfStar={'star-half'}
+                    iconSet={'MaterialIcons'}
+                    starSize={24}
+                  />
+                </View>
+                <View style={{flexDirection: 'row', marginBottom: 8}}>
+                  {services.map((service) => (
+                    <Image
+                      source={{uri: service.IconUrl}}
+                      style={{
+                        width: 50,
+                        height: 50,
+                        borderRadius: 4,
+                        borderColor: '#000',
+                        borderWidth: 1,
+                        marginRight: 4,
+                      }}
+                    />
+                  ))}
+                </View>
                 <View
                   style={{
                     flexDirection: 'row',
                     flexWrap: 'wrap',
                     marginBottom: 4,
-                    width: Dimensions.get('window').width - 46,
-                    alignItems: 'baseline',
+                    width: Dimensions.get('window').width - 400 / 3 - 48,
                   }}>
-                  <Text
-                    style={{
-                      marginTop: 16,
-                      fontSize: 28,
-                      fontWeight: 'bold',
-                      marginRight: 16,
-                    }}>
-                    {title}
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: '#555555',
-                      fontWeight: 'bold',
-                      marginRight: 8,
-                      marginBottom: 4,
-                    }}>
-                    {releaseYear}
-                  </Text>
-                </View>
-              </View>
-              <View style={{ flexDirection: 'row', padding: 8 }}>
-                <Image
-                  key={contentId}
-                  style={{ height: 150, width: (2 / 3) * 150 }}
-                  resizeMode="cover"
-                  source={{ uri: imageUrl, cache: 'force-cache' }}
-                />
-
-                <ScrollView style={{ paddingHorizontal: 16, height: 150 }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      marginBottom: 4,
-                      flexWrap: 'wrap',
-                      width: Dimensions.get('window').width - 400 / 3 - 48,
-                      alignItems: 'baseline',
-                    }}>
+                  {genres.map((genre) => (
                     <Text
                       style={{
-                        color: '#000',
-                        backgroundColor: '#f5c518',
-                        fontSize: 10,
+                        backgroundColor: genreColorMap[genre.Id].background,
+                        color: genreColorMap[genre.Id].text,
+                        fontSize: 12,
+                        borderRadius: 4,
+                        padding: 6,
+                        marginRight: 4,
+                        marginBottom: 4,
                         overflow: 'hidden',
                         borderRadius: 4,
                         padding: 4,
@@ -306,96 +347,53 @@ function ContentScreen({ route, navigation }) {
                       }}>
                       IMDb: {imdbRating}
                     </Text>
-                  </View>
-                  <View style={{ flexDirection: 'row', marginBottom: 8 }}>
-                    {services.map((service) => (
-                      <Image
-                        source={{ uri: service.IconUrl }}
-                        style={{
-                          width: 40,
-                          height: 40,
-                          borderRadius: 4,
-                          borderColor: '#000',
-                          borderWidth: 1,
-                          marginRight: 4,
-                        }}
-                      />
-                    ))}
-                  </View>
-                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginBottom: 4 }}>
-                    {genres.map((genre) => (
-                      <Text
-                        style={{
-                          backgroundColor: genreColorMap[genre.Id].background,
-                          color: genreColorMap[genre.Id].text,
-                          fontSize: 10,
-                          borderRadius: 4,
-                          padding: 6,
-                          marginRight: 4,
-                          marginBottom: 4,
-                          overflow: 'hidden',
-                          fontWeight: 'bold',
-                        }}>
-                        {genre.Value}
-                      </Text>
-                    ))}
-                  </View>
-
-                  <Text
-                    style={{
-                      backgroundColor: '#555555',
-                      color: '#fff',
-                      fontSize: 10,
-                      borderRadius: 4,
-                      padding: 6,
-                      marginRight: 4,
-                      marginBottom: 4,
-                      overflow: 'hidden',
-                      fontWeight: 'bold',
-                      marginEnd: 'auto',
-                    }}>
-                    Seen:
-                </Text>
-
-                  <Button onPress={() => { }} title={'Teste'}></Button>
-                </ScrollView>
-              </View>
-              {status == 2 ? (
-                <View>
-                  <Button
-                    onPress={() => {
-                      giveFeedbackToContent(1);
-                    }}
-                    title={'Like'}></Button>
-                  <Button
-                    onPress={() => {
-                      giveFeedbackToContent(-1);
-                    }}
-                    title={'Dislike'}></Button>
+                  ))}
                 </View>
-              ) : (
-                  <></>
-                )}
-              <View>
-                <Button
-                  onPress={() => {
-                    associateContentWithUser(2);
-                  }}
-                  title={'Seen'}></Button>
-                <Button
-                  onPress={() => {
-                    associateContentWithUser(3);
-                  }}
-                  title={'Add to Watchlist'}></Button>
-                {/* Se for uma serie */}
-                {typeId === 1 ? null : (
-                  <Button
-                    onPress={() => {
-                      associateContentWithUser(1);
-                    }}
-                    title={'Start Watching'}></Button>
-                )}
               </View>
+            </View>
+            <View style={{paddingHorizontal: 8, paddingBottom: 8}}>
+              <Text
+                style={{
+                  color: '#000',
+                  fontSize: 14,
+                  overflow: 'hidden',
+                  borderRadius: 4,
+                  fontWeight: 'bold',
+                  marginBottom: 4,
+                }}>
+                {sinopse}
+              </Text>
+            </View>
+            {status == 2 ? (
+              <View style={{flexDirection: 'row'}}>
+                <TouchableOpacity
+                  style={{backgroundColor: 'red'}}
+                  onPress={() => {
+                    giveFeedbackToContent(-1);
+                  }}>
+                  <IconAntDesign name="dislike1" color={'#000'} size={22} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{backgroundColor: 'green'}}
+                  onPress={() => {
+                    giveFeedbackToContent(1);
+                  }}>
+                  <IconAntDesign name="like1" color={'#000'} size={22} />
+                </TouchableOpacity>
+              </View>
+            ) : null}
+            <View>
+              <Button
+                onPress={() => {
+                  associateContentWithUser(2);
+                }}
+                title={'Seen'}></Button>
+              <Button
+                onPress={() => {
+                  associateContentWithUser(3);
+                }}
+                title={'Add to Watchlist'}></Button>
+              {/* Se for uma serie */}
               {typeId === 1 ? null : (
                 <AccordionList
                   expandedIndex={1}
@@ -406,8 +404,18 @@ function ContentScreen({ route, navigation }) {
                 />
               )}
             </View>
-          </>
-        )}
+            {typeId === 1 ? null : (
+              <AccordionList
+                expandedIndex={1}
+                list={episodes}
+                header={_head}
+                body={_body}
+                keyExtractor={(episode) => `${episode.id}`}
+              />
+            )}
+          </View>
+        </ScrollView>
+      )}
     </>
   );
 }

@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const sequelize = require('../sequelize/_index');
-const { Op } = require('sequelize');
-const Recommendation = require('../sequelize/models/recommendation.model');
 const Friendship = require('../sequelize/models/friendship.model');
 const User = require('../sequelize/models/user.model');
 const Content = require('../sequelize/models/content.model');
@@ -16,7 +14,7 @@ router.get('/', async function (req, res) {
             Uid: uid
         }
     })
-    const [recommendations, metadata] = await sequelize.query(
+    const [recommendations] = await sequelize.query(
         'SELECT USERS.*, CONTENTS.* FROM RECOMMENDATIONS LEFT JOIN FRIENDSHIPS ON FRIENDSHIPS.ID = RECOMMENDATIONS.FRIENDSHIPID LEFT JOIN USERS ON USERS.ID = FRIENDSHIPS.USERID LEFT JOIN CONTENTS ON RECOMMENDATIONS.CONTENTID = CONTENTS.ID WHERE FRIENDSHIPS.FRIENDID = ' + user.Id,
     );
     res.status(200).json(recommendations)
