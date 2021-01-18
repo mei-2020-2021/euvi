@@ -6,19 +6,30 @@ import Style from '../../style';
 import LoadingScreen from '../../loading';
 import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import Content from '../../../components/Content';
-import {IP} from './../../../conf'
+import {IP} from './../../../conf';
 
 function WatchlistScreen({navigation}) {
   const [loading, setLoading] = React.useState(true);
   const [toWatchContent, setToWatchContent] = React.useState([]);
 
-  React.useEffect(() => {
+  function loadData() {
     fetch(IP + 'content/watchlist?uid=' + auth().currentUser.uid + '&statusTypeId=3')
       .then((res) => res.json())
       .then((data) => {
         setToWatchContent(data);
         setLoading(false);
       });
+  }
+
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      loadData();
+    });
+    return unsubscribe;
+  }, [navigation]);
+
+  React.useEffect(() => {
+    loadData();
   }, []);
 
   return (
