@@ -35,10 +35,6 @@ function RecommendationsScreen({navigation, route}) {
     });
   }, [navigation]);
 
-  React.useEffect(() => {
-    loadData();
-  }, []);
-
   function openRecommendation(recommendation) {
     const friendId = recommendation.Uid;
     const contentId = recommendation.Id;

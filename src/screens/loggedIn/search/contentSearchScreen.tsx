@@ -1,7 +1,7 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
 import LoadingScreen from '../../loading';
-import { View, Text, TouchableOpacity, Button } from 'react-native';
+import { View, Text, TouchableOpacity, Button, Alert } from 'react-native';
 import { IP } from '../../../conf'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -11,7 +11,10 @@ import { TextInput } from 'react-native-gesture-handler';
 function ContentSearchScreen({ navigation }) {
     const [user, setUser] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
-    const [contentType, setContentType] = React.useState(1);
+    const [contentType, setContentType] = React.useState('');
+    const [title, setTitle] = React.useState('')
+    const [genreList, setGenreList] = React.useState([])
+    const [selectedGenreList, setSelectedGenreList] = React.useState([])
 
     function loadData() {
         fetch(IP + 'users?uid=' + auth().currentUser.uid)
@@ -19,19 +22,31 @@ function ContentSearchScreen({ navigation }) {
             .then((data) => {
                 const scopeUser = data;
                 setUser(scopeUser);
-                setLoading(false)
-                fetch(IP + 'users?uid=' + auth().currentUser.uid)
+                setLoading(false);
+                fetch(IP + 'genre')
+                    .then((res) => res.json())
+                    .then((data) => {
+                        setGenreList(data)
+                    }
+                    );
             });
 
     }
+
+    function sendSearchRequest(selectedGenreList, contentType, title) {
+        fetch(IP + 'content/search/?type='+contentType+'&genre=' + selectedGenreList +'&title=' +title)
+        .then((res) => res.json())
+        .then((data) => {
+            navigation.navigate('SearchResults', {results: data[0]})
+        })
+    }
+
     React.useEffect(() => {
         navigation.addListener('focus', () => {
             loadData();
         });
         loadData();
     }, [navigation]);
-
-
 
     return (
         <>
@@ -46,10 +61,21 @@ function ContentSearchScreen({ navigation }) {
                             <Text style={{ marginTop: 16, fontSize: 32, fontWeight: 'bold', marginRight: 'auto' }}>
                                 Search
                             </Text>
-                            
+
                         </View>
-                        <TextInput placeholder='Search...'></TextInput>
-                        <Button title={'Movie'} onPress={() => setContentType(1)}></Button>
+                        <TextInput onChangeText={(title: string) => setTitle(title)} placeholder='Search...'></TextInput>
+                        <Button title={'Movie'} onPress={() => setContentType('movie')}></Button>
+                        <Button title={'Show'} onPress={() => setContentType('series')}></Button>
+
+                        {genreList.map((genre, id) => (
+                            <TouchableOpacity onPress={() => setSelectedGenreList([...selectedGenreList, genre.Name])}>
+                                <Text>
+                                    {genre.Name}
+                                </Text>
+                            </TouchableOpacity>
+                        ))}
+
+                        <Button title={'Search!'} onPress={() => sendSearchRequest(selectedGenreList, contentType, title)}></Button>
                     </View>
                 )}
         </>

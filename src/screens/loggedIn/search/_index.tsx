@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import SearchScreen from './searchScreen';
 import SearchGroupScreen from './searchGroupScreen';
 import ContentSearchScreen from './contentSearchScreen';
+import SearchResultsScreen from './searchResultsScreen';
 
 function SearchContentScreen() {
   const [user, setUser] = React.useState(null);
@@ -39,6 +40,11 @@ function SearchContentScreen() {
                 options={{ headerShown: false, headerBackTitleVisible: false }}
                 name="contentSearch"
                 component={ContentSearchScreen}
+              />
+              <Stack.Screen
+                options={{ headerShown: false, headerBackTitleVisible: false }}
+                name="SearchResults"
+                component={SearchResultsScreen}
               />
             </Stack.Navigator>
           </View>
