@@ -242,7 +242,11 @@ router.post('/createStatus', async function (req, res) {
   }).then(async (content) => {
 
     if(content.ContentTypeId == 1){
-      await user.addWatchlistContent(content,{through:{StatusTypeId: statusId}});
+      if(statusId == 2){
+        await user.addWatchlistContent(content,{through:{StatusTypeId: statusId, WatchedAt: dateTime}})
+      }else{
+        await user.addWatchlistContent(content,{through:{StatusTypeId: statusId}});
+      }
       const contentStatus= await ContentStatus.update({StatusTypeId: statusId},{
         where: {
           ContentId: contentId,
@@ -267,8 +271,13 @@ router.post('/createStatus', async function (req, res) {
             Id: epIdList[i]
           }
         }).then(async function (episodes){
-          await user.addWatchlistContent(content,{through:{StatusTypeId: statusId, WatchedAt: dateTime}});
-          await user.addWatchlistContent(episodes,{through:{StatusTypeId: statusId, WatchedAt: dateTime}});
+          if(statusId == 2){
+            await user.addWatchlistContent(content,{through:{StatusTypeId: statusId, WatchedAt: dateTime}});
+            await user.addWatchlistContent(episodes,{through:{StatusTypeId: statusId, WatchedAt: dateTime}});
+          }else{
+            await user.addWatchlistContent(content,{through:{StatusTypeId: statusId}});
+            await user.addWatchlistContent(episodes,{through:{StatusTypeId: statusId}});
+          }
         })
         const contentStatus= await ContentStatus.update({StatusTypeId: statusId},{
           where: {
