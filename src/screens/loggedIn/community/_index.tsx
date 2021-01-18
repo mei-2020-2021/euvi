@@ -7,7 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import CommunityHomeScreen from './Community'
 import NewFriend from './NewFriend'
 import NewGroup from './NewGroup'
-
+import Recommendations from './Recommendation'
 
 function CommunityScreen() {
   const [user, setUser] = React.useState(null);
@@ -29,6 +29,7 @@ function CommunityScreen() {
               <Stack.Screen options={{headerShown: false}} name="Community" component={CommunityHomeScreen} />
               <Stack.Screen options={{ title: 'Create a new Group' }} name="NewGroup" component={NewGroup} />
               <Stack.Screen options={{ title: 'Add a friend' }} name="NewFriend" component={NewFriend} />
+              <Stack.Screen options={{ title: 'Recommendations' }} name="Recommendations" component={Recommendations} />
             </Stack.Navigator>
           </View>
         )}

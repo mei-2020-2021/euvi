@@ -1,5 +1,6 @@
 import React, {useState, useCallback, useRef} from 'react';
 import auth from '@react-native-firebase/auth';
+import {AccordionList} from 'accordion-collapse-react-native';
 import {Dimensions, Image, Button, Text, View, ScrollView, TouchableOpacity} from 'react-native';
 import fetch from 'node-fetch';
 import YoutubePlayer from 'react-native-youtube-iframe';
@@ -20,6 +21,8 @@ function ContentScreen({route, navigation}) {
   const [services, setServices] = React.useState([]);
   const [genres, setGenres] = React.useState([]);
   const [playing, setPlaying] = useState(false);
+  const [typeId, setTTypeId] = useState(null);
+  const [episodes, setEpisodes] = React.useState([]);
 
   const onStateChange = useCallback((state) => {
     if (state === 'ended') {
@@ -88,6 +91,21 @@ function ContentScreen({route, navigation}) {
           setServices(data.Services);
           setGenres(data.Genres);
           setLoading(false);
+          setTTypeId(data.ContentTypeId);
+          if (data.ContentTypeId === 2) {
+            setEpisodes(
+              data.Episode.map((episode) => {
+                return {
+                  Title: episode.Title,
+                  ReleaseYear: episode.ReleaseYear,
+                  Sinopse: episode.Sinopse,
+                  Duration: episode.Duration,
+                  Season: episode.SeriesEpisode.SeasonNumber,
+                  Episode: episode.SeriesEpisode.EpisodeNumber,
+                };
+              }),
+            );
+          }
         });
     });
     return unsubscribe;
@@ -224,6 +242,22 @@ function ContentScreen({route, navigation}) {
 
                 <Button onPress={() => {}} title={'Teste'}></Button>
               </ScrollView>
+            </View>
+            <View>
+              <Button onPress={() => {}} title={'Seen'}></Button>
+              <Button onPress={() => {}} title={'Add to Watchlist'}></Button>
+              {typeId === 1 ? null : (
+                <>
+                  <Button onPress={() => {}} title={'Start Watching'}></Button>
+                  {episodes.map((episode) => {
+                    return (
+                      <>
+                        <Text>{episode.Title}</Text>
+                      </>
+                    );
+                  })}
+                </>
+              )}
             </View>
           </View>
         </>
