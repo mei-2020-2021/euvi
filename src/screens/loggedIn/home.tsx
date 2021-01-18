@@ -43,8 +43,9 @@ function HomeScreen({navigation}) {
   }
 
   React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {});
-    loadData();
+    const unsubscribe = navigation.addListener('focus', () => {
+      loadData();
+    });
     return unsubscribe;
   }, [navigation]);
 
