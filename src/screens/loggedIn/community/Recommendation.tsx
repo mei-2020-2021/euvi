@@ -5,7 +5,7 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Style from './../../style';
 import {ScrollView} from 'react-native-gesture-handler';
 import Content from '../../../components/Content';
-import {IP} from './../../../conf'
+import {IP} from './../../../conf';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 function RecommendationsScreen({navigation, route}) {
@@ -34,8 +34,8 @@ function RecommendationsScreen({navigation, route}) {
   }, []);
 
   function openRecommendation(recommendation) {
-      const friendId = recommendation.Uid;
-      const contentId = recommendation.Id;
+    const friendId = recommendation.Uid;
+    const contentId = recommendation.Id;
     //   await fetch(IP + 'content/feedback?feedback=' + feedback + '&uid=' + auth().currentUser.uid + '&contentId=' + contentId ,{
     //     method: 'POST'
     //   })
@@ -59,8 +59,7 @@ function RecommendationsScreen({navigation, route}) {
             </View>
             {recommendations.map((recommendation) => (
               <>
-                <TouchableOpacity
-                  onPress={() => openRecommendation(recommendation)}>
+                <TouchableOpacity onPress={() => openRecommendation(recommendation)} style={{marginBottom: 18}}>
                   <Text style={styles.title}>
                     {recommendation.FirstName + ' ' + recommendation.LastName + ' recommended:'}
                   </Text>
@@ -79,6 +78,7 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: 'bold',
     fontSize: 16,
+    paddingLeft: 8,
   },
 });
 
