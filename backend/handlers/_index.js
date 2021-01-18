@@ -25,5 +25,9 @@ router.use('/recommendation', recommendationHandler);
 const servicesHandler = require('./services.handler');
 router.use('/services', servicesHandler);
 
+const genresHandler = require('./genre.handler');
+router.use('/genre', genresHandler);
+
+
 
 module.exports = router;

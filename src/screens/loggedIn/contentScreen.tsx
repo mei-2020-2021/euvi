@@ -1,7 +1,7 @@
-import React, {useState, useCallback, useRef} from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import auth from '@react-native-firebase/auth';
-import {AccordionList} from 'accordion-collapse-react-native';
-import {Dimensions, Image, Button, Text, View, ScrollView, TouchableOpacity} from 'react-native';
+import { AccordionList } from 'accordion-collapse-react-native';
+import { Dimensions, Image, Button, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import fetch from 'node-fetch';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import LoadingScreen from '../loading';
@@ -15,8 +15,8 @@ import {IP} from './../../conf';
 import StarRating from 'react-native-star-rating';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 
-function ContentScreen({route, navigation}) {
-  const {contentId} = route.params;
+function ContentScreen({ route, navigation }) {
+  const { contentId } = route.params;
   const [reload, setReload] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
   const [userId, setUserId] = React.useState(null);
@@ -128,6 +128,7 @@ function ContentScreen({route, navigation}) {
         if (data.ContentTypeId === 2) {
           var episodes = data.Episode.map((episode) => {
             return {
+              Id: episode.Id,
               Title: episode.Title,
               ReleaseYear: episode.ReleaseYear,
               Sinopse: episode.Sinopse,
@@ -137,7 +138,7 @@ function ContentScreen({route, navigation}) {
             };
           });
           const groupByKey = (list, key) =>
-            list.reduce((hash, obj) => ({...hash, [obj[key]]: (hash[obj[key]] || []).concat(obj)}), {});
+            list.reduce((hash, obj) => ({ ...hash, [obj[key]]: (hash[obj[key]] || []).concat(obj) }), {});
           const groupedBy = groupByKey(episodes, 'Season');
           let episodesData = [];
           Object.keys(groupedBy).forEach((key, index) => {
@@ -194,12 +195,12 @@ function ContentScreen({route, navigation}) {
 
   function _body(item) {
     return (
-      <View style={{padding: 8}}>
+      <View style={{ padding: 8 }}>
         {item.body.map((el) => {
           return (
-            <View>
-              <Text>{'S' + el.Season + ':E' + el.Episode + ': ' + el.Title}</Text>
-            </View>
+              <View>
+                <Text>{'S' + el.Season + ':E' + el.Episode + ': ' + el.Title}</Text>
+              </View>
           );
         })}
       </View>
@@ -220,12 +221,12 @@ function ContentScreen({route, navigation}) {
   async function associateContentWithUser(statusTypeId) {
     await fetch(
       IP +
-        'content/createStatus?statusTypeId=' +
-        statusTypeId +
-        '&uid=' +
-        auth().currentUser.uid +
-        '&contentId=' +
-        contentId,
+      'content/createStatus?statusTypeId=' +
+      statusTypeId +
+      '&uid=' +
+      auth().currentUser.uid +
+      '&contentId=' +
+      contentId,
       {
         method: 'POST',
       },
@@ -343,7 +344,7 @@ function ContentScreen({route, navigation}) {
                         overflow: 'hidden',
                         fontWeight: 'bold',
                       }}>
-                      {genre.Value}
+                      IMDb: {imdbRating}
                     </Text>
                   ))}
                 </View>
