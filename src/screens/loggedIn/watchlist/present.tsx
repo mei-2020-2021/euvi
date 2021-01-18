@@ -4,6 +4,7 @@ import auth from '@react-native-firebase/auth';
 import {View, ScrollView, TouchableOpacity} from 'react-native';
 import LoadingScreen from '../../loading';
 import Content from '../../../components/Content';
+import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 function WatchingScreen({navigation}) {
   const [loading, setLoading] = React.useState(true);

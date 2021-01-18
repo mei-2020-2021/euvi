@@ -17,12 +17,12 @@ function LoggedInStackScreen() {
         <Stack.Screen
           name="ProfileScreen"
           component={ProfileScreen}
-          options={{headerBackTitleVisible: false, headerTitle: 'Profile'}}
+          options={{headerShown: false, headerBackTitleVisible: false}}
         />
         <Stack.Screen
           name="ContentScreen"
           component={ContentScreen}
-          options={({route}) => ({title: route.params.title, headerBackTitleVisible: false})}
+          options={{headerShown: false, headerBackTitleVisible: false}}
         />
         <Stack.Screen
           name="AddServiceScreen"

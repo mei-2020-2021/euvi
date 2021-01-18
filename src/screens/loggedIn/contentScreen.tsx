@@ -1,10 +1,12 @@
 import React, { useState, useCallback, useRef } from 'react';
 import auth from '@react-native-firebase/auth';
-import { Dimensions, Image, Button, Text, View, ScrollView } from 'react-native';
+import { AccordionList } from 'accordion-collapse-react-native';
+import {Dimensions, Image, Button, Text, View, ScrollView, TouchableOpacity} from 'react-native';
 import fetch from 'node-fetch';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import LoadingScreen from '../loading';
-import { AccordionList } from 'accordion-collapse-react-native';
+import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Style from '../style';
 
 function ContentScreen({ route, navigation }) {
   const { contentId } = route.params;
@@ -113,24 +115,58 @@ function ContentScreen({ route, navigation }) {
       {loading ? (
         <LoadingScreen />
       ) : (
-          <>
-            <View>
-              <YoutubePlayer
-                height={Dimensions.get('window').width / (16 / 9)}
-                play={playing}
-                videoId={trailerUrl.replace('https://youtu.be/', '')}
-                onChangeState={onStateChange}
-              />
+        <>
+          <View>
+            <YoutubePlayer
+              height={Dimensions.get('window').width / (16 / 9)}
+              play={playing}
+              videoId={trailerUrl.replace('https://youtu.be/', '')}
+              onChangeState={onStateChange}
+            />
+          </View>
+          <View style={{padding: 8}}>
+            <View style={[Style.homeTopFlex, {marginBottom: 8}]}>
+              <TouchableOpacity onPress={() => navigation.goBack()} style={{padding: 8, marginTop: 16}}>
+                <IconMaterialIcons name="arrow-back-ios" color={'#000'} size={22} />
+              </TouchableOpacity>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  marginBottom: 4,
+                  width: Dimensions.get('window').width - 46,
+                  alignItems: 'baseline',
+                }}>
+                <Text
+                  style={{
+                    marginTop: 16,
+                    fontSize: 28,
+                    fontWeight: 'bold',
+                    marginRight: 16,
+                  }}>
+                  {title}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: '#555555',
+                    fontWeight: 'bold',
+                    marginRight: 8,
+                    marginBottom: 4,
+                  }}>
+                  {releaseYear}
+                </Text>
+              </View>
             </View>
-            <View style={{ flexDirection: 'row', padding: 8 }}>
+            <View style={{flexDirection: 'row', padding: 8}}>
               <Image
                 key={contentId}
-                style={{ height: 150, width: (2 / 3) * 150 }}
+                style={{height: 150, width: (2 / 3) * 150}}
                 resizeMode="cover"
-                source={{ uri: imageUrl, cache: 'force-cache' }}
+                source={{uri: imageUrl, cache: 'force-cache'}}
               />
 
-              <ScrollView style={{ paddingHorizontal: 16, height: 150 }}>
+              <ScrollView style={{paddingHorizontal: 16, height: 150}}>
                 <View
                   style={{
                     flexDirection: 'row',
@@ -139,25 +175,6 @@ function ContentScreen({ route, navigation }) {
                     width: Dimensions.get('window').width - 400 / 3 - 48,
                     alignItems: 'baseline',
                   }}>
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      fontWeight: 'bold',
-                      marginRight: 4,
-                      marginBottom: 4,
-                    }}>
-                    {title}
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: '#555555',
-                      fontWeight: 'bold',
-                      marginRight: 8,
-                      marginBottom: 4,
-                    }}>
-                    {releaseYear}
-                  </Text>
                   <Text
                     style={{
                       color: '#000',
@@ -172,10 +189,10 @@ function ContentScreen({ route, navigation }) {
                     IMDb: {imdbRating}
                   </Text>
                 </View>
-                <View style={{ flexDirection: 'row', marginBottom: 8 }}>
+                <View style={{flexDirection: 'row', marginBottom: 8}}>
                   {services.map((service) => (
                     <Image
-                      source={{ uri: service.IconUrl }}
+                      source={{uri: service.IconUrl}}
                       style={{
                         width: 40,
                         height: 40,
@@ -187,7 +204,7 @@ function ContentScreen({ route, navigation }) {
                     />
                   ))}
                 </View>
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginBottom: 4 }}>
+                <View style={{flexDirection: 'row', flexWrap: 'wrap', marginBottom: 4}}>
                   {genres.map((genre) => (
                     <Text
                       style={{
@@ -220,22 +237,14 @@ function ContentScreen({ route, navigation }) {
                     marginEnd: 'auto',
                   }}>
                   Seen:
-              </Text>
+                </Text>
 
-                <Button onPress={() => { }} title={'Teste'}></Button>
+                <Button onPress={() => {}} title={'Teste'}></Button>
               </ScrollView>
             </View>
-              <View>
-                <Button onPress={() => { }} title={'Seen'}></Button>
-                <Button onPress={() => { }} title={'Add to Watchlist'}></Button>
-                {typeId === 1 ? null : (
-                  <><Button onPress={() => { }} title={'Start Watching'}></Button>
-                    {/* {episodes.map((episode) => { return (<><Text>{episode.Title}</Text></>) })} */}
-                  </>
-                )}
-              </View>
-          </>
-        )}
+          </View>
+        </>
+      )}
     </>
   );
 }
