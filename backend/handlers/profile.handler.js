@@ -20,4 +20,24 @@ router.get('/', async function (req, res) {
  }
 });
 
+/* router.get('/categories', async function (req, res){
+    const userUid = req.query.uid
+
+    const user = await Content.findOne({
+        where:{
+            Uid: userUid
+        }
+    })
+
+    const allContent = await ContentStatus.findAll({
+        where: {
+            UserId: user.Id
+        }
+    })
+
+    
+
+
+}) */
+
 module.exports = router;

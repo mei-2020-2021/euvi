@@ -245,7 +245,6 @@ router.post('/createStatus', async function (req, res) {
           UserId: user.Id,
         }
       });
-      return res.status(200).json(contentStatus)
 
     } else if(content.ContentTypeId == 2){
       const allEpisodes = await SeriesEpisode.findAll({
@@ -257,7 +256,7 @@ router.post('/createStatus', async function (req, res) {
       for (var i = 0; i<allEpisodes.length;i++){
         epIdList.push(allEpisodes[i].EpisodeId)
       }
-
+      console.log(epIdList.length)
       for (var i=0; i<epIdList.length;i++){
         await Content.findOne({
           where:{
@@ -272,12 +271,12 @@ router.post('/createStatus', async function (req, res) {
             UserId: user.Id,
           }
         });
-        return res.status(200).json(contentStatus)
+        
       }
     }
     
   })
-  
+  return res.status(200).json(contentId)
 });
 
 
