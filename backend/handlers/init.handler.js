@@ -37,11 +37,13 @@ const init = async () => {
   });
   const serviceHBO = await Service.create({
     Value: 'HBO',
-    IconUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/HBO_logo.svg/200px-HBO_logo.svg.png',
+    IconUrl:
+      'https://is1-ssl.mzstatic.com/image/thumb/Purple124/v4/cc/82/60/cc826026-7bd0-26e5-6fbc-d14ec6bd28f7/AppIcon-0-0-1x_U007emarketing-0-0-0-6-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/1024x1024bb.png',
   });
   const serviceAmazon = await Service.create({
     Value: 'AmazonPrime Video',
-    IconUrl: 'https://store-images.s-microsoft.com/image/apps.27073.14618985536919905.dee6fc2f-7908-497d-8aa7-395befb36297.85cc91ac-8477-4705-bc24-4196d5bf85a2?mode=scale&q=90&h=270&w=270&background=%230078D7',
+    IconUrl:
+      'https://store-images.s-microsoft.com/image/apps.27073.14618985536919905.dee6fc2f-7908-497d-8aa7-395befb36297.85cc91ac-8477-4705-bc24-4196d5bf85a2?mode=scale&q=90&h=270&w=270&background=%230078D7',
   });
 
   //Genres
@@ -531,358 +533,394 @@ const init = async () => {
     ContentTypeId: 2,
   });
 
-// Episodes
-const contentAwayS1E1 = await Content.create({
-  Title:'Go',
-  ReleaseYear: '2020',
-  Sinopse: 'As the mission launches, Emma finds her mettle as commander tested by an onboard accident, a divided crew and a family emergency back on earth.', 
-  ContentTypeId: 3,
-  Duration: 57
-})
+  // Episodes
+  const contentAwayS1E1 = await Content.create({
+    Title: 'Go',
+    ReleaseYear: '2020',
+    Sinopse:
+      'As the mission launches, Emma finds her mettle as commander tested by an onboard accident, a divided crew and a family emergency back on earth.',
+    ContentTypeId: 3,
+    Duration: 57,
+  });
 
-const contentAwayS1E2 = await Content.create({
-  Title:'Negative Return',
-  ReleaseYear: '2020',
-  Sinopse: "When a ship malfunction threatens the voyage before it's barely begun, Emma works with a wary Mishra on a high risk repair operation.", 
-  ContentTypeId: 3,
-  Duration: 49
-})
+  const contentAwayS1E2 = await Content.create({
+    Title: 'Negative Return',
+    ReleaseYear: '2020',
+    Sinopse:
+      "When a ship malfunction threatens the voyage before it's barely begun, Emma works with a wary Mishra on a high risk repair operation.",
+    ContentTypeId: 3,
+    Duration: 49,
+  });
 
-const contentAwayS1E3 = await Content.create({
-  Title:'Half the Sky',
-  ReleaseYear: '2020',
-  Sinopse: 'The PRC demands CNSA remove Mei Chen from her assignment as an Atlas CAPCOM, which upsets Lu as they are secret lovers.', 
-  ContentTypeId: 3,
-  Duration: 49
-})
+  const contentAwayS1E3 = await Content.create({
+    Title: 'Half the Sky',
+    ReleaseYear: '2020',
+    Sinopse:
+      'The PRC demands CNSA remove Mei Chen from her assignment as an Atlas CAPCOM, which upsets Lu as they are secret lovers.',
+    ContentTypeId: 3,
+    Duration: 49,
+  });
 
-const contentAwayS1E4 = await Content.create({
-  Title:'Excellent Chariots',
-  ReleaseYear: '2020',
-  Sinopse: 'Ram endangers the lives of everyone on the Atlas, causing Emma to put herself in harms way; Matt must make a life-changing decision.', 
-  ContentTypeId: 3,
-  Duration: 44
-})
+  const contentAwayS1E4 = await Content.create({
+    Title: 'Excellent Chariots',
+    ReleaseYear: '2020',
+    Sinopse:
+      'Ram endangers the lives of everyone on the Atlas, causing Emma to put herself in harms way; Matt must make a life-changing decision.',
+    ContentTypeId: 3,
+    Duration: 44,
+  });
 
-const contentAwayS1E5 = await Content.create({
-  Title:'Space Dogs',
-  ReleaseYear: '2020',
-  Sinopse: 'As Christmas approaches, the crew prepares to make their final calls home before communication grows spotty. Matt and Lex adjust to their new normal.', 
-  ContentTypeId: 3,
-  Duration: 55
-})
+  const contentAwayS1E5 = await Content.create({
+    Title: 'Space Dogs',
+    ReleaseYear: '2020',
+    Sinopse:
+      'As Christmas approaches, the crew prepares to make their final calls home before communication grows spotty. Matt and Lex adjust to their new normal.',
+    ContentTypeId: 3,
+    Duration: 55,
+  });
 
-const contentAwayS1E6 = await Content.create({
-  Title:'A Little Faith',
-  ReleaseYear: '2020',
-  Sinopse: "Tempers flare on the Atlas over a water-system glitch and an act of betrayal; Matt meets Lex's new friend while working on the ship's issues.", 
-  ContentTypeId: 3,
-  Duration: 49
-})
+  const contentAwayS1E6 = await Content.create({
+    Title: 'A Little Faith',
+    ReleaseYear: '2020',
+    Sinopse:
+      "Tempers flare on the Atlas over a water-system glitch and an act of betrayal; Matt meets Lex's new friend while working on the ship's issues.",
+    ContentTypeId: 3,
+    Duration: 49,
+  });
 
-const contentAwayS1E7 = await Content.create({
-  Title:'Goodnight Mars',
-  ReleaseYear: '2020',
-  Sinopse: "Emma's behavior becomes a cause for concern, Kwesi and Lu team up on a plant mystery, and Lex makes an impulsive decision with far-reaching consequences.", 
-  ContentTypeId: 3,
-  Duration: 51
-})
+  const contentAwayS1E7 = await Content.create({
+    Title: 'Goodnight Mars',
+    ReleaseYear: '2020',
+    Sinopse:
+      "Emma's behavior becomes a cause for concern, Kwesi and Lu team up on a plant mystery, and Lex makes an impulsive decision with far-reaching consequences.",
+    ContentTypeId: 3,
+    Duration: 51,
+  });
 
-const contentAwayS1E8 = await Content.create({
-  Title:'Vital Signs',
-  ReleaseYear: '2020',
-  Sinopse: "A problem with Atlas's supply ship jeopardizes the mission and sparks questions about Emma's commitment to landing on Mars.", 
-  ContentTypeId: 3,
-  Duration: 49
-})
+  const contentAwayS1E8 = await Content.create({
+    Title: 'Vital Signs',
+    ReleaseYear: '2020',
+    Sinopse:
+      "A problem with Atlas's supply ship jeopardizes the mission and sparks questions about Emma's commitment to landing on Mars.",
+    ContentTypeId: 3,
+    Duration: 49,
+  });
 
-const contentAwayS1E9 = await Content.create({
-  Title:'Spektr',
-  ReleaseYear: '2020',
-  Sinopse: 'Emotions run high as rapidly dwindling water rations on the Atlas leave the crew and Mission Control scrambling to find a fix before time runs out.', 
-  ContentTypeId: 3,
-  Duration: 46
-})
+  const contentAwayS1E9 = await Content.create({
+    Title: 'Spektr',
+    ReleaseYear: '2020',
+    Sinopse:
+      'Emotions run high as rapidly dwindling water rations on the Atlas leave the crew and Mission Control scrambling to find a fix before time runs out.',
+    ContentTypeId: 3,
+    Duration: 46,
+  });
 
-const contentAwayS1E10 = await Content.create({
-  Title:'Home',
-  ReleaseYear: '2020',
-  Sinopse: "With only hours to go before Atlas' planned touchdown on Mars, Emma is confronted with everything that could go wrong, while Lu receives new orders.", 
-  ContentTypeId: 3,
-  Duration: 49
-})
+  const contentAwayS1E10 = await Content.create({
+    Title: 'Home',
+    ReleaseYear: '2020',
+    Sinopse:
+      "With only hours to go before Atlas' planned touchdown on Mars, Emma is confronted with everything that could go wrong, while Lu receives new orders.",
+    ContentTypeId: 3,
+    Duration: 49,
+  });
 
+  // ------------The Society----------- //
 
-// ------------The Society----------- //
+  const contentTheSociety = await Content.create({
+    Title: 'The Society',
+    ReleaseYear: '2019',
+    Sinopse:
+      'When everyone else mysteriously vanishes from their wealthy town, the teen residents of West Ham must forge their own society to survive.',
+    ImageUrl: 'https://upload.wikimedia.org/wikipedia/pt/c/c7/Title_screen_for_The_Society.png',
+    TrailerUrl: 'https://youtu.be/lSj77j1Dnxg',
+    ImdbRating: 7.1,
+    Duration: 558,
+    ContentTypeId: 2,
+  });
 
-const contentTheSociety = await Content.create({
-  Title: 'The Society',
-  ReleaseYear: '2019',
-  Sinopse: 'When everyone else mysteriously vanishes from their wealthy town, the teen residents of West Ham must forge their own society to survive.',
-  ImageUrl: 'https://upload.wikimedia.org/wikipedia/pt/c/c7/Title_screen_for_The_Society.png',
-  TrailerUrl: 'https://youtu.be/lSj77j1Dnxg',
-  ImdbRating: 7.1,
-  Duration: 558,
-  ContentTypeId: 2,
-});
+  // Episodes
+  const contentTheSocietyS1E1 = await Content.create({
+    Title: 'What Happened?',
+    ReleaseYear: '2019',
+    Sinopse:
+      'After their class trip is cut short, students at West Ham High School return home to discover their town is completely empty.',
+    ContentTypeId: 3,
+    Duration: 58,
+  });
 
-// Episodes
-const contentTheSocietyS1E1 = await Content.create({
-Title:'What Happened?',
-ReleaseYear: '2019',
-Sinopse: 'After their class trip is cut short, students at West Ham High School return home to discover their town is completely empty.', 
-ContentTypeId: 3,
-Duration: 58
-})
+  const contentTheSocietyS1E2 = await Content.create({
+    Title: 'Our Town',
+    ReleaseYear: '2019',
+    Sinopse:
+      "Cassandra and her friends prepare for an uncertain future, while Harry's crew just want to party; Sam and Becca make a discovery.",
+    ContentTypeId: 3,
+    Duration: 58,
+  });
 
-const contentTheSocietyS1E2 = await Content.create({
-Title:'Our Town',
-ReleaseYear: '2019',
-Sinopse: "Cassandra and her friends prepare for an uncertain future, while Harry's crew just want to party; Sam and Becca make a discovery.", 
-ContentTypeId: 3,
-Duration: 58
-})
+  const contentTheSocietyS1E3 = await Content.create({
+    Title: "Childhood's End",
+    ReleaseYear: '2019',
+    Sinopse:
+      'After the boys ransack the store, Cassandra rallies the girls to exert their power; The students plan a prom; Kelly discovers a family secret.',
+    ContentTypeId: 3,
+    Duration: 60,
+  });
 
-const contentTheSocietyS1E3 = await Content.create({
-Title:"Childhood's End",
-ReleaseYear: '2019',
-Sinopse: 'After the boys ransack the store, Cassandra rallies the girls to exert their power; The students plan a prom; Kelly discovers a family secret.', 
-ContentTypeId: 3,
-Duration: 60
-})
+  const contentTheSocietyS1E4 = await Content.create({
+    Title: 'Drop by Drop',
+    ReleaseYear: '2019',
+    Sinopse:
+      "A shocking event puts everyone on edge; As chaos sets in, Allie's friends urge her to step up and lead; Geordie conducts an investigation.",
+    ContentTypeId: 3,
+    Duration: 56,
+  });
 
-const contentTheSocietyS1E4 = await Content.create({
-Title:'Drop by Drop',
-ReleaseYear: '2019',
-Sinopse: "A shocking event puts everyone on edge; As chaos sets in, Allie's friends urge her to step up and lead; Geordie conducts an investigation.", 
-ContentTypeId: 3,
-Duration: 56
-})
+  const contentTheSocietyS1E5 = await Content.create({
+    Title: 'Putting on the Clothes',
+    ReleaseYear: '2019',
+    Sinopse:
+      "A student's confession leads to an arrest and a trial; Elle experiences Campbell's dark side; Harry's drug use escalates.",
+    ContentTypeId: 3,
+    Duration: 53,
+  });
 
-const contentTheSocietyS1E5 = await Content.create({
-Title:'Putting on the Clothes',
-ReleaseYear: '2019',
-Sinopse: "A student's confession leads to an arrest and a trial; Elle experiences Campbell's dark side; Harry's drug use escalates.", 
-ContentTypeId: 3,
-Duration: 53
-})
+  const contentTheSocietyS1E6 = await Content.create({
+    Title: 'Like a F-ing God or Something',
+    ReleaseYear: '2019',
+    Sinopse:
+      "Allie questions Elle about Campbell; As the town grows restless awaiting Allie's decision, Will and Grizz push for harsh measures.",
+    ContentTypeId: 3,
+    Duration: 48,
+  });
 
-const contentTheSocietyS1E6 = await Content.create({
-Title:'Like a F-ing God or Something',
-ReleaseYear: '2019',
-Sinopse: "Allie questions Elle about Campbell; As the town grows restless awaiting Allie's decision, Will and Grizz push for harsh measures.", 
-ContentTypeId: 3,
-Duration: 48
-})
+  const contentTheSocietyS1E7 = await Content.create({
+    Title: "Allie's Rules",
+    ReleaseYear: '2019',
+    Sinopse:
+      'Six months later, Harry sinks deeper into depression; Grizz and Sam bond; Gordie arrives at a theory about West Ham; Elle puts a plan into action.',
+    ContentTypeId: 3,
+    Duration: 53,
+  });
 
-const contentTheSocietyS1E7 = await Content.create({
-Title:"Allie's Rules",
-ReleaseYear: '2019',
-Sinopse: 'Six months later, Harry sinks deeper into depression; Grizz and Sam bond; Gordie arrives at a theory about West Ham; Elle puts a plan into action.', 
-ContentTypeId: 3,
-Duration: 53
-})
+  const contentTheSocietyS1E8 = await Content.create({
+    Title: 'Poison',
+    ReleaseYear: '2019',
+    Sinopse:
+      'A Thanksgiving feast takes a frightening turn; In the aftermath, the Guard oversteps its powers; Sam is torn between Becca and Grizz.',
+    ContentTypeId: 3,
+    Duration: 53,
+  });
 
-const contentTheSocietyS1E8 = await Content.create({
-Title:'Poison',
-ReleaseYear: '2019',
-Sinopse: 'A Thanksgiving feast takes a frightening turn; In the aftermath, the Guard oversteps its powers; Sam is torn between Becca and Grizz.', 
-ContentTypeId: 3,
-Duration: 53
-})
+  const contentTheSocietyS1E9 = await Content.create({
+    Title: 'New Names',
+    ReleaseYear: '2019',
+    Sinopse:
+      'Will tells Allie he has feelings for her; Elle confides in Helena; Campbell pressures Harry to run for mayor; Grizz leads an expedition.',
+    ContentTypeId: 3,
+    Duration: 60,
+  });
 
-const contentTheSocietyS1E9 = await Content.create({
-Title:'New Names',
-ReleaseYear: '2019',
-Sinopse: 'Will tells Allie he has feelings for her; Elle confides in Helena; Campbell pressures Harry to run for mayor; Grizz leads an expedition.', 
-ContentTypeId: 3,
-Duration: 60
-})
+  const contentTheSocietyS1E10 = await Content.create({
+    Title: 'How It Happens',
+    ReleaseYear: '2019',
+    Sinopse:
+      'Campbell plots a coup with Lexie and the Guard; Kelly spots something suspicious in a photo; Becca goes into labor; The expedition returns with news.',
+    ContentTypeId: 3,
+    Duration: 59,
+  });
 
-const contentTheSocietyS1E10 = await Content.create({
-Title:'How It Happens',
-ReleaseYear: '2019',
-Sinopse: 'Campbell plots a coup with Lexie and the Guard; Kelly spots something suspicious in a photo; Becca goes into labor; The expedition returns with news.', 
-ContentTypeId: 3,
-Duration: 59
-})
+  // ------------Umbrella Academy----------- //
+  const contentUmbrellaAcademy = await Content.create({
+    Title: 'The Umbrella Academy',
+    ReleaseYear: '2019',
+    Sinopse: 'A family of former child heroes, now grown apart, must reunite to continue to protect the world.',
+    ImageUrl: 'https://br.web.img3.acsta.net/c_225_300/pictures/18/12/10/14/01/0178829.jpg',
+    TrailerUrl: 'https://youtu.be/0DAmWHxeoKw',
+    ImdbRating: 8.0,
+    Duration: 1026,
+    ContentTypeId: 2,
+  });
 
+  // Episodes
+  const contentUmbrellaAcademyS1E1 = await Content.create({
+    Title: 'We Only See Each Other at Weddings and Funerals',
+    ReleaseYear: '2019',
+    Sinopse:
+      "Years after they rose to fame as young crime-fighting superheroes, the estranged Hargreeves siblings come together to mark their father's death.",
+    ContentTypeId: 3,
+    Duration: 59,
+  });
 
-// ------------Umbrella Academy----------- //
-const contentUmbrellaAcademy = await Content.create({
-  Title: 'The Umbrella Academy',
-  ReleaseYear: '2019',
-  Sinopse: 'A family of former child heroes, now grown apart, must reunite to continue to protect the world.',
-  ImageUrl: 'https://br.web.img3.acsta.net/c_225_300/pictures/18/12/10/14/01/0178829.jpg',
-  TrailerUrl: 'https://youtu.be/0DAmWHxeoKw',
-  ImdbRating: 8.0,
-  Duration: 1026,
-  ContentTypeId: 2,
-});
+  const contentUmbrellaAcademyS1E2 = await Content.create({
+    Title: 'Run Boy Run',
+    ReleaseYear: '2019',
+    Sinopse:
+      'After sharing the story of his time travel with Vanya, Five hunts for the owner of a fake eye. But two mysterious assassins are hot on his trail.',
+    ContentTypeId: 3,
+    Duration: 58,
+  });
 
-// Episodes
-const contentUmbrellaAcademyS1E1 = await Content.create({
-Title:'We Only See Each Other at Weddings and Funerals',
-ReleaseYear: '2019',
-Sinopse: "Years after they rose to fame as young crime-fighting superheroes, the estranged Hargreeves siblings come together to mark their father's death.", 
-ContentTypeId: 3,
-Duration: 59
-})
+  const contentUmbrellaAcademyS1E3 = await Content.create({
+    Title: 'Extra Ordinary',
+    ReleaseYear: '2019',
+    Sinopse:
+      'Worried their mother is hiding something, Luther and Allison call a family meeting. Cha-Cha and Hazel catch a big break in their hunt for Five.',
+    ContentTypeId: 3,
+    Duration: 56,
+  });
 
-const contentUmbrellaAcademyS1E2 = await Content.create({
-Title:'Run Boy Run',
-ReleaseYear: '2019',
-Sinopse: 'After sharing the story of his time travel with Vanya, Five hunts for the owner of a fake eye. But two mysterious assassins are hot on his trail.', 
-ContentTypeId: 3,
-Duration: 58
-})
+  const contentUmbrellaAcademyS1E4 = await Content.create({
+    Title: 'Man on the Moon',
+    ReleaseYear: '2019',
+    Sinopse:
+      "The story of Luther's transformation emerges. At the motel, Klaus puts Hazel and Cha-Cha's training to the test. Allison grows suspicious of Leonard.",
+    ContentTypeId: 3,
+    Duration: 57,
+  });
 
-const contentUmbrellaAcademyS1E3 = await Content.create({
-Title:'Extra Ordinary',
-ReleaseYear: '2019',
-Sinopse: 'Worried their mother is hiding something, Luther and Allison call a family meeting. Cha-Cha and Hazel catch a big break in their hunt for Five.', 
-ContentTypeId: 3,
-Duration: 56
-})
+  const contentUmbrellaAcademyS1E5 = await Content.create({
+    Title: 'Number Five',
+    ReleaseYear: '2019',
+    Sinopse:
+      'Five lets Luther in on his secret, Klaus returns from a harrowing trip through time, and Vanya begins to feel different without her meds.',
+    ContentTypeId: 3,
+    Duration: 59,
+  });
 
-const contentUmbrellaAcademyS1E4 = await Content.create({
-Title:'Man on the Moon',
-ReleaseYear: '2019',
-Sinopse: "The story of Luther's transformation emerges. At the motel, Klaus puts Hazel and Cha-Cha's training to the test. Allison grows suspicious of Leonard.", 
-ContentTypeId: 3,
-Duration: 57
-})
+  const contentUmbrellaAcademyS1E6 = await Content.create({
+    Title: "The Day That Wasn't",
+    ReleaseYear: '2019',
+    Sinopse:
+      'Sparks fly when Vanya finds her siblings holding an emergency family meeting without her. Five starts his new job at HQ. Cha-Cha faces a dilemma.',
+    ContentTypeId: 3,
+    Duration: 57,
+  });
 
-const contentUmbrellaAcademyS1E5 = await Content.create({
-Title:'Number Five',
-ReleaseYear: '2019',
-Sinopse: 'Five lets Luther in on his secret, Klaus returns from a harrowing trip through time, and Vanya begins to feel different without her meds.', 
-ContentTypeId: 3,
-Duration: 59
-})
+  const contentUmbrellaAcademyS1E7 = await Content.create({
+    Title: 'The Day That Was',
+    ReleaseYear: '2019',
+    Sinopse:
+      'With a second chance at the day, the siblings team up to find the mysterious "Harold Jenkins." Leonard takes Vanya into the woods to test her powers.',
+    ContentTypeId: 3,
+    Duration: 56,
+  });
 
-const contentUmbrellaAcademyS1E6 = await Content.create({
-Title:"The Day That Wasn't",
-ReleaseYear: '2019',
-Sinopse: 'Sparks fly when Vanya finds her siblings holding an emergency family meeting without her. Five starts his new job at HQ. Cha-Cha faces a dilemma.', 
-ContentTypeId: 3,
-Duration: 57
-})
+  const contentUmbrellaAcademyS1E8 = await Content.create({
+    Title: 'I Heard a Rumor',
+    ReleaseYear: '2019',
+    Sinopse:
+      'As Vanya practices controlling her new abilities, Allison tags along with a local cop to find out what happened outside the restaurant.',
+    ContentTypeId: 3,
+    Duration: 51,
+  });
 
-const contentUmbrellaAcademyS1E7 = await Content.create({
-Title:'The Day That Was',
-ReleaseYear: '2019',
-Sinopse: 'With a second chance at the day, the siblings team up to find the mysterious "Harold Jenkins." Leonard takes Vanya into the woods to test her powers.', 
-ContentTypeId: 3,
-Duration: 56
-})
+  const contentUmbrellaAcademyS1E9 = await Content.create({
+    Title: 'Changes',
+    ReleaseYear: '2019',
+    Sinopse:
+      'Vanya veers between shock and despair as she makes a string of unsettling discoveries. A serendipitous development leaves Five at loose ends.',
+    ContentTypeId: 3,
+    Duration: 44,
+  });
 
-const contentUmbrellaAcademyS1E8 = await Content.create({
-Title:'I Heard a Rumor',
-ReleaseYear: '2019',
-Sinopse: 'As Vanya practices controlling her new abilities, Allison tags along with a local cop to find out what happened outside the restaurant.', 
-ContentTypeId: 3,
-Duration: 51
-})
+  const contentUmbrellaAcademyS1E10 = await Content.create({
+    Title: 'The White Violin',
+    ReleaseYear: '2020',
+    Sinopse:
+      'As a lifetime of secrets and resentment bring the Umbrella Academy crashing down, the Hargreeves siblings realize the worst is still to come.',
+    ContentTypeId: 3,
+    Duration: 46,
+  });
 
-const contentUmbrellaAcademyS1E9 = await Content.create({
-Title:'Changes',
-ReleaseYear: '2019',
-Sinopse: 'Vanya veers between shock and despair as she makes a string of unsettling discoveries. A serendipitous development leaves Five at loose ends.', 
-ContentTypeId: 3,
-Duration: 44
-})
+  const contentUmbrellaAcademyS2E1 = await Content.create({
+    Title: 'Right Back Where We Started',
+    ReleaseYear: '2020',
+    Sinopse:
+      'After dropping his siblings into an alley in Dallas - in different years - Five scrambles to track them all down and stop a new doomsday threat.',
+    ContentTypeId: 3,
+    Duration: 47,
+  });
 
-const contentUmbrellaAcademyS1E10 = await Content.create({
-Title:'The White Violin',
-ReleaseYear: '2020',
-Sinopse: 'As a lifetime of secrets and resentment bring the Umbrella Academy crashing down, the Hargreeves siblings realize the worst is still to come.', 
-ContentTypeId: 3,
-Duration: 46
-})
+  const contentUmbrellaAcademyS2E2 = await Content.create({
+    Title: 'The Frankel Footage',
+    ReleaseYear: '2020',
+    Sinopse:
+      "An incident at the bar leads Luther to Vanya. Five finds an unsettling surprise in the film Hazel left behind. The cops come after Allison's husband.",
+    ContentTypeId: 3,
+    Duration: 48,
+  });
 
-const contentUmbrellaAcademyS2E1 = await Content.create({
-Title:'Right Back Where We Started',
-ReleaseYear: '2020',
-Sinopse: 'After dropping his siblings into an alley in Dallas - in different years - Five scrambles to track them all down and stop a new doomsday threat.', 
-ContentTypeId: 3,
-Duration: 47
-})
+  const contentUmbrellaAcademyS2E3 = await Content.create({
+    Title: 'The Swedish Job',
+    ReleaseYear: '2020',
+    Sinopse:
+      'As the sit-in approaches, Allison reconnects with Klaus. The Swedes chase Vanya into a cornfield. Luther makes a distressing discovery.',
+    ContentTypeId: 3,
+    Duration: 48,
+  });
 
-const contentUmbrellaAcademyS2E2 = await Content.create({
-Title:'The Frankel Footage',
-ReleaseYear: '2020',
-Sinopse: "An incident at the bar leads Luther to Vanya. Five finds an unsettling surprise in the film Hazel left behind. The cops come after Allison's husband.", 
-ContentTypeId: 3,
-Duration: 48
-})
+  const contentUmbrellaAcademyS2E4 = await Content.create({
+    Title: 'The Magestic 12',
+    ReleaseYear: '2020',
+    Sinopse:
+      'While Allison searches frantically for Ray, Vanya contends with a crisis at the farm. Meanwhile, Five, Diego and Lila crash a party at the Mexican Consulate.',
+    ContentTypeId: 3,
+    Duration: 49,
+  });
 
-const contentUmbrellaAcademyS2E3 = await Content.create({
-Title:'The Swedish Job',
-ReleaseYear: '2020',
-Sinopse: 'As the sit-in approaches, Allison reconnects with Klaus. The Swedes chase Vanya into a cornfield. Luther makes a distressing discovery.', 
-ContentTypeId: 3,
-Duration: 48
-})
+  const contentUmbrellaAcademyS2E5 = await Content.create({
+    Title: 'Valhalla',
+    ReleaseYear: '2020',
+    Sinopse:
+      'Summoned to an emergency meeting, the siblings hatch very different plans for how to spend their last six days on Earth. Lila confronts her mother.',
+    ContentTypeId: 3,
+    Duration: 48,
+  });
 
-const contentUmbrellaAcademyS2E4 = await Content.create({
-Title:'The Magestic 12',
-ReleaseYear: '2020',
-Sinopse: 'While Allison searches frantically for Ray, Vanya contends with a crisis at the farm. Meanwhile, Five, Diego and Lila crash a party at the Mexican Consulate.', 
-ContentTypeId: 3,
-Duration: 49
-})
+  const contentUmbrellaAcademyS2E6 = await Content.create({
+    Title: 'A Light Supper',
+    ReleaseYear: '2020',
+    Sinopse:
+      "Allison gives Ray a peek at her powers. Dave visits Klaus's compound. The Handler offers Five a deal, and the siblings meet their father for dinner.",
+    ContentTypeId: 3,
+    Duration: 50,
+  });
 
-const contentUmbrellaAcademyS2E5 = await Content.create({
-Title:'Valhalla',
-ReleaseYear: '2020',
-Sinopse: 'Summoned to an emergency meeting, the siblings hatch very different plans for how to spend their last six days on Earth. Lila confronts her mother.', 
-ContentTypeId: 3,
-Duration: 48
-})
+  const contentUmbrellaAcademyS2E7 = await Content.create({
+    Title: 'Oga for Oga',
+    ReleaseYear: '2020',
+    Sinopse:
+      'After Five travels to 1982 to carry out his new mission, the siblings face a flurry of difficult decisions. Meanwhile, Carl issues a warning to Vanya.',
+    ContentTypeId: 3,
+    Duration: 47,
+  });
 
-const contentUmbrellaAcademyS2E6 = await Content.create({
-Title:'A Light Supper',
-ReleaseYear: '2020',
-Sinopse: "Allison gives Ray a peek at her powers. Dave visits Klaus's compound. The Handler offers Five a deal, and the siblings meet their father for dinner.", 
-ContentTypeId: 3,
-Duration: 50
-})
+  const contentUmbrellaAcademyS2E8 = await Content.create({
+    Title: 'The Seven Stages',
+    ReleaseYear: '2020',
+    Sinopse:
+      'A desperate Five concocts a risky plan to intercept another version of himself. The FBI tortures Vanya. Diego discovers what causes the apocalypse.',
+    ContentTypeId: 3,
+    Duration: 47,
+  });
 
-const contentUmbrellaAcademyS2E7 = await Content.create({
-Title:'Oga for Oga',
-ReleaseYear: '2020',
-Sinopse: 'After Five travels to 1982 to carry out his new mission, the siblings face a flurry of difficult decisions. Meanwhile, Carl issues a warning to Vanya.', 
-ContentTypeId: 3,
-Duration: 47
-})
+  const contentUmbrellaAcademyS2E9 = await Content.create({
+    Title: '743',
+    ReleaseYear: '2020',
+    Sinopse:
+      'As the Fives plot against each other, one of the siblings makes a big sacrifice to help Vanya. Plus, Lila learns the truth about her parents.',
+    ContentTypeId: 3,
+    Duration: 40,
+  });
 
-const contentUmbrellaAcademyS2E8 = await Content.create({
-Title:'The Seven Stages',
-ReleaseYear: '2020',
-Sinopse: 'A desperate Five concocts a risky plan to intercept another version of himself. The FBI tortures Vanya. Diego discovers what causes the apocalypse.', 
-ContentTypeId: 3,
-Duration: 47
-})
-
-const contentUmbrellaAcademyS2E9 = await Content.create({
-Title:'743',
-ReleaseYear: '2020',
-Sinopse: 'As the Fives plot against each other, one of the siblings makes a big sacrifice to help Vanya. Plus, Lila learns the truth about her parents.', 
-ContentTypeId: 3,
-Duration: 40
-})
-
-const contentUmbrellaAcademyS2E10 = await Content.create({
-Title:'The End of Something',
-ReleaseYear: '2020',
-Sinopse: 'Reeling from the events at Dealey Plaza, the siblings head to the farm to help save Harlan - only to find themselves drawn into a deadly showdown.', 
-ContentTypeId: 3,
-Duration: 59
-})
-
-
-
+  const contentUmbrellaAcademyS2E10 = await Content.create({
+    Title: 'The End of Something',
+    ReleaseYear: '2020',
+    Sinopse:
+      'Reeling from the events at Dealey Plaza, the siblings head to the farm to help save Harlan - only to find themselves drawn into a deadly showdown.',
+    ContentTypeId: 3,
+    Duration: 59,
+  });
 
   await contentLupin.addEpisode(contentLupinS1E1, {through: {SeasonNumber: 1, EpisodeNumber: 1}});
   await contentLupin.addEpisode(contentLupinS1E2, {through: {SeasonNumber: 1, EpisodeNumber: 2}});
@@ -952,16 +990,16 @@ Duration: 59
   // Add Services to User
   await contentUserRato.addServices([serviceDisney, serviceNetflix]);
   //Add Genres
-  await contentSoul.addGenres([genreAnimation,genreAdventure,genreComedy])
-  await contentCoco.addGenres([genreAnimation,genreAdventure,genreFamily])
-  await contentLOTR.addGenres([genreAction,genreAdventure,genreDrama])
-  await contentGarfield.addGenres([genreAnimation,genreFamily,genreComedy])
-  await contentCats.addGenres([genreFamily,genreDrama,genreComedy])
-  await contentAvengers.addGenres([genreAction,genreAdventure,genreSciFi])
-  await contentHangover.addGenres([genreComedy])
-  await contentTCOTW.addGenres([genreDrama,genreAdventure,genreFamily])
-  await contentNotebook.addGenres([genreDrama,genreRomance])
-  await contentConjuring.addGenres([genreHorror,genreMystery,genreThriller])
+  await contentSoul.addGenres([genreAnimation, genreAdventure, genreComedy]);
+  await contentCoco.addGenres([genreAnimation, genreAdventure, genreFamily]);
+  await contentLOTR.addGenres([genreAction, genreAdventure, genreDrama]);
+  await contentGarfield.addGenres([genreAnimation, genreFamily, genreComedy]);
+  await contentCats.addGenres([genreFamily, genreDrama, genreComedy]);
+  await contentAvengers.addGenres([genreAction, genreAdventure, genreSciFi]);
+  await contentHangover.addGenres([genreComedy]);
+  await contentTCOTW.addGenres([genreDrama, genreAdventure, genreFamily]);
+  await contentNotebook.addGenres([genreDrama, genreRomance]);
+  await contentConjuring.addGenres([genreHorror, genreMystery, genreThriller]);
 
   await contentLupin.addGenres([genreAction, genreCrime, genreDrama]);
   await contentQueensGambit.addGenres([genreSports, genreDrama]);
@@ -970,16 +1008,16 @@ Duration: 59
   await contentTheSociety.addGenres([genreMystery, genreSciFi, genreDrama]);
   await contentUmbrellaAcademy.addGenres([genreAction, genreAdventure, genreComedy]);
   // Add Services to Content
-  await contentSoul.addServices([serviceDisney])
-  await contentCoco.addServices([serviceDisney])
-  await contentLOTR.addServices([serviceAppleTvPlus, serviceNetflix])
-  await contentGarfield.addServices([serviceAppleTvPlus, serviceNetflix, serviceAmazon])
-  await contentCats.addServices([serviceHBO])
-  await contentAvengers.addServices([serviceAmazon, serviceDisney])
-  await contentHangover.addServices([serviceNetflix])
-  await contentTCOTW.addServices([serviceHBO, serviceDisney])
-  await contentNotebook.addServices([serviceAmazon, serviceAppleTvPlus, serviceNetflix])
-  await contentConjuring.addServices([serviceAppleTvPlus])
+  await contentSoul.addServices([serviceDisney]);
+  await contentCoco.addServices([serviceDisney]);
+  await contentLOTR.addServices([serviceAppleTvPlus, serviceNetflix]);
+  await contentGarfield.addServices([serviceAppleTvPlus, serviceNetflix, serviceAmazon]);
+  await contentCats.addServices([serviceHBO]);
+  await contentAvengers.addServices([serviceAmazon, serviceDisney]);
+  await contentHangover.addServices([serviceNetflix]);
+  await contentTCOTW.addServices([serviceHBO, serviceDisney]);
+  await contentNotebook.addServices([serviceAmazon, serviceAppleTvPlus, serviceNetflix]);
+  await contentConjuring.addServices([serviceAppleTvPlus]);
 
   await contentChernobyl.addServices([serviceHBO]);
   await contentLupin.addServices([serviceNetflix]);

@@ -5,7 +5,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import Style from './../../style';
 import {AccordionList} from 'accordion-collapse-react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {TouchableHighlight, TouchableOpacity} from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 function CommunityHomeScreen({navigation}) {
   const [user, setUser] = React.useState(null);
@@ -155,7 +155,7 @@ function CommunityHomeScreen({navigation}) {
       {loading ? (
         <LoadingScreen />
       ) : (
-        <View style={{padding: 8}}>
+        <View style={{padding: 8, backgroundColor: 'white', height: '100%'}}>
           <View style={[Style.homeTopFlex]}>
             <Text style={Style.authTitle}>Community</Text>
             <TouchableOpacity

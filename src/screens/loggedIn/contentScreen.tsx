@@ -92,7 +92,7 @@ function ContentScreen({ route, navigation }) {
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      fetch('http://192.168.1.238:6969/content?id=' + contentId)
+      fetch('http://localhost:6969/content?id=' + contentId)
         .then((res) => res.json())
         .then((data) => {
           setTitle(data.Title);
@@ -128,7 +128,7 @@ function ContentScreen({ route, navigation }) {
             })
             setEpisodes(episodesData)
           }
-          fetch('http://192.168.1.238:6969/content/getStatusType?contentId=' + contentId + '&uid=' + auth().currentUser.uid)
+          fetch('http://localhost:6969/content/getStatusType?contentId=' + contentId + '&uid=' + auth().currentUser.uid)
             .then((res) => res.json())
             .then((data) => {
               setStatus(data)
@@ -162,8 +162,8 @@ function ContentScreen({ route, navigation }) {
   }
 
   async function associateContentWithUser(statusTypeId) {
-    console.log('http://192.168.1.238:6969/content/createStatus?statusTypeId=' + statusTypeId + '&uid=' + auth().currentUser.uid + '&contentId=' + contentId)
-    // await fetch('http://192.168.1.238:6969/content/createStatus?statusId=' + statusTypeId + '&userUID=' + auth().currentUser.uid + '&contentId=' + contentId,{
+    console.log('http://localhost:6969/content/createStatus?statusTypeId=' + statusTypeId + '&uid=' + auth().currentUser.uid + '&contentId=' + contentId)
+    // await fetch('http://localhost:6969/content/createStatus?statusId=' + statusTypeId + '&userUID=' + auth().currentUser.uid + '&contentId=' + contentId,{
     //   method: 'POST'
     // })
   }
