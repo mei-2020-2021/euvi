@@ -1,10 +1,9 @@
 import React, {FunctionComponent} from 'react';
 import {View, Image, Text, ScrollView, Button} from 'react-native';
-import WatchedScreen from '../screens/loggedIn/watchlist/past';
-import WatchingScreen from '../screens/loggedIn/watchlist/present';
-import ToWatchScreen from '../screens/loggedIn/watchlist/future';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import {Dimensions} from 'react-native';
-import {IP} from './../conf'
+import {IP} from './../conf';
 
 import auth from '@react-native-firebase/auth';
 
@@ -16,6 +15,8 @@ type ContentProps = {
 };
 
 const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
+  const [reload, setReload] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const [userId, setUserId] = React.useState(null);
   const [title, setTitle] = React.useState(null);
   const [releaseYear, setReleaseYear] = React.useState(null);
@@ -25,6 +26,16 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
   const [imdbRating, setImdbRating] = React.useState(null);
   const [services, setServices] = React.useState([]);
   const [genres, setGenres] = React.useState([]);
+  const [playing, setPlaying] = React.useState(false);
+  const [typeId, setTTypeId] = React.useState(null);
+  const [episodes, setEpisodes] = React.useState([]);
+  const [status, setStatus] = React.useState(null);
+  const [feedback, setFeedback] = React.useState(null);
+  const onStateChange = React.useCallback((state) => {
+    if (state === 'ended') {
+      setPlaying(false);
+    }
+  }, []);
 
   const genreColorMap = {
     1: {
@@ -67,14 +78,22 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
       background: '#da344d',
       text: '#fff',
     },
+    // Alterar isto para cores que façam sentido
+    11: {
+      background: '#da344d',
+      text: '#fff',
+    },
+    12: {
+      background: '#da344d',
+      text: '#fff',
+    },
+    13: {
+      background: '#da344d',
+      text: '#fff',
+    },
   };
 
-  React.useEffect(() => {
-    // const uid = auth().currentUser.uid;
-    // axios.get('http://localhost:6969/users?uid=' + uid).then((res) => {
-    //   setUserId(res.data.id);
-    // });
-
+  function loadData() {
     fetch(IP + 'content?id=' + contentId)
       .then((res) => res.json())
       .then((data) => {
@@ -86,7 +105,47 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
         setImdbRating(data.ImdbRating);
         setServices(data.Services);
         setGenres(data.Genres);
+        setTTypeId(data.ContentTypeId);
+        if (data.ContentTypeId === 2) {
+          var episodes = data.Episode.map((episode) => {
+            return {
+              Title: episode.Title,
+              ReleaseYear: episode.ReleaseYear,
+              Sinopse: episode.Sinopse,
+              Duration: episode.Duration,
+              Season: episode.SeriesEpisode.SeasonNumber,
+              Episode: episode.SeriesEpisode.EpisodeNumber,
+            };
+          });
+          const groupByKey = (list, key) =>
+            list.reduce((hash, obj) => ({...hash, [obj[key]]: (hash[obj[key]] || []).concat(obj)}), {});
+          const groupedBy = groupByKey(episodes, 'Season');
+          let episodesData = [];
+          Object.keys(groupedBy).forEach((key, index) => {
+            episodesData.push({
+              id: key,
+              title: 'Season ' + key,
+              body: groupedBy[key],
+            });
+          });
+          setEpisodes(episodesData);
+        }
+        fetch(IP + 'content/getStatusType?contentId=' + contentId + '&uid=' + auth().currentUser.uid)
+          .then((res) => res.json())
+          .then((data) => {
+            setStatus(data);
+            fetch(IP + 'content/feedback?contentId=' + contentId + '&uid=' + auth().currentUser.uid)
+              .then((res) => res.json())
+              .then((data) => {
+                setFeedback(data);
+                setLoading(false);
+              });
+          });
       });
+  }
+
+  React.useEffect(() => {
+    loadData();
   }, []);
 
   return (
@@ -103,7 +162,7 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
           <View
             style={{
               flexDirection: 'row',
-              marginBottom: 4,
+              marginBottom: 0,
               flexWrap: 'wrap',
               width: Dimensions.get('window').width - 400 / 3 - 48,
               alignItems: 'baseline',
@@ -127,20 +186,21 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
               }}>
               {releaseYear}
             </Text>
-            <Text
-              style={{
-                color: '#000',
-                backgroundColor: '#f5c518',
-                fontSize: 10,
-                overflow: 'hidden',
-                borderRadius: 4,
-                padding: 4,
-                fontWeight: 'bold',
-                marginBottom: 4,
-              }}>
-              IMDb: {imdbRating}
-            </Text>
           </View>
+          <Text
+            style={{
+              color: '#000',
+              backgroundColor: '#f5c518',
+              fontSize: 10,
+              overflow: 'hidden',
+              borderRadius: 4,
+              padding: 4,
+              fontWeight: 'bold',
+              marginBottom: 8,
+              marginRight: 'auto',
+            }}>
+            IMDb: {imdbRating}
+          </Text>
           <View style={{flexDirection: 'row', marginBottom: 8}}>
             {services.map((service) => (
               <Image
@@ -156,41 +216,43 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
               />
             ))}
           </View>
-          <View style={{flexDirection: 'row', flexWrap: 'wrap', marginBottom: 4}}>
-            {genres.map((genre) => (
-              <Text
-                style={{
-                  backgroundColor: genreColorMap[genre.Id].background,
-                  color: genreColorMap[genre.Id].text,
-                  fontSize: 10,
-                  borderRadius: 4,
-                  padding: 6,
-                  marginRight: 4,
-                  marginBottom: 4,
-                  overflow: 'hidden',
-                  fontWeight: 'bold',
-                }}>
-                {genre.Value}
-              </Text>
-            ))}
-          </View>
           {screen == 'watched' ? (
+            <Text
+              style={{
+                backgroundColor: '#555555',
+                color: '#fff',
+                fontSize: 10,
+                borderRadius: 4,
+                padding: 6,
+                marginRight: 4,
+                marginBottom: 4,
+                overflow: 'hidden',
+                fontWeight: 'bold',
+                marginEnd: 'auto',
+              }}>
+              Seen:
+            </Text>
+          ) : null}
+          {screen == 'recommendations' ? (
             <>
-              <Text
-                style={{
-                  backgroundColor: '#555555',
-                  color: '#fff',
-                  fontSize: 10,
-                  borderRadius: 4,
-                  padding: 6,
-                  marginRight: 4,
-                  marginBottom: 4,
-                  overflow: 'hidden',
-                  fontWeight: 'bold',
-                  marginEnd: 'auto',
-                }}>
-                Seen:
-              </Text>
+              <View>
+                <Icon name="plus" color={"white"} size={10} />
+                <Text
+                  style={{
+                    backgroundColor: '#555555',
+                    color: '#fff',
+                    fontSize: 10,
+                    borderRadius: 4,
+                    padding: 6,
+                    marginRight: 4,
+                    marginBottom: 4,
+                    overflow: 'hidden',
+                    fontWeight: 'bold',
+                    marginEnd: 'auto',
+                  }}>
+                  Info
+                </Text>
+              </View>
             </>
           ) : null}
           <Button onPress={() => {}} title={'Teste'}></Button>
