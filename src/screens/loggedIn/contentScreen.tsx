@@ -89,10 +89,24 @@ function ContentScreen({ route, navigation }) {
         setGenres(data.Genres);
         setLoading(false);
         setTTypeId(data.ContentTypeId);
-        setEpisodes(data.Episode)
-        
+        if (data.ContentTypeId === 2) {
+          setEpisodes(data.Episode.map((episode) => {
+            return {
+              Title: episode.Title,
+              ReleaseYear: episode.ReleaseYear,
+              Sinopse: episode.Sinopse,
+              Duration: episode.Duration,
+              Season: episode.SeriesEpisode.SeasonNumber,
+              Episode: episode.SeriesEpisode.EpisodeNumber,
+            }
+          })
+          
+          )
+        }
       });
   }, []);
+
+  console.log(episodes)
 
   return (
     <>
@@ -211,14 +225,15 @@ function ContentScreen({ route, navigation }) {
                 <Button onPress={() => { }} title={'Teste'}></Button>
               </ScrollView>
             </View>
-            <View>
-              <Button onPress={() => { }} title={'Seen'}></Button>
-              <Button onPress={() => { }} title={'Add to Watchlist'}></Button>
-              {typeId === 1 ? null : (
-                <><Button onPress={() => { }} title={'Start Watching'}></Button>
-                </>
-              )}
-            </View>
+              <View>
+                <Button onPress={() => { }} title={'Seen'}></Button>
+                <Button onPress={() => { }} title={'Add to Watchlist'}></Button>
+                {typeId === 1 ? null : (
+                  <><Button onPress={() => { }} title={'Start Watching'}></Button>
+                    {/* {episodes.map((episode) => { return (<><Text>{episode.Title}</Text></>) })} */}
+                  </>
+                )}
+              </View>
           </>
         )}
     </>
