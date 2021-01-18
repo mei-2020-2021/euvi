@@ -113,6 +113,11 @@ function ContentScreen({ route, navigation }) {
         setTTypeId(data.ContentTypeId);
         if (data.ContentTypeId === 2) {
           var episodes = data.Episode.map((episode) => {
+            var episodeStatus = null
+            async () => {
+              await fetch(IP + 'content/getStatusType?contentId=' + episode.Id + '&uid=' + auth().currentUser.uid)
+                .then(data => {episodeStatus = data});
+            }
             return {
               Id: episode.Id,
               Title: episode.Title,
@@ -121,6 +126,7 @@ function ContentScreen({ route, navigation }) {
               Duration: episode.Duration,
               Season: episode.SeriesEpisode.SeasonNumber,
               Episode: episode.SeriesEpisode.EpisodeNumber,
+              EpisodeStatus: episodeStatus
             };
           });
           const groupByKey = (list, key) =>
@@ -174,13 +180,29 @@ function ContentScreen({ route, navigation }) {
       <View style={{ padding: 8 }}>
         {item.body.map((el) => {
           return (
+            <TouchableOpacity onPress={() => toggleEpisode(el.Id, el.EpisodeStatus)}>
               <View>
-                <Text>{'S' + el.Season + ':E' + el.Episode + ': ' + el.Title}</Text>
+                {(el.EpisodesStatus != null && el.EpisodeStatus == 2) ? (<Icon name="plus" color={'#15616d'} size={16} />) : (<></>)}
+                <Text>{'S' + el.Season + ':E' + el.Episode + ': ' + el.Title + ' ' + el.EpisodeStatus}</Text>
               </View>
+            </TouchableOpacity>
           );
         })}
       </View>
     );
+  }
+
+  async function toggleEpisode(episodeId, episodeStatus) {
+    const status = (episodeStatus == 2 )? (3) : (2);
+    console.log(status)
+    await fetch(
+      IP + 'content/updateStatusType?StatusTypeId=' + status + '&uid=' + auth().currentUser.uid + '&contentId=' + episodeId,
+      {
+        method: 'POST',
+      },
+    ).then(() => {
+      setReload(!reload);
+    });
   }
 
   async function giveFeedbackToContent(feedback) {
