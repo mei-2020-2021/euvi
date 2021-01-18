@@ -4,7 +4,7 @@ import WatchedScreen from '../screens/loggedIn/watchlist/past';
 import WatchingScreen from '../screens/loggedIn/watchlist/present';
 import ToWatchScreen from '../screens/loggedIn/watchlist/future';
 import {Dimensions} from 'react-native';
-import {IP} from './../conf'
+import {IP} from './../conf';
 
 import auth from '@react-native-firebase/auth';
 
@@ -64,6 +64,19 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
       text: '#000',
     },
     10: {
+      background: '#da344d',
+      text: '#fff',
+    },
+    // Alterar isto para cores que façam sentido
+    11: {
+      background: '#da344d',
+      text: '#fff',
+    },
+    12: {
+      background: '#da344d',
+      text: '#fff',
+    },
+    13: {
       background: '#da344d',
       text: '#fff',
     },
