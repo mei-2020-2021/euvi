@@ -242,6 +242,15 @@ function ContentScreen({ route, navigation }) {
                 <Button onPress={() => {}} title={'Teste'}></Button>
               </ScrollView>
             </View>
+            <View>
+                <Button onPress={() => { }} title={'Seen'}></Button>
+                <Button onPress={() => { }} title={'Add to Watchlist'}></Button>
+                {typeId === 1 ? null : (
+                  <><Button onPress={() => { }} title={'Start Watching'}></Button>
+                    {episodes.map((episode) => { return (<><Text>{episode.Title}</Text></>) })}
+                  </>
+                )}
+              </View>
           </View>
         </>
       )}
