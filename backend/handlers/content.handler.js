@@ -242,7 +242,7 @@ router.post('/createStatus', async function (req, res) {
   }).then(async (content) => {
 
     if(content.ContentTypeId == 1){
-      await user.addWatchlistContent(content,{through:{StatusTypeId: statusId, WatchedAt: dateTime}});
+      await user.addWatchlistContent(content,{through:{StatusTypeId: statusId}});
       const contentStatus= await ContentStatus.update({StatusTypeId: statusId},{
         where: {
           ContentId: contentId,

@@ -33,6 +33,15 @@ function RecommendationsScreen({navigation, route}) {
     loadData();
   }, []);
 
+  function openRecommendation(recommendation) {
+      const friendId = recommendation.Uid;
+      const contentId = recommendation.Id;
+    //   await fetch(IP + 'content/feedback?feedback=' + feedback + '&uid=' + auth().currentUser.uid + '&contentId=' + contentId ,{
+    //     method: 'POST'
+    //   })
+    navigation.navigate('ContentScreen', {contentId: recommendation.Id, title: recommendation.Title});
+  }
+
   return (
     <>
       {loading ? (
@@ -51,9 +60,7 @@ function RecommendationsScreen({navigation, route}) {
             {recommendations.map((recommendation) => (
               <>
                 <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('ContentScreen', {contentId: recommendation.Id, title: recommendation.Title});
-                  }}>
+                  onPress={() => openRecommendation(recommendation)}>
                   <Text style={styles.title}>
                     {recommendation.FirstName + ' ' + recommendation.LastName + ' recommended:'}
                   </Text>
