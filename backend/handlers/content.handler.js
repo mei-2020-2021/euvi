@@ -416,7 +416,12 @@ router.get('/getStatusType', async function (req, res) {
       UserId: user.Id,
     },
   });
-  return res.status(200).json(contentWatchedAt.StatusTypeId)
+  
+  if(contentWatchedAt) {
+    return res.status(200).json(contentWatchedAt.StatusTypeId)
+  } else {
+    return res.status(200).json(null)
+  }
 });
 
 

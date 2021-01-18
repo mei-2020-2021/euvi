@@ -23,7 +23,7 @@ function ContentScreen({ route, navigation }) {
   const [playing, setPlaying] = useState(false);
   const [typeId, setTTypeId] = useState(null);
   const [episodes, setEpisodes] = React.useState([]);
-
+  const [status, setStatus] = React.useState(null);
   const onStateChange = useCallback((state) => {
     if (state === 'ended') {
       setPlaying(false);
@@ -75,6 +75,19 @@ function ContentScreen({ route, navigation }) {
       background: '#da344d',
       text: '#fff',
     },
+    // Alterar isto para cores que façam sentido
+    11: {
+      background: '#da344d',
+      text: '#fff',
+    },
+    12: {
+      background: '#da344d',
+      text: '#fff',
+    },
+    13: {
+      background: '#da344d',
+      text: '#fff',
+    },
   };
 
   React.useEffect(() => {
@@ -113,13 +126,18 @@ function ContentScreen({ route, navigation }) {
                 body: groupedBy[key]
               })
             })
-            console.log(episodesData)
             setEpisodes(episodesData)
           }
+          fetch('http://192.168.1.238:6969/content/getStatusType?contentId=' + contentId + '&uid=' + auth().currentUser.uid)
+            .then((res) => res.json())
+            .then((data) => {
+              setStatus(data)
+            })
         });
-    });
+    })
     return unsubscribe;
   }, [navigation]);
+
 
   function _head(item) {
     return (
@@ -134,13 +152,21 @@ function ContentScreen({ route, navigation }) {
       <View style={{ padding: 8 }}>
         {item.body.map((el) => {
           return (
-            <Text>{'S' + el.Season + ':E' + el.Episode + ': ' + el.Title}</Text>
+            <View>
+              <Text>{'S' + el.Season + ':E' + el.Episode + ': ' + el.Title}</Text>
+            </View>
           );
         })}
       </View>
     );
   }
 
+  async function associateContentWithUser(statusTypeId) {
+    console.log('http://192.168.1.238:6969/content/createStatus?statusTypeId=' + statusTypeId + '&uid=' + auth().currentUser.uid + '&contentId=' + contentId)
+    // await fetch('http://192.168.1.238:6969/content/createStatus?statusId=' + statusTypeId + '&userUID=' + auth().currentUser.uid + '&contentId=' + contentId,{
+    //   method: 'POST'
+    // })
+  }
   return (
     <>
       {loading ? (
@@ -273,22 +299,32 @@ function ContentScreen({ route, navigation }) {
                   <Button onPress={() => { }} title={'Teste'}></Button>
                 </ScrollView>
               </View>
+              {status==2 ? (
               <View>
-                <Button onPress={() => { }} title={'Seen'}></Button>
-                <Button onPress={() => { }} title={'Add to Watchlist'}></Button>
+                <Button onPress={() => { }} title={'Like'}></Button>
+                <Button onPress={() => { }} title={'Dislike'}></Button>
+              </View>) : 
+              (
+              <>
+              </>
+              )}
+              <View>
+                <Button onPress={() => {associateContentWithUser(2) }} title={'Seen'}></Button>
+                <Button onPress={() => {associateContentWithUser(3) }} title={'Add to Watchlist'}></Button>
                 {typeId === 1 ? null : (
-                  <>
-                    <Button onPress={() => { }} title={'Start Watching'}></Button>
-                    <AccordionList
-                      expandedIndex={1}
-                      list={episodes}
-                      header={_head}
-                      body={_body}
-                      keyExtractor={(item) => `${item.id}`}
-                    />
-                  </>
+                  <Button onPress={() => {associateContentWithUser(1) }} title={'Start Watching'}></Button>
                 )}
               </View>
+              {typeId === 1 ? null : (
+                <AccordionList
+                  expandedIndex={1}
+                  list={episodes}
+                  header={_head}
+                  body={_body}
+                  keyExtractor={(episode) => `${episode.id}`}
+                />
+              )}
+
             </View>
           </>
         )}
