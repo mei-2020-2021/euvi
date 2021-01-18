@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef } from 'react';
 import auth from '@react-native-firebase/auth';
 import { AccordionList } from 'accordion-collapse-react-native';
-import {Dimensions, Image, Button, Text, View, ScrollView, TouchableOpacity} from 'react-native';
+import { Dimensions, Image, Button, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import fetch from 'node-fetch';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import LoadingScreen from '../loading';
@@ -92,7 +92,7 @@ function ContentScreen({ route, navigation }) {
         setLoading(false);
         setTTypeId(data.ContentTypeId);
         if (data.ContentTypeId === 2) {
-          setEpisodes(data.Episode.map((episode) => {
+          var episodes = data.Episode.map((episode) => {
             return {
               Title: episode.Title,
               ReleaseYear: episode.ReleaseYear,
@@ -102,158 +102,194 @@ function ContentScreen({ route, navigation }) {
               Episode: episode.SeriesEpisode.EpisodeNumber,
             }
           })
-          
-          )
+          const groupByKey = (list, key) => list.reduce((hash, obj) => ({ ...hash, [obj[key]]: (hash[obj[key]] || []).concat(obj) }), {});
+          const groupedBy = groupByKey(episodes, 'Season');
+          let episodesData = []
+          Object.keys(groupedBy).forEach((key, index) => {
+            episodesData.push({
+              id: key,
+              title: 'Season ' + key,
+              body: groupedBy[key]
+            })
+          })
+          setEpisodes(episodesData)
         }
       });
   }, []);
 
-  console.log(episodes)
+
+  function _head(item) {
+    return (
+      <View style={Style.homeTopFlex}>
+        <Text style={Style.authTitle}>{item.title}</Text>
+      </View>
+    );
+  }
+
+  function _body(item) {
+    return (
+      <View style={{ padding: 8 }}>
+        {item.body.map((el) => {
+            return (
+              <View>
+                <Text>{'S'+ el.Season + ':E'+ el.Episode +': ' + el.Title}</Text>
+              </View>
+            );
+          })}
+      </View>
+    );
+  }
 
   return (
     <>
       {loading ? (
         <LoadingScreen />
       ) : (
-        <>
-          <View>
-            <YoutubePlayer
-              height={Dimensions.get('window').width / (16 / 9)}
-              play={playing}
-              videoId={trailerUrl.replace('https://youtu.be/', '')}
-              onChangeState={onStateChange}
-            />
-          </View>
-          <View style={{padding: 8}}>
-            <View style={[Style.homeTopFlex, {marginBottom: 8}]}>
-              <TouchableOpacity onPress={() => navigation.goBack()} style={{padding: 8, marginTop: 16}}>
-                <IconMaterialIcons name="arrow-back-ios" color={'#000'} size={22} />
-              </TouchableOpacity>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  flexWrap: 'wrap',
-                  marginBottom: 4,
-                  width: Dimensions.get('window').width - 46,
-                  alignItems: 'baseline',
-                }}>
-                <Text
-                  style={{
-                    marginTop: 16,
-                    fontSize: 28,
-                    fontWeight: 'bold',
-                    marginRight: 16,
-                  }}>
-                  {title}
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 12,
-                    color: '#555555',
-                    fontWeight: 'bold',
-                    marginRight: 8,
-                    marginBottom: 4,
-                  }}>
-                  {releaseYear}
-                </Text>
-              </View>
-            </View>
-            <View style={{flexDirection: 'row', padding: 8}}>
-              <Image
-                key={contentId}
-                style={{height: 150, width: (2 / 3) * 150}}
-                resizeMode="cover"
-                source={{uri: imageUrl, cache: 'force-cache'}}
+          <>
+            <View>
+              <YoutubePlayer
+                height={Dimensions.get('window').width / (16 / 9)}
+                play={playing}
+                videoId={trailerUrl.replace('https://youtu.be/', '')}
+                onChangeState={onStateChange}
               />
-
-              <ScrollView style={{paddingHorizontal: 16, height: 150}}>
+            </View>
+            <View style={{ padding: 8 }}>
+              <View style={[Style.homeTopFlex, { marginBottom: 8 }]}>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 8, marginTop: 16 }}>
+                  <IconMaterialIcons name="arrow-back-ios" color={'#000'} size={22} />
+                </TouchableOpacity>
                 <View
                   style={{
                     flexDirection: 'row',
-                    marginBottom: 4,
                     flexWrap: 'wrap',
-                    width: Dimensions.get('window').width - 400 / 3 - 48,
+                    marginBottom: 4,
+                    width: Dimensions.get('window').width - 46,
                     alignItems: 'baseline',
                   }}>
                   <Text
                     style={{
-                      color: '#000',
-                      backgroundColor: '#f5c518',
-                      fontSize: 10,
-                      overflow: 'hidden',
-                      borderRadius: 4,
-                      padding: 4,
+                      marginTop: 16,
+                      fontSize: 28,
                       fontWeight: 'bold',
+                      marginRight: 16,
+                    }}>
+                    {title}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      color: '#555555',
+                      fontWeight: 'bold',
+                      marginRight: 8,
                       marginBottom: 4,
                     }}>
-                    IMDb: {imdbRating}
+                    {releaseYear}
                   </Text>
                 </View>
-                <View style={{flexDirection: 'row', marginBottom: 8}}>
-                  {services.map((service) => (
-                    <Image
-                      source={{uri: service.IconUrl}}
-                      style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: 4,
-                        borderColor: '#000',
-                        borderWidth: 1,
-                        marginRight: 4,
-                      }}
-                    />
-                  ))}
-                </View>
-                <View style={{flexDirection: 'row', flexWrap: 'wrap', marginBottom: 4}}>
-                  {genres.map((genre) => (
+              </View>
+              <View style={{ flexDirection: 'row', padding: 8 }}>
+                <Image
+                  key={contentId}
+                  style={{ height: 150, width: (2 / 3) * 150 }}
+                  resizeMode="cover"
+                  source={{ uri: imageUrl, cache: 'force-cache' }}
+                />
+
+                <ScrollView style={{ paddingHorizontal: 16, height: 150 }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      marginBottom: 4,
+                      flexWrap: 'wrap',
+                      width: Dimensions.get('window').width - 400 / 3 - 48,
+                      alignItems: 'baseline',
+                    }}>
                     <Text
                       style={{
-                        backgroundColor: genreColorMap[genre.Id].background,
-                        color: genreColorMap[genre.Id].text,
+                        color: '#000',
+                        backgroundColor: '#f5c518',
                         fontSize: 10,
-                        borderRadius: 4,
-                        padding: 6,
-                        marginRight: 4,
-                        marginBottom: 4,
                         overflow: 'hidden',
+                        borderRadius: 4,
+                        padding: 4,
                         fontWeight: 'bold',
+                        marginBottom: 4,
                       }}>
-                      {genre.Value}
+                      IMDb: {imdbRating}
                     </Text>
-                  ))}
-                </View>
+                  </View>
+                  <View style={{ flexDirection: 'row', marginBottom: 8 }}>
+                    {services.map((service) => (
+                      <Image
+                        source={{ uri: service.IconUrl }}
+                        style={{
+                          width: 40,
+                          height: 40,
+                          borderRadius: 4,
+                          borderColor: '#000',
+                          borderWidth: 1,
+                          marginRight: 4,
+                        }}
+                      />
+                    ))}
+                  </View>
+                  <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginBottom: 4 }}>
+                    {genres.map((genre) => (
+                      <Text
+                        style={{
+                          backgroundColor: genreColorMap[genre.Id].background,
+                          color: genreColorMap[genre.Id].text,
+                          fontSize: 10,
+                          borderRadius: 4,
+                          padding: 6,
+                          marginRight: 4,
+                          marginBottom: 4,
+                          overflow: 'hidden',
+                          fontWeight: 'bold',
+                        }}>
+                        {genre.Value}
+                      </Text>
+                    ))}
+                  </View>
 
-                <Text
-                  style={{
-                    backgroundColor: '#555555',
-                    color: '#fff',
-                    fontSize: 10,
-                    borderRadius: 4,
-                    padding: 6,
-                    marginRight: 4,
-                    marginBottom: 4,
-                    overflow: 'hidden',
-                    fontWeight: 'bold',
-                    marginEnd: 'auto',
-                  }}>
-                  Seen:
+                  <Text
+                    style={{
+                      backgroundColor: '#555555',
+                      color: '#fff',
+                      fontSize: 10,
+                      borderRadius: 4,
+                      padding: 6,
+                      marginRight: 4,
+                      marginBottom: 4,
+                      overflow: 'hidden',
+                      fontWeight: 'bold',
+                      marginEnd: 'auto',
+                    }}>
+                    Seen:
                 </Text>
 
-                <Button onPress={() => {}} title={'Teste'}></Button>
-              </ScrollView>
-            </View>
-            <View>
+                  <Button onPress={() => { }} title={'Teste'}></Button>
+                </ScrollView>
+              </View>
+              <View>
                 <Button onPress={() => { }} title={'Seen'}></Button>
                 <Button onPress={() => { }} title={'Add to Watchlist'}></Button>
                 {typeId === 1 ? null : (
                   <><Button onPress={() => { }} title={'Start Watching'}></Button>
-                    {episodes.map((episode) => { return (<><Text>{episode.Title}</Text></>) })}
+                    <AccordionList
+                      expandedIndex={1}
+                      list={episodes}
+                      header={_head}
+                      body={_body}
+                      keyExtractor={(episode) => `${episode.id}`}
+                    />
                   </>
                 )}
               </View>
-          </View>
-        </>
-      )}
+            </View>
+          </>
+        )}
     </>
   );
 }
