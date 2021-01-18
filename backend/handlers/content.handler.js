@@ -247,6 +247,7 @@ router.post('/createStatus', async function (req, res) {
       });
 
     } else if(content.ContentTypeId == 2){
+
       const allEpisodes = await SeriesEpisode.findAll({
         where:{
           SeriesId: contentId
@@ -263,6 +264,7 @@ router.post('/createStatus', async function (req, res) {
             Id: epIdList[i]
           }
         }).then(async function (episodes){
+          await user.addWatchlistContent(content,{through:{StatusTypeId: statusId}});
           await user.addWatchlistContent(episodes);
         })
         const contentStatus= await ContentStatus.update({StatusTypeId: statusId},{
@@ -415,12 +417,7 @@ router.get('/getStatusType', async function (req, res) {
       UserId: user.Id,
     },
   });
-  
-  if(contentWatchedAt) {
-    return res.status(200).json(contentWatchedAt.StatusTypeId)
-  } else {
-    return res.status(200).json(null)
-  }
+  return res.status(200).json(contentWatchedAt.StatusTypeId)
 });
 
 
