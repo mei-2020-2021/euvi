@@ -301,7 +301,11 @@ router.get('/feedback', async function (req, res) {
     },
     attributes: ['Feedback']
   });
-  return res.status(200).json(contentFeedback.Feedback)
+  if(contentFeedback) {
+    return res.status(200).json(contentFeedback.Feedback)
+  }  else {
+    return res.status(200).json(null)
+  }
 });
 
 router.post('/feedback', async function (req, res) {

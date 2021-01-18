@@ -5,13 +5,14 @@ import {View, ScrollView, TouchableOpacity} from 'react-native';
 import LoadingScreen from '../../loading';
 import Content from '../../../components/Content';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {IP} from './../../../conf'
 
 function WatchingScreen({navigation}) {
   const [loading, setLoading] = React.useState(true);
   const [watchingContent, setWatchingContent] = React.useState([]);
 
   React.useEffect(() => {
-    fetch('http://localhost:6969/content/watchlist?uid=' + auth().currentUser.uid + '&statusTypeId=1')
+    fetch(IP + 'content/watchlist?uid=' + auth().currentUser.uid + '&statusTypeId=1')
       .then((res) => res.json())
       .then((data) => {
         setWatchingContent(data);

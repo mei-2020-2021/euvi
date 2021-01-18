@@ -9,6 +9,7 @@ import fetch from 'node-fetch';
 import Content from '../../components/Content';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {IP} from './../../conf'
 
 function ProfileScreen({navigation}) {
   const [loading, setLoading] = React.useState(true);
@@ -23,11 +24,11 @@ function ProfileScreen({navigation}) {
   }
 
   React.useEffect(() => {
-    fetch('http://localhost:6969/users/?uid=' + auth().currentUser.uid)
+    fetch(IP + 'users/?uid=' + auth().currentUser.uid)
       .then((res) => res.json())
       .then((data) => {
         setAddedServices(data.Services);
-        fetch('http://localhost:6969/services/getNotUserService?uid=' + auth().currentUser.uid)
+        fetch(IP + 'services/getNotUserService?uid=' + auth().currentUser.uid)
           .then((res) => res.json())
           .then((data) => {
             setNotAddedServices(data);
@@ -38,15 +39,15 @@ function ProfileScreen({navigation}) {
 
   function removeService(serviceId) {
     fetch(
-      'http://localhost:6969/services/removeService?serviceId=' + serviceId + '&uid=' + auth().currentUser.uid,
+      IP + 'services/removeService?serviceId=' + serviceId + '&uid=' + auth().currentUser.uid,
     ).then(() => {
       setReload(!reload);
     });
   }
 
   function addService(serviceId) {
-    console.log('http://localhost:6969/services/addService?serviceId=' + serviceId + '&uid=' + auth().currentUser.uid);
-    fetch('http://localhost:6969/services/addService?serviceId=' + serviceId + '&uid=' + auth().currentUser.uid).then(
+    console.log(IP + 'services/addService?serviceId=' + serviceId + '&uid=' + auth().currentUser.uid);
+    fetch(IP + 'services/addService?serviceId=' + serviceId + '&uid=' + auth().currentUser.uid).then(
       () => {
         setReload(!reload);
       },
