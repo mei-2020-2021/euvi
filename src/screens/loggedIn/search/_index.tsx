@@ -1,12 +1,12 @@
 import React from 'react';
-import {View} from 'react-native';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import { View } from 'react-native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import auth from '@react-native-firebase/auth';
 import LoadingScreen from '../../loading';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import SearchScreen from './searchScreen';
 import SearchGroupScreen from './searchGroupScreen';
-
+import ContentSearchScreen from './contentSearchScreen';
 
 function SearchContentScreen() {
   const [user, setUser] = React.useState(null);
@@ -23,21 +23,26 @@ function SearchContentScreen() {
       {loading ? (
         <LoadingScreen />
       ) : (
-        <View style={{height: '100%'}}>
-          <Stack.Navigator initialRouteName="search">
-            <Stack.Screen
-              options={{headerShown: false, headerBackTitleVisible: false}}
-              name="search"
-              component={SearchScreen}
-            />
-            <Stack.Screen
-              options={{headerShown: false, headerBackTitleVisible: false}}
-              name="searchGroup"
-              component={SearchGroupScreen}
-            />
-          </Stack.Navigator>
-        </View>
-      )}
+          <View style={{ height: '100%' }}>
+            <Stack.Navigator initialRouteName="search">
+              <Stack.Screen
+                options={{ headerShown: false, headerBackTitleVisible: false }}
+                name="search"
+                component={SearchScreen}
+              />
+              <Stack.Screen
+                options={{ headerShown: false, headerBackTitleVisible: false }}
+                name="searchGroup"
+                component={SearchGroupScreen}
+              />
+              <Stack.Screen
+                options={{ headerShown: false, headerBackTitleVisible: false }}
+                name="contentSearch"
+                component={ContentSearchScreen}
+              />
+            </Stack.Navigator>
+          </View>
+        )}
     </>
   );
 }
