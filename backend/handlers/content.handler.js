@@ -337,7 +337,7 @@ router.post('/updateStatusType', async function (req, res) {
 });
 
 
-router.get('/updateStatusType', async function (req, res) {
+router.get('/watchedAt', async function (req, res) {
   const userUid = req.query.uid;
   const contentId = req.query.contentId
 
@@ -360,6 +360,31 @@ router.get('/updateStatusType', async function (req, res) {
     },
   });
   return res.status(200).json(contentWatchedAt.WatchedAt)
+});
+
+router.get('/getStatusType', async function (req, res) {
+  const userUid = req.query.uid;
+  const contentId = req.query.contentId
+
+  const user = await User.findOne({
+    where:{
+      Uid: userUid
+    }
+  });
+
+  const content = await Content.findOne({
+    where:{
+      Id: contentId
+    }
+  });
+
+  const contentWatchedAt= await ContentStatus.findOne({
+    where: {
+      ContentId: contentId,
+      UserId: user.Id,
+    },
+  });
+  return res.status(200).json(contentWatchedAt.StatusTypeId)
 });
 
 

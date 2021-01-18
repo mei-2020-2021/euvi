@@ -49,6 +49,33 @@ const init = async () => {
   const genreFamily = await Genre.create({
     Value: 'Family',
   });
+  const genreSports = await Genre.create({
+    Value: 'Sports',
+  });
+  const genreDrama = await Genre.create({
+    Value: 'Drama',
+  });
+  const genreRomance = await Genre.create({
+    Value: 'Romance',
+  });
+  const genreSciFi = await Genre.create({
+    Value: 'SciFi',
+  });
+  const genreHistory = await Genre.create({
+    Value: 'History',
+  });
+  const genreThriller = await Genre.create({
+    Value: 'Thriller',
+  });
+  const genreMystery = await Genre.create({
+    Value: 'Mystery',
+  });
+  const genreAction = await Genre.create({
+    Value: 'Action',
+  });
+  const genreCrime = await Genre.create({
+    Value: 'Crime',
+  });
 
   //StatusType
   const statusWatching = await StatusType.create({
@@ -913,6 +940,9 @@ Duration: 59
 
   // Add Services to User
   await contentUserRato.addServices([serviceDisney, serviceNetflix]);
+  //Add Genres
+  await contentLupin.addGenres([genreAction, genreCrime, genreDrama]);
+  await contentQueensGambit.addGenres([genreAction, genreCrime, genreDrama]);
 
   // Add Services to Content
 
