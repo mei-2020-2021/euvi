@@ -34,11 +34,12 @@ function RecommendationsScreen({navigation, route}) {
   }, []);
 
   function openRecommendation(recommendation) {
-    const friendId = recommendation.Uid;
-    const contentId = recommendation.Id;
-    //   await fetch(IP + 'content/feedback?feedback=' + feedback + '&uid=' + auth().currentUser.uid + '&contentId=' + contentId ,{
-    //     method: 'POST'
-    //   })
+      const friendId = recommendation.Uid;
+      const contentId = recommendation.Id;
+      fetch(IP + 'recommendation/removeRecommendation?uid=' + auth().currentUser.uid + '&friendUid=' + friendId + '&contentId=' + contentId,{
+        method: 'POST'
+      })
+    
     navigation.navigate('ContentScreen', {contentId: recommendation.Id, title: recommendation.Title});
   }
 
