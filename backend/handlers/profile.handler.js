@@ -6,6 +6,7 @@ const ContentStatus = require('../sequelize/models/contentStatus.model');
 const User = require('../sequelize/models/user.model');
 const Content = require('../sequelize/models/content.model');
 const { every } = require('../sequelize/models/_index');
+const Genre = require('../sequelize/models/genre.model');
 
 router.get('/', async function (req, res) {
  const userId = req.query.UserId;
@@ -22,10 +23,10 @@ router.get('/', async function (req, res) {
  }
 });
 
-/* router.get('/categories', async function (req, res){
+ router.get('/categories', async function (req, res){
     const userUid = req.query.uid;
     var count = 0
-    var list = []
+    var uIdList = []
     const user = await User.findOne({
         where:{
           Uid: userUid
@@ -35,15 +36,28 @@ router.get('/', async function (req, res) {
     const allContent = await ContentStatus.findAll({
         where: {
             UserId: user.Id
-        }
+        },
     })
-    for (i=0; i<allContent.length;i++){
-        if(allContent[i].StatusTypeId == 2){
-            list.push(allContent[i].ContentId)
-        }
+    for(var i=0;i<allContent.length;i++){
+        uIdList.push(allContent[i].ContentId)
     }
+    for(var i = 0;i<uIdList;i++){
+        const genre = await Content.findAll({
+            where:{
+                Id: uIdList[i]
+            },
+            include:[{
+                model: Genre
+            }],
+            
+        })
+        
+        return res.status(200).json(genre.Genres)
+    }
+    
+    
 
-}) */
+})
 
 router.get('/totalTime', async function (req,res){
     const userUid = req.query.uid;
