@@ -250,10 +250,17 @@ router.post('/createStatus', async function (req, res) {
         {StatusTypeId: statusId},
         {
           where: {
-            SeriesId: contentId,
+            ContentId: contentId,
+            UserId: user.Id,
           },
         },
       );
+    } else if (content.ContentTypeId == 2) {
+      const allEpisodes = await SeriesEpisode.findAll({
+        where: {
+          SeriesId: contentId,
+        },
+      });
 
       for (var i = 0; i < allEpisodes.length; i++) {
         epIdList.push(allEpisodes[i].EpisodeId);
@@ -272,17 +279,6 @@ router.post('/createStatus', async function (req, res) {
             await user.addWatchlistContent(content, {through: {StatusTypeId: statusId}});
             await user.addWatchlistContent(episodes, {through: {StatusTypeId: statusId}});
           }
-        });
-        const contentStatus = await ContentStatus.update(
-          {StatusTypeId: statusId},
-          {
-            where: {
-              Id: epIdList[i],
-            },
-          },
-        ).then(async function (episodes) {
-          await user.addWatchlistContent(content, {through: {StatusTypeId: statusId, WatchedAt: dateTime}});
-          await user.addWatchlistContent(episodes, {through: {StatusTypeId: statusId, WatchedAt: dateTime}});
         });
         const contentStatus = await ContentStatus.update(
           {StatusTypeId: statusId},
