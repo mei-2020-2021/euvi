@@ -219,6 +219,10 @@ router.post('/createStatus', async function (req, res) {
   const userUID = req.query.uid
   const contentId = req.query.contentId
   var epIdList = [];
+  var today = new Date();
+  var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+  var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  var dateTime = date+' '+time;
   const statusType = await StatusType.findOne({
     where:{
       Id: statusId
@@ -238,7 +242,7 @@ router.post('/createStatus', async function (req, res) {
   }).then(async (content) => {
 
     if(content.ContentTypeId == 1){
-      await user.addWatchlistContent(content);
+      await user.addWatchlistContent(content,{through:{StatusTypeId: statusId, WatchedAt: dateTime}});
       const contentStatus= await ContentStatus.update({StatusTypeId: statusId},{
         where: {
           ContentId: contentId,
@@ -247,7 +251,6 @@ router.post('/createStatus', async function (req, res) {
       });
 
     } else if(content.ContentTypeId == 2){
-
       const allEpisodes = await SeriesEpisode.findAll({
         where:{
           SeriesId: contentId
@@ -264,8 +267,8 @@ router.post('/createStatus', async function (req, res) {
             Id: epIdList[i]
           }
         }).then(async function (episodes){
-          await user.addWatchlistContent(content,{through:{StatusTypeId: statusId}});
-          await user.addWatchlistContent(episodes);
+          await user.addWatchlistContent(content,{through:{StatusTypeId: statusId, WatchedAt: dateTime}});
+          await user.addWatchlistContent(episodes,{through:{StatusTypeId: statusId, WatchedAt: dateTime}});
         })
         const contentStatus= await ContentStatus.update({StatusTypeId: statusId},{
           where: {
