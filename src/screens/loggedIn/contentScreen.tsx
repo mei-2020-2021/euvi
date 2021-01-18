@@ -114,13 +114,13 @@ function ContentScreen({route, navigation}) {
                   flexDirection: 'row',
                   flexWrap: 'wrap',
                   marginBottom: 4,
-                  width: Dimensions.get('window').width - 32,
+                  width: Dimensions.get('window').width - 46,
                   alignItems: 'baseline',
                 }}>
                 <Text
                   style={{
                     marginTop: 16,
-                    fontSize: 32,
+                    fontSize: 28,
                     fontWeight: 'bold',
                     marginRight: 16,
                   }}>
@@ -155,16 +155,6 @@ function ContentScreen({route, navigation}) {
                     width: Dimensions.get('window').width - 400 / 3 - 48,
                     alignItems: 'baseline',
                   }}>
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      fontWeight: 'bold',
-                      marginRight: 4,
-                      marginBottom: 4,
-                    }}>
-                    {title}
-                  </Text>
-
                   <Text
                     style={{
                       color: '#000',
