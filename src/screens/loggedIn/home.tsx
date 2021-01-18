@@ -19,33 +19,39 @@ function HomeScreen({navigation}) {
 
   const [user, setUser] = React.useState(null);
 
-  React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      fetch(IP + 'users?uid=' + auth().currentUser.uid)
-        .then((res) => res.json())
-        .then((data) => {
-          setUser(data);
-          fetch(IP + 'content/trendingNow')
-            .then((res) => res.json())
-            .then((data) => {
-              setContentTrendingNow(data);
-              fetch(IP + 'content/topMovies')
-                .then((res) => res.json())
-                .then((data) => {
-                  setContentTopMovies(data);
-                  fetch(IP + 'content/topSeries')
-                    .then((res) => res.json())
-                    .then((data) => {
-                      setContentTopSeries(data);
-                      setLoading(false);
-                    });
-                });
-            });
-        });
-    });
+  function loadData() {
+    fetch(IP + 'users?uid=' + auth().currentUser.uid)
+      .then((res) => res.json())
+      .then((data) => {
+        setUser(data);
+        fetch(IP + 'content/trendingNow')
+          .then((res) => res.json())
+          .then((data) => {
+            setContentTrendingNow(data);
+            fetch(IP + 'content/topMovies')
+              .then((res) => res.json())
+              .then((data) => {
+                setContentTopMovies(data);
+                fetch(IP + 'content/topSeries')
+                  .then((res) => res.json())
+                  .then((data) => {
+                    setContentTopSeries(data);
+                    setLoading(false);
+                  });
+              });
+          });
+      });
+  }
 
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {});
+    loadData();
     return unsubscribe;
   }, [navigation]);
+
+  React.useEffect(() => {
+    loadData();
+  }, []);
 
   return (
     <>
