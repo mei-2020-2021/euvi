@@ -417,7 +417,12 @@ router.get('/watchedAt', async function (req, res) {
       UserId: user.Id,
     },
   });
-  return res.status(200).json(contentWatchedAt.WatchedAt);
+
+  if (contentWatchedAt) {
+    return res.status(200).json(contentWatchedAt.WatchedAt);
+  } else {
+    return res.status(200).json([]);
+  }
 });
 
 router.get('/getStatusType', async function (req, res) {
@@ -573,42 +578,45 @@ router.get('/currentSeasonEpisodes', async function (req, res) {
   var greatestEp = 0;
   var final = {};
 
-  const allEps = await SeriesEpisode.findAll({
-    where: {
-      SeriesId: contentId,
-    },
-  });
-  const user = await User.findOne({
-    where: {
-      Uid: userUid,
-    },
-  });
-
-  for (var i = 0; i < allEps.length; i++) {
-    list.push(allEps[i].EpisodeId);
-  }
-
-  for (var i = 0; i < list.length; i++) {
-    await ContentStatus.findOne({
+  try {
+    const allEps = await SeriesEpisode.findAll({
       where: {
-        ContentId: list[i],
-        UserId: user.Id,
+        SeriesId: contentId,
       },
-    }).then((allEpsStatus) => {
-      if (allEpsStatus.StatusTypeId == 2 && allEpsStatus.ContentId > greatestEp) {
-        greatestEp = allEpsStatus.ContentId;
-      }
     });
-  }
-  await SeriesEpisode.findAll({
-    where: {
-      EpisodeId: greatestEp,
-    },
-    attributes: ['SeasonNumber'],
-  }).then((allEpsSeason) => {
-    final = {Episode: greatestEp, Season: allEpsSeason[0].SeasonNumber};
-  });
+    const user = await User.findOne({
+      where: {
+        Uid: userUid,
+      },
+    });
 
+    for (var i = 0; i < allEps.length; i++) {
+      list.push(allEps[i].EpisodeId);
+    }
+
+    for (var i = 0; i < list.length; i++) {
+      await ContentStatus.findOne({
+        where: {
+          ContentId: list[i],
+          UserId: user.Id,
+        },
+      }).then((allEpsStatus) => {
+        if (allEpsStatus.StatusTypeId == 2 && allEpsStatus.ContentId > greatestEp) {
+          greatestEp = allEpsStatus.ContentId;
+        }
+      });
+    }
+    await SeriesEpisode.findAll({
+      where: {
+        EpisodeId: greatestEp,
+      },
+      attributes: ['SeasonNumber'],
+    }).then((allEpsSeason) => {
+      final = {Episode: greatestEp, Season: allEpsSeason[0].SeasonNumber};
+    });
+  } catch (error) {
+    return res.status(200).json([]);
+  }
   return res.status(200).json(final);
 });
 

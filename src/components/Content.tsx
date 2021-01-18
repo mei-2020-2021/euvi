@@ -1,13 +1,14 @@
 import React, {FunctionComponent} from 'react';
 import {View, Image, Text, ScrollView, Button} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import IconFontisto from 'react-native-vector-icons/Fontisto';
+import moment from 'moment';
 import {Dimensions} from 'react-native';
 import {IP} from './../conf';
-
 import auth from '@react-native-firebase/auth';
-
 import fetch from 'node-fetch';
+import StarRating from 'react-native-star-rating';
 
 type ContentProps = {
   contentId: string;
@@ -30,7 +31,10 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
   const [typeId, setTTypeId] = React.useState(null);
   const [episodes, setEpisodes] = React.useState([]);
   const [status, setStatus] = React.useState(null);
+  const [duration, setDuration] = React.useState(0);
   const [feedback, setFeedback] = React.useState(null);
+  const [lastEpisode, setLastEpisode] = React.useState(null);
+  const [watchAt, setWatchAt] = React.useState(null);
   const onStateChange = React.useCallback((state) => {
     if (state === 'ended') {
       setPlaying(false);
@@ -93,6 +97,15 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
     },
   };
 
+  function timeConvert(n) {
+    var num = n;
+    var hours = num / 60;
+    var rhours = Math.floor(hours);
+    var minutes = (hours - rhours) * 60;
+    var rminutes = Math.round(minutes);
+    return rhours + 'h' + rminutes + 'm';
+  }
+
   function loadData() {
     fetch(IP + 'content?id=' + contentId)
       .then((res) => res.json())
@@ -106,6 +119,7 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
         setServices(data.Services);
         setGenres(data.Genres);
         setTTypeId(data.ContentTypeId);
+        setDuration(data.Duration);
         if (data.ContentTypeId === 2) {
           var episodes = data.Episode.map((episode) => {
             return {
@@ -138,7 +152,17 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
               .then((res) => res.json())
               .then((data) => {
                 setFeedback(data);
-                setLoading(false);
+                fetch(IP + 'content/currentSeasonEpisodes?contentId=' + contentId + '&uid=' + auth().currentUser.uid)
+                  .then((res) => res.json())
+                  .then((data) => {
+                    setLastEpisode(data);
+                    fetch(IP + 'content/watchedAt?contentId=' + contentId + '&uid=' + auth().currentUser.uid)
+                      .then((res) => res.json())
+                      .then((data) => {
+                        setWatchAt(data);
+                        setLoading(false);
+                      });
+                  });
               });
           });
       });
@@ -158,7 +182,7 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
       />
 
       {screen == 'home' ? null : (
-        <ScrollView style={{paddingHorizontal: 16, height: 150}}>
+        <View style={{paddingHorizontal: 16, height: 150}}>
           <View
             style={{
               flexDirection: 'row',
@@ -181,26 +205,106 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
                 fontSize: 12,
                 color: '#555555',
                 fontWeight: 'bold',
-                marginRight: 8,
                 marginBottom: 4,
               }}>
               {releaseYear}
             </Text>
           </View>
-          <Text
-            style={{
-              color: '#000',
-              backgroundColor: '#f5c518',
-              fontSize: 10,
-              overflow: 'hidden',
-              borderRadius: 4,
-              padding: 6,
-              fontWeight: 'bold',
-              marginBottom: 8,
-              marginRight: 'auto',
-            }}>
-            IMDb: {imdbRating}
-          </Text>
+          {screen == 'watched' ? (
+            <View
+              style={{
+                flexDirection: 'row',
+                backgroundColor: '#555555',
+                alignItems: 'center',
+                padding: 6,
+                borderRadius: 4,
+                marginRight: 'auto',
+                marginBottom: 4,
+              }}>
+              <Text
+                style={{
+                  color: '#fff',
+                  fontSize: 10,
+                  borderRadius: 4,
+                  marginRight: 4,
+                  overflow: 'hidden',
+                  fontWeight: 'bold',
+                  marginEnd: 'auto',
+                }}>
+                {moment(watchAt).format('LL')}
+              </Text>
+            </View>
+          ) : null}
+          {screen == 'watching' ? (
+            <View
+              style={{
+                flexDirection: 'row',
+                backgroundColor: '#555555',
+                alignItems: 'center',
+                padding: 6,
+                borderRadius: 4,
+                marginRight: 'auto',
+                marginBottom: 4,
+              }}>
+              <Text
+                style={{
+                  color: '#fff',
+                  fontSize: 10,
+                  borderRadius: 4,
+                  marginRight: 4,
+                  overflow: 'hidden',
+                  fontWeight: 'bold',
+                  marginEnd: 'auto',
+                }}>
+                {lastEpisode}
+              </Text>
+            </View>
+          ) : null}
+          {screen == 'toWatch' ? (
+            <View
+              style={{
+                flexDirection: 'row',
+                backgroundColor: '#555555',
+                alignItems: 'center',
+                padding: 6,
+                borderRadius: 4,
+                marginRight: 'auto',
+                marginBottom: 4,
+              }}>
+              <Text
+                style={{
+                  color: '#fff',
+                  fontSize: 10,
+                  borderRadius: 4,
+                  marginRight: 4,
+                  overflow: 'hidden',
+                  fontWeight: 'bold',
+                  marginEnd: 'auto',
+                }}>
+                {timeConvert(duration)}
+              </Text>
+            </View>
+          ) : null}
+          {screen == 'recommendations' ? (
+            <View style={{marginRight: 'auto', marginBottom: 8, flexDirection: 'row', alignItems: 'center'}}>
+              <IconFontisto name="imdb" color={'black'} size={28} />
+              <Text style={{paddingLeft: 4, paddingRight: 1}}>:</Text>
+              <StarRating
+                halfStarEnabled={true}
+                disabled={true}
+                maxStars={5}
+                rating={parseFloat(imdbRating) / 2}
+                fullStarColor={'#f5c518'}
+                halfStarColor={'#f5c518'}
+                emptyStarColor={'#f5c518'}
+                emptyStar={'star-border'}
+                fullStar={'star'}
+                halfStar={'star-half'}
+                iconSet={'MaterialIcons'}
+                starSize={24}
+              />
+            </View>
+          ) : null}
           <View style={{flexDirection: 'row', marginBottom: 8}}>
             {services.map((service) => (
               <Image
@@ -216,23 +320,6 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
               />
             ))}
           </View>
-          {screen == 'watched' ? (
-            <Text
-              style={{
-                backgroundColor: '#555555',
-                color: '#fff',
-                fontSize: 10,
-                borderRadius: 4,
-                padding: 6,
-                marginRight: 4,
-                marginBottom: 4,
-                overflow: 'hidden',
-                fontWeight: 'bold',
-                marginEnd: 'auto',
-              }}>
-              Seen:
-            </Text>
-          ) : null}
           {screen == 'recommendations' ? (
             <View
               style={{
@@ -258,11 +345,8 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
               </Text>
             </View>
           ) : null}
-        </ScrollView>
+        </View>
       )}
-
-      {screen == 'watching' ? <Text>watching</Text> : null}
-      {screen == 'toWatch' ? <Text>toWatch</Text> : null}
     </View>
   );
 };

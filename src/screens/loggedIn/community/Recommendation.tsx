@@ -14,15 +14,18 @@ function RecommendationsScreen({navigation, route}) {
   const [recommendations, setRecommendations] = React.useState([]);
 
   function loadData() {
+    setLoading(true);
     fetch(IP + 'users?uid=' + auth().currentUser.uid)
       .then((res) => res.json())
       .then((data) => {
         const scopeUser = data;
         setUser(scopeUser);
-        setRecommendations(() => {
-          return route.params.recommendations;
-        });
-        setLoading(false);
+        fetch(IP + 'recommendation?uid=' + scopeUser.Uid)
+          .then((res) => res.json())
+          .then((data) => {
+            setRecommendations(data);
+            setLoading(false);
+          });
       });
   }
 
@@ -30,16 +33,28 @@ function RecommendationsScreen({navigation, route}) {
     navigation.addListener('focus', () => {
       loadData();
     });
+  }, [navigation]);
+
+  React.useEffect(() => {
     loadData();
   }, []);
 
   function openRecommendation(recommendation) {
-      const friendId = recommendation.Uid;
-      const contentId = recommendation.Id;
-      fetch(IP + 'recommendation/removeRecommendation?uid=' + auth().currentUser.uid + '&friendUid=' + friendId + '&contentId=' + contentId,{
-        method: 'POST'
-      })
-    
+    const friendId = recommendation.Uid;
+    const contentId = recommendation.Id;
+    fetch(
+      IP +
+        'recommendation/removeRecommendation?uid=' +
+        auth().currentUser.uid +
+        '&friendUid=' +
+        friendId +
+        '&contentId=' +
+        contentId,
+      {
+        method: 'POST',
+      },
+    );
+
     navigation.navigate('ContentScreen', {contentId: recommendation.Id, title: recommendation.Title});
   }
 
@@ -48,7 +63,7 @@ function RecommendationsScreen({navigation, route}) {
       {loading ? (
         <LoadingScreen />
       ) : (
-        <View style={{padding: 8}}>
+        <View style={{padding: 8, backgroundColor: 'white', height: '100%'}}>
           <ScrollView>
             <View style={[Style.homeTopFlex, {marginBottom: 16}]}>
               <TouchableOpacity onPress={() => navigation.goBack()} style={{padding: 8, marginTop: 16}}>

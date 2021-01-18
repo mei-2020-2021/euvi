@@ -6,8 +6,13 @@ import fetch from 'node-fetch';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import LoadingScreen from '../loading';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import IconAntDesign from 'react-native-vector-icons/AntDesign';
+import IconFontisto from 'react-native-vector-icons/Fontisto';
+
 import Style from '../style';
 import {IP} from './../../conf';
+import StarRating from 'react-native-star-rating';
+import {TouchableHighlight} from 'react-native-gesture-handler';
 
 function ContentScreen({route, navigation}) {
   const {contentId} = route.params;
@@ -209,7 +214,7 @@ function ContentScreen({route, navigation}) {
       {loading ? (
         <LoadingScreen />
       ) : (
-        <>
+        <ScrollView>
           <View>
             <YoutubePlayer
               height={Dimensions.get('window').width / (16 / 9)}
@@ -255,41 +260,37 @@ function ContentScreen({route, navigation}) {
             <View style={{flexDirection: 'row', padding: 8}}>
               <Image
                 key={contentId}
-                style={{height: 150, width: (2 / 3) * 150}}
+                style={{height: 200, width: (2 / 3) * 200}}
                 resizeMode="cover"
                 source={{uri: imageUrl, cache: 'force-cache'}}
               />
 
-              <ScrollView style={{paddingHorizontal: 16, height: 150}}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    marginBottom: 4,
-                    flexWrap: 'wrap',
-                    width: Dimensions.get('window').width - 400 / 3 - 48,
-                    alignItems: 'baseline',
-                  }}>
-                  <Text
-                    style={{
-                      color: '#000',
-                      backgroundColor: '#f5c518',
-                      fontSize: 10,
-                      overflow: 'hidden',
-                      borderRadius: 4,
-                      padding: 4,
-                      fontWeight: 'bold',
-                      marginBottom: 4,
-                    }}>
-                    IMDb: {imdbRating}
-                  </Text>
+              <View style={{paddingHorizontal: 16, height: 200}}>
+                <View style={{marginRight: 'auto', marginBottom: 8, flexDirection: 'row', alignItems: 'center'}}>
+                  <IconFontisto name="imdb" color={'black'} size={28} />
+                  <Text style={{paddingLeft: 4, paddingRight: 1}}>:</Text>
+                  <StarRating
+                    halfStarEnabled={true}
+                    disabled={true}
+                    maxStars={5}
+                    rating={parseFloat(imdbRating) / 2}
+                    fullStarColor={'#f5c518'}
+                    halfStarColor={'#f5c518'}
+                    emptyStarColor={'#f5c518'}
+                    emptyStar={'star-border'}
+                    fullStar={'star'}
+                    halfStar={'star-half'}
+                    iconSet={'MaterialIcons'}
+                    starSize={24}
+                  />
                 </View>
                 <View style={{flexDirection: 'row', marginBottom: 8}}>
                   {services.map((service) => (
                     <Image
                       source={{uri: service.IconUrl}}
                       style={{
-                        width: 40,
-                        height: 40,
+                        width: 50,
+                        height: 50,
                         borderRadius: 4,
                         borderColor: '#000',
                         borderWidth: 1,
@@ -298,13 +299,19 @@ function ContentScreen({route, navigation}) {
                     />
                   ))}
                 </View>
-                <View style={{flexDirection: 'row', flexWrap: 'wrap', marginBottom: 4}}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    marginBottom: 4,
+                    width: Dimensions.get('window').width - 400 / 3 - 48,
+                  }}>
                   {genres.map((genre) => (
                     <Text
                       style={{
                         backgroundColor: genreColorMap[genre.Id].background,
                         color: genreColorMap[genre.Id].text,
-                        fontSize: 10,
+                        fontSize: 12,
                         borderRadius: 4,
                         padding: 6,
                         marginRight: 4,
@@ -316,42 +323,39 @@ function ContentScreen({route, navigation}) {
                     </Text>
                   ))}
                 </View>
-
-                <Text
-                  style={{
-                    backgroundColor: '#555555',
-                    color: '#fff',
-                    fontSize: 10,
-                    borderRadius: 4,
-                    padding: 6,
-                    marginRight: 4,
-                    marginBottom: 4,
-                    overflow: 'hidden',
-                    fontWeight: 'bold',
-                    marginEnd: 'auto',
-                  }}>
-                  Seen:
-                </Text>
-
-                <Button onPress={() => {}} title={'Teste'}></Button>
-              </ScrollView>
+              </View>
+            </View>
+            <View style={{paddingHorizontal: 8, paddingBottom: 8}}>
+              <Text
+                style={{
+                  color: '#000',
+                  fontSize: 14,
+                  overflow: 'hidden',
+                  borderRadius: 4,
+                  fontWeight: 'bold',
+                  marginBottom: 4,
+                }}>
+                {sinopse}
+              </Text>
             </View>
             {status == 2 ? (
-              <View>
-                <Button
-                  onPress={() => {
-                    giveFeedbackToContent(1);
-                  }}
-                  title={'Like'}></Button>
-                <Button
+              <View style={{flexDirection: 'row'}}>
+                <TouchableOpacity
+                  style={{backgroundColor: 'red'}}
                   onPress={() => {
                     giveFeedbackToContent(-1);
-                  }}
-                  title={'Dislike'}></Button>
+                  }}>
+                  <IconAntDesign name="dislike1" color={'#000'} size={22} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{backgroundColor: 'green'}}
+                  onPress={() => {
+                    giveFeedbackToContent(1);
+                  }}>
+                  <IconAntDesign name="like1" color={'#000'} size={22} />
+                </TouchableOpacity>
               </View>
-            ) : (
-              <></>
-            )}
+            ) : null}
             <View>
               <Button
                 onPress={() => {
@@ -382,7 +386,7 @@ function ContentScreen({route, navigation}) {
               />
             )}
           </View>
-        </>
+        </ScrollView>
       )}
     </>
   );
