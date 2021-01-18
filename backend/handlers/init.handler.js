@@ -35,6 +35,10 @@ const init = async () => {
     Value: 'Apple TV+',
     IconUrl: 'https://pbs.twimg.com/profile_images/1110241147773829121/x5CQIvx7_400x400.png',
   });
+  const serviceHBO = await Service.create({
+    Value: 'HBO',
+    IconUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/HBO_logo.svg/200px-HBO_logo.svg.png',
+  });
 
   //Genres
   const genreAnimation = await Genre.create({
@@ -75,6 +79,9 @@ const init = async () => {
   });
   const genreCrime = await Genre.create({
     Value: 'Crime',
+  });
+  const genreHorror = await Genre.create({
+    Value: 'Horror',
   });
 
   //StatusType
@@ -941,10 +948,30 @@ Duration: 59
   // Add Services to User
   await contentUserRato.addServices([serviceDisney, serviceNetflix]);
   //Add Genres
-  await contentLupin.addGenres([genreAction, genreCrime, genreDrama]);
-  await contentQueensGambit.addGenres([genreAction, genreCrime, genreDrama]);
+  await contentSoul.addGenres([genreAnimation,genreAdventure,genreComedy])
+  await contentCoco.addGenres([genreAnimation,genreAdventure,genreFamily])
+  await contentLOTR.addGenres([genreAction,genreAdventure,genreDrama])
+  await contentGarfield.addGenres([genreAnimation,genreFamily,genreComedy])
+  await contentCats.addGenres([genreFamily,genreDrama,genreComedy])
+  await contentAvengers.addGenres([genreAction,genreAdventure,genreSciFi])
+  await contentHangover.addGenres([genreComedy])
+  await contentTCOTW.addGenres([genreDrama,genreAdventure,genreFamily])
+  await contentNotebook.addGenres([genreDrama,genreRomance])
+  await contentConjuring.addGenres([genreHorror,genreMystery,genreThriller])
 
+  await contentLupin.addGenres([genreAction, genreCrime, genreDrama]);
+  await contentQueensGambit.addGenres([genreSports, genreDrama]);
+  await contentChernobyl.addGenres([genreHistory, genreThriller, genreDrama]);
+  await contentAway.addGenres([genreRomance, genreSciFi, genreDrama]);
+  await contentTheSociety.addGenres([genreMystery, genreSciFi, genreDrama]);
+  await contentUmbrellaAcademy.addGenres([genreAction, genreAdventure, genreComedy]);
   // Add Services to Content
+  await contentChernobyl.addServices([serviceHBO]);
+  await contentLupin.addServices([serviceNetflix]);
+  await contentQueensGambit.addServices([serviceNetflix]);
+  await contentAway.addServices([serviceNetflix]);
+  await contentTheSociety.addServices([serviceNetflix]);
+  await contentUmbrellaAcademy.addServices([serviceNetflix]);
 
   // Add Friends
   await contentUserRato.addFriend(contentUser5);
