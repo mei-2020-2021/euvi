@@ -19,28 +19,32 @@ function HomeScreen({navigation}) {
   const [user, setUser] = React.useState(null);
 
   React.useEffect(() => {
-    fetch('http://localhost:6969/users?uid=' + auth().currentUser.uid)
-      .then((res) => res.json())
-      .then((data) => {
-        setUser(data);
-        fetch('http://localhost:6969/content/trendingNow')
-          .then((res) => res.json())
-          .then((data) => {
-            setContentTrendingNow(data);
-            fetch('http://localhost:6969/content/topMovies')
-              .then((res) => res.json())
-              .then((data) => {
-                setContentTopMovies(data);
-                fetch('http://localhost:6969/content/topSeries')
-                  .then((res) => res.json())
-                  .then((data) => {
-                    setContentTopSeries(data);
-                    setLoading(false);
-                  });
-              });
-          });
-      });
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetch('http://localhost:6969/users?uid=' + auth().currentUser.uid)
+        .then((res) => res.json())
+        .then((data) => {
+          setUser(data);
+          fetch('http://localhost:6969/content/trendingNow')
+            .then((res) => res.json())
+            .then((data) => {
+              setContentTrendingNow(data);
+              fetch('http://localhost:6969/content/topMovies')
+                .then((res) => res.json())
+                .then((data) => {
+                  setContentTopMovies(data);
+                  fetch('http://localhost:6969/content/topSeries')
+                    .then((res) => res.json())
+                    .then((data) => {
+                      setContentTopSeries(data);
+                      setLoading(false);
+                    });
+                });
+            });
+        });
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <>

@@ -78,45 +78,48 @@ function ContentScreen({ route, navigation }) {
   };
 
   React.useEffect(() => {
-    fetch('http://192.168.1.238:6969/content?id=' + contentId)
-      .then((res) => res.json())
-      .then((data) => {
-        setTitle(data.Title);
-        setReleaseYear(data.ReleaseYear);
-        setSinopse(data.Sinopse);
-        setImageUrl(data.ImageUrl);
-        setTrailerUrl(data.TrailerUrl);
-        setImdbRating(data.ImdbRating);
-        setServices(data.Services);
-        setGenres(data.Genres);
-        setLoading(false);
-        setTTypeId(data.ContentTypeId);
-        if (data.ContentTypeId === 2) {
-          var episodes = data.Episode.map((episode) => {
-            return {
-              Title: episode.Title,
-              ReleaseYear: episode.ReleaseYear,
-              Sinopse: episode.Sinopse,
-              Duration: episode.Duration,
-              Season: episode.SeriesEpisode.SeasonNumber,
-              Episode: episode.SeriesEpisode.EpisodeNumber,
-            }
-          })
-          const groupByKey = (list, key) => list.reduce((hash, obj) => ({ ...hash, [obj[key]]: (hash[obj[key]] || []).concat(obj) }), {});
-          const groupedBy = groupByKey(episodes, 'Season');
-          let episodesData = []
-          Object.keys(groupedBy).forEach((key, index) => {
-            episodesData.push({
-              id: key,
-              title: 'Season ' + key,
-              body: groupedBy[key]
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetch('http://192.168.1.238:6969/content?id=' + contentId)
+        .then((res) => res.json())
+        .then((data) => {
+          setTitle(data.Title);
+          setReleaseYear(data.ReleaseYear);
+          setSinopse(data.Sinopse);
+          setImageUrl(data.ImageUrl);
+          setTrailerUrl(data.TrailerUrl);
+          setImdbRating(data.ImdbRating);
+          setServices(data.Services);
+          setGenres(data.Genres);
+          setLoading(false);
+          setTTypeId(data.ContentTypeId);
+          if (data.ContentTypeId === 2) {
+            var episodes = data.Episode.map((episode) => {
+              return {
+                Title: episode.Title,
+                ReleaseYear: episode.ReleaseYear,
+                Sinopse: episode.Sinopse,
+                Duration: episode.Duration,
+                Season: episode.SeriesEpisode.SeasonNumber,
+                Episode: episode.SeriesEpisode.EpisodeNumber,
+              }
             })
-          })
-          setEpisodes(episodesData)
-        }
-      });
-  }, []);
-
+            const groupByKey = (list, key) => list.reduce((hash, obj) => ({ ...hash, [obj[key]]: (hash[obj[key]] || []).concat(obj) }), {});
+            const groupedBy = groupByKey(episodes, 'Season');
+            let episodesData = []
+            Object.keys(groupedBy).forEach((key, index) => {
+              episodesData.push({
+                id: key,
+                title: 'Season ' + key,
+                body: groupedBy[key]
+              })
+            })
+            console.log(episodesData)
+            setEpisodes(episodesData)
+          }
+        });
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   function _head(item) {
     return (
@@ -130,12 +133,10 @@ function ContentScreen({ route, navigation }) {
     return (
       <View style={{ padding: 8 }}>
         {item.body.map((el) => {
-            return (
-              <View>
-                <Text>{'S'+ el.Season + ':E'+ el.Episode +': ' + el.Title}</Text>
-              </View>
-            );
-          })}
+          return (
+            <Text>{'S' + el.Season + ':E' + el.Episode + ': ' + el.Title}</Text>
+          );
+        })}
       </View>
     );
   }
@@ -276,13 +277,14 @@ function ContentScreen({ route, navigation }) {
                 <Button onPress={() => { }} title={'Seen'}></Button>
                 <Button onPress={() => { }} title={'Add to Watchlist'}></Button>
                 {typeId === 1 ? null : (
-                  <><Button onPress={() => { }} title={'Start Watching'}></Button>
+                  <>
+                    <Button onPress={() => { }} title={'Start Watching'}></Button>
                     <AccordionList
                       expandedIndex={1}
                       list={episodes}
                       header={_head}
                       body={_body}
-                      keyExtractor={(episode) => `${episode.id}`}
+                      keyExtractor={(item) => `${item.id}`}
                     />
                   </>
                 )}
