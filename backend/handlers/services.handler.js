@@ -59,12 +59,29 @@ router.get('/getNotUserService', async function (req, res) {
       Uid: userUid,
     },
   });
-  const [contents, metadata] = await sequelize.query(
+
+  const [userServices, metadata] = await sequelize.query(
     'SELECT Services.* FROM Services WHERE Services.ID NOT IN (SELECT Services.ID FROM Users LEFT JOIN UserService ON Users.Id = UserService.UserId LEFT JOIN Services ON UserService.ServiceId = Services.Id WHERE Users.Id = ' +
       user.Id +
       ')',
   );
-  return res.status(200).json(contents);
+
+  console.log(JSON.stringify(userServices));
+
+  if (JSON.stringify(userServices) == '[]') {
+    const [contents, metadata] = await sequelize.query(
+      'SELECT * FROM Users LEFT JOIN UserService ON Users.Id = UserService.UserId LEFT JOIN Services ON UserService.ServiceId = Services.Id WHERE Users.Id = ' +
+        user.Id,
+    );
+    if (contents.length > 1) {
+      return res.status(200).json([]);
+    } else {
+      const [contents, metadata] = await sequelize.query('SELECT * FROM Services');
+      return res.status(200).json(contents);
+    }
+  } else {
+    return res.status(200).json(userServices);
+  }
 });
 
 module.exports = router;
