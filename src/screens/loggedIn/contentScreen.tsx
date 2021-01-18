@@ -105,7 +105,6 @@ function ContentScreen({route, navigation}) {
         setImdbRating(data.ImdbRating);
         setServices(data.Services);
         setGenres(data.Genres);
-        setLoading(false);
         setTTypeId(data.ContentTypeId);
         if (data.ContentTypeId === 2) {
           var episodes = data.Episode.map((episode) => {
@@ -139,6 +138,7 @@ function ContentScreen({route, navigation}) {
               .then((res) => res.json())
               .then((data) => {
                 setFeedback(data);
+                setLoading(false);
               });
           });
       });
