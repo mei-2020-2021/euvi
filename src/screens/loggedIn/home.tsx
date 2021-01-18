@@ -47,7 +47,7 @@ function HomeScreen({navigation}) {
       {loading || contentTrendingNow == null ? (
         <LoadingScreen />
       ) : (
-        <ScrollView style={{padding: 8}}>
+        <ScrollView style={{padding: 8, backgroundColor: 'white'}}>
           <View style={Style.homeTopFlex}>
             <TouchableOpacity onPress={() => navigation.navigate('ProfileScreen')}>
               <Text style={Style.authTitle}>
@@ -62,12 +62,8 @@ function HomeScreen({navigation}) {
                 }}>
                 <Icon name="account-cog-outline" color={'#000'} size={16} />
                 <View style={{paddingHorizontal: 2}}></View>
-                Preferences
+                Settings
               </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={Style.searchBox}>
-              <Text style={{fontSize: 24, fontWeight: 'bold', marginRight: 6}}>Search</Text>
-              <IconFoundation name="magnifying-glass" color={'#000'} size={24} />
             </TouchableOpacity>
           </View>
           <View style={Style.homeServicesFlex}>
@@ -85,12 +81,14 @@ function HomeScreen({navigation}) {
                 }}
               />
             ))}
-            <TouchableOpacity style={{backgroundColor: '#aaaaaa', borderRadius: 4}}>
+            <TouchableOpacity
+              style={{backgroundColor: '#aaaaaa', borderRadius: 4}}
+              onPress={() => navigation.navigate('AddServiceScreen')}>
               <Icon name="plus" color={'#fff'} size={40} style />
             </TouchableOpacity>
           </View>
           <View style={{marginVertical: 8}}>
-            <Text style={{fontSize: 32, fontWeight: 'bold', paddingLeft: 8}}>Trending Now</Text>
+            <Text style={{fontSize: 24, fontWeight: 'bold', paddingLeft: 8}}>Trending Now</Text>
             <ScrollView showsHorizontalScrollIndicator={false} horizontal>
               {contentTrendingNow.map((content) => (
                 <TouchableOpacity
@@ -103,7 +101,7 @@ function HomeScreen({navigation}) {
             </ScrollView>
           </View>
           <View style={{marginVertical: 8}}>
-            <Text style={{fontSize: 32, fontWeight: 'bold', paddingLeft: 8}}>Top Movies</Text>
+            <Text style={{fontSize: 24, fontWeight: 'bold', paddingLeft: 8}}>Top Movies</Text>
             <ScrollView showsHorizontalScrollIndicator={false} horizontal>
               {contentTopMovies.map((content) => (
                 <TouchableOpacity
@@ -116,7 +114,7 @@ function HomeScreen({navigation}) {
             </ScrollView>
           </View>
           <View style={{marginVertical: 8}}>
-            <Text style={{fontSize: 32, fontWeight: 'bold', paddingLeft: 8}}>Top Series</Text>
+            <Text style={{fontSize: 24, fontWeight: 'bold', paddingLeft: 8}}>Top Series</Text>
             <ScrollView showsHorizontalScrollIndicator={false} horizontal>
               {contentTopSeries.map((content) => (
                 <TouchableOpacity

@@ -10,12 +10,10 @@ SeriesEpisode.init(
     SeasonNumber: {
       type: Sequelize.DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true,
     },
     EpisodeNumber: {
       type: Sequelize.DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true,
     },
   },
   {

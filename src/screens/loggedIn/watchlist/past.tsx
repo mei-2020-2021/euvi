@@ -26,7 +26,7 @@ function WatchedScreen({navigation}) {
         <LoadingScreen />
       ) : (
         <View style={{width: '100%', height: '100%'}}>
-          <ScrollView style={{padding: 8}} showsHorizontalScrollIndicator={false}>
+          <ScrollView style={{padding: 8, backgroundColor: 'white'}} showsHorizontalScrollIndicator={false}>
             {watchedContent.map((content) => (
               <TouchableOpacity
                 onPress={() => {

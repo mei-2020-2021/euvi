@@ -2,6 +2,7 @@ const express = require('express');
 const User = require('../sequelize/models/user.model');
 const Content = require('../sequelize/models/content.model');
 const ContentStatus = require('../sequelize/models/contentStatus.model');
+const SeriesEpisode = require('../sequelize/models/seriesEpisode.model');
 const Service = require('../sequelize/models/service.model');
 const StatusType = require('../sequelize/models/statusType.model')
 const {_attributes} = require('../sequelize/_index');
@@ -410,6 +411,31 @@ router.get('/topSeries', async function (req, res) {
     },
   });
   return res.status(200).json(allContent);
+});
+
+router.get('/getSeriesInfo', async function (req, res) {
+  const serieId = req.query.serieId;
+  var list = []
+  var allInfo = []
+  const duration = await Content.findOne({
+    where:{
+      Id: serieId
+    },
+    attributes: ['Duration']
+  })
+
+  const allContent = await SeriesEpisode.findAll({
+    where: {
+      SeriesId: serieId
+    },
+    attributes: ['SeasonNumber', 'EpisodeNumber']
+  });
+  list.push(duration)
+  list.push(allContent)
+  var seasons ={Seasons: list[1][list[1].length-1].SeasonNumber}
+  allInfo.push(list[0])
+  allInfo.push(seasons)
+  return res.status(200).json(allInfo);
 });
 
 module.exports = router;
