@@ -485,7 +485,7 @@ router.get('/currentSeasonEpisodes', async function (req, res){
   const contentId = req.query.contentId;
   var list = []
   var greatestEp = 0
-  var season = 0
+  var final = {}
 
   const allEps = await SeriesEpisode.findAll({
     where: {
@@ -503,8 +503,6 @@ router.get('/currentSeasonEpisodes', async function (req, res){
   }
 
   for (var i = 0; i<list.length;i++){
-    console.log(list[i])
-    console.log(user.Id)
     await ContentStatus.findOne({
       where: {
         ContentId: list[i],
@@ -516,8 +514,16 @@ router.get('/currentSeasonEpisodes', async function (req, res){
       }
     })
   }
+  await SeriesEpisode.findAll({
+    where: {
+      EpisodeId: greatestEp
+    },
+    attributes: ['SeasonNumber']
+  }).then((allEpsSeason)=>{
+    final = {Episode: greatestEp, Season: allEpsSeason[0].SeasonNumber}
+  })
   
-  return res.status(200).json(greatestEp)
+  return res.status(200).json(final)
 })
 
 module.exports = router;
