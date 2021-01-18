@@ -6,6 +6,7 @@ import Style from '../../style';
 import {Autocomplete} from 'react-native-dropdown-autocomplete';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {IP} from './../../../conf'
 
 function NewFriendScreen({navigation}) {
   const [user, setUser] = React.useState(null);
@@ -23,8 +24,17 @@ function NewFriendScreen({navigation}) {
       });
   }, []);
 
+    React.useEffect(() => {
+        setUser(auth().currentUser);
+        fetch(IP + 'users/friends?uid='+auth().currentUser.uid)
+        .then((res) => res.json())
+        .then((data) => {
+            setUserList(data)
+            setLoading(false);
+        });
+    }, []);
   async function handleSelectItem(item) {
-    await fetch('http://localhost:6969/friendship/friendship?uid=' + user.uid + '&frienduid=' + item.Uid, {
+    await fetch(IP + 'friendship/friendship?uid=' + user.uid + '&frienduid=' + item.Uid, {
       method: 'POST',
     }).then(navigation.goBack());
   }
