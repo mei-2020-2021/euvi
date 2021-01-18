@@ -17,7 +17,7 @@ function LoggedInStackScreen() {
         <Stack.Screen
           name="ProfileScreen"
           component={ProfileScreen}
-          options={{headerBackTitleVisible: false, headerTitle: 'Profile'}}
+          options={{headerShown: false, headerBackTitleVisible: false}}
         />
         <Stack.Screen
           name="ContentScreen"

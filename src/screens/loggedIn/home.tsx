@@ -62,7 +62,7 @@ function HomeScreen({navigation}) {
                 }}>
                 <Icon name="account-cog-outline" color={'#000'} size={16} />
                 <View style={{paddingHorizontal: 2}}></View>
-                Settings
+                Account
               </Text>
             </TouchableOpacity>
           </View>
