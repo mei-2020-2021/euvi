@@ -21,22 +21,19 @@ router.get('/', async function (req, res) {
 });
 
 /* router.get('/categories', async function (req, res){
-    const userUid = req.query.uid
+    const userUid = req.query.uid;
 
-    const user = await Content.findOne({
+    const user = await User.findOne({
         where:{
-            Uid: userUid
+          Uid: userUid
         }
-    })
+    });
 
     const allContent = await ContentStatus.findAll({
         where: {
             UserId: user.Id
         }
     })
-
-    
-
 
 }) */
 

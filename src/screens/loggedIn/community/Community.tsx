@@ -4,8 +4,9 @@ import LoadingScreen from '../../loading';
 import {View, Text, StyleSheet} from 'react-native';
 import Style from './../../style';
 import {AccordionList} from 'accordion-collapse-react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import {IP} from './../../../conf'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 function CommunityHomeScreen({navigation}) {
   const [user, setUser] = React.useState(null);
@@ -73,10 +74,20 @@ function CommunityHomeScreen({navigation}) {
 
   function _head(item) {
     return (
-      <View style={Style.homeTopFlex}>
-        <Text style={Style.authTitle}>{item.title}</Text>
+      <View
+        style={{flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', paddingHorizontal: 8}}>
+        <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
+          {item.id == 1 ? (
+            <Icon name="account-group" color={'#15616d'} size={24} />
+          ) : (
+            <Icon name="account" color={'#15616d'} size={24} />
+          )}
+          <Text style={{paddingLeft: 8, marginTop: 16, fontSize: 24, fontWeight: 'bold'}}>{item.title}</Text>
+        </View>
         <Icon
-          name="plus"
+          name="plus-circle-outline"
+          size={24}
+          color={'#28a745'}
           onPress={() => {
             item.id == 1
               ? navigation.navigate('NewGroup', {friendsList: friendList})
@@ -92,16 +103,47 @@ function CommunityHomeScreen({navigation}) {
         {item.isGroup
           ? item.body.map((el) => {
               return (
-                <View style={Style.homeTopFlex}>
-                  <Text style={styles.item}>{el.name}</Text>
-                  {el.ownerId == user ? <Text style={styles.item}>Owner</Text> : <></>}
+                <View
+                  style={{
+                    borderTopWidth: 1,
+                    borderColor: 'black',
+                    paddingVertical: 4,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  {el.ownerId == user.Id ? (
+                    <Icon name="radiobox-marked" color={'#15616d'} size={16} />
+                  ) : (
+                    <Icon name="radiobox-blank" color={'#15616d'} size={16} />
+                  )}
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      paddingLeft: 4,
+                    }}>
+                    {el.name}
+                  </Text>
                 </View>
               );
             })
           : item.body.map((el) => {
               return (
-                <View>
-                  <Text style={styles.item}>{el.firstName + ' ' + el.lastName}</Text>
+                <View
+                  style={{
+                    borderTopWidth: 1,
+                    borderColor: 'black',
+                    paddingVertical: 4,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <Icon name="radiobox-blank" color={'#15616d'} size={16} />
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      paddingLeft: 4,
+                    }}>
+                    {el.firstName + ' ' + el.lastName}
+                  </Text>
                 </View>
               );
             })}
@@ -114,16 +156,28 @@ function CommunityHomeScreen({navigation}) {
       {loading ? (
         <LoadingScreen />
       ) : (
-        <View style={{padding: 8}}>
-          <View style={Style.homeTopFlex}>
+        <View style={{padding: 8, backgroundColor: 'white', height: '100%'}}>
+          <View style={[Style.homeTopFlex]}>
             <Text style={Style.authTitle}>Community</Text>
-            <View>
-              <Text
-                style={[styles.title, {color: 'red'}]}
-                onPress={() => navigation.navigate('Recommendations', {recommendations: recommendationList})}>
-                {recommendationList.length}
-              </Text>
-            </View>
+            <TouchableOpacity
+              style={{flexDirection: 'row', alignSelf: 'baseline', marginRight: 8, marginTop: 7}}
+              onPress={() => navigation.navigate('Recommendations', {recommendations: recommendationList})}>
+              <View style={{position: 'relative', top: 7, left: 17}}>
+                <Icon name="inbox-full" color={'#15616d'} size={38} />
+              </View>
+              <View style={{backgroundColor: '#f5c518', width: 25, height: 25, borderRadius: 16}}>
+                <Text
+                  style={{
+                    color: 'black',
+                    alignSelf: 'center',
+                    textAlignVertical: 'center',
+                    fontWeight: 'bold',
+                    fontSize: 20,
+                  }}>
+                  {recommendationList.length}
+                </Text>
+              </View>
+            </TouchableOpacity>
           </View>
           <AccordionList
             expandedIndex={1}
