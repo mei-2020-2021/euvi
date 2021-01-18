@@ -35,6 +35,14 @@ const init = async () => {
     Value: 'Apple TV+',
     IconUrl: 'https://pbs.twimg.com/profile_images/1110241147773829121/x5CQIvx7_400x400.png',
   });
+  const serviceHBO = await Service.create({
+    Value: 'HBO',
+    IconUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/HBO_logo.svg/200px-HBO_logo.svg.png',
+  });
+  const serviceAmazon = await Service.create({
+    Value: 'AmazonPrime Video',
+    IconUrl: 'https://store-images.s-microsoft.com/image/apps.27073.14618985536919905.dee6fc2f-7908-497d-8aa7-395befb36297.85cc91ac-8477-4705-bc24-4196d5bf85a2?mode=scale&q=90&h=270&w=270&background=%230078D7',
+  });
 
   //Genres
   const genreAnimation = await Genre.create({
@@ -48,6 +56,36 @@ const init = async () => {
   });
   const genreFamily = await Genre.create({
     Value: 'Family',
+  });
+  const genreSports = await Genre.create({
+    Value: 'Sports',
+  });
+  const genreDrama = await Genre.create({
+    Value: 'Drama',
+  });
+  const genreRomance = await Genre.create({
+    Value: 'Romance',
+  });
+  const genreSciFi = await Genre.create({
+    Value: 'SciFi',
+  });
+  const genreHistory = await Genre.create({
+    Value: 'History',
+  });
+  const genreThriller = await Genre.create({
+    Value: 'Thriller',
+  });
+  const genreMystery = await Genre.create({
+    Value: 'Mystery',
+  });
+  const genreAction = await Genre.create({
+    Value: 'Action',
+  });
+  const genreCrime = await Genre.create({
+    Value: 'Crime',
+  });
+  const genreHorror = await Genre.create({
+    Value: 'Horror',
   });
 
   //StatusType
@@ -64,8 +102,8 @@ const init = async () => {
   //Create user
   const contentUserRato = await User.create({
     Uid: 'nZGFSKipAjUtyDoT2cAKXe4ykMt2',
-    FirstName: 'Ricardo',
-    LastName: 'Faria',
+    FirstName: 'Demo',
+    LastName: 'User',
     BirthDate: '07/09/1999',
     Email: 'bmcdcar@hotmail.com',
   });
@@ -913,8 +951,42 @@ Duration: 59
 
   // Add Services to User
   await contentUserRato.addServices([serviceDisney, serviceNetflix]);
+  //Add Genres
+  await contentSoul.addGenres([genreAnimation,genreAdventure,genreComedy])
+  await contentCoco.addGenres([genreAnimation,genreAdventure,genreFamily])
+  await contentLOTR.addGenres([genreAction,genreAdventure,genreDrama])
+  await contentGarfield.addGenres([genreAnimation,genreFamily,genreComedy])
+  await contentCats.addGenres([genreFamily,genreDrama,genreComedy])
+  await contentAvengers.addGenres([genreAction,genreAdventure,genreSciFi])
+  await contentHangover.addGenres([genreComedy])
+  await contentTCOTW.addGenres([genreDrama,genreAdventure,genreFamily])
+  await contentNotebook.addGenres([genreDrama,genreRomance])
+  await contentConjuring.addGenres([genreHorror,genreMystery,genreThriller])
 
+  await contentLupin.addGenres([genreAction, genreCrime, genreDrama]);
+  await contentQueensGambit.addGenres([genreSports, genreDrama]);
+  await contentChernobyl.addGenres([genreHistory, genreThriller, genreDrama]);
+  await contentAway.addGenres([genreRomance, genreSciFi, genreDrama]);
+  await contentTheSociety.addGenres([genreMystery, genreSciFi, genreDrama]);
+  await contentUmbrellaAcademy.addGenres([genreAction, genreAdventure, genreComedy]);
   // Add Services to Content
+  await contentSoul.addServices([serviceDisney])
+  await contentCoco.addServices([serviceDisney])
+  await contentLOTR.addServices([serviceAppleTvPlus, serviceNetflix])
+  await contentGarfield.addServices([serviceAppleTvPlus, serviceNetflix, serviceAmazon])
+  await contentCats.addServices([serviceHBO])
+  await contentAvengers.addServices([serviceAmazon, serviceDisney])
+  await contentHangover.addServices([serviceNetflix])
+  await contentTCOTW.addServices([serviceHBO, serviceDisney])
+  await contentNotebook.addServices([serviceAmazon, serviceAppleTvPlus, serviceNetflix])
+  await contentConjuring.addServices([serviceAppleTvPlus])
+
+  await contentChernobyl.addServices([serviceHBO]);
+  await contentLupin.addServices([serviceNetflix]);
+  await contentQueensGambit.addServices([serviceNetflix]);
+  await contentAway.addServices([serviceNetflix]);
+  await contentTheSociety.addServices([serviceNetflix]);
+  await contentUmbrellaAcademy.addServices([serviceNetflix]);
 
   // Add Friends
   await contentUserRato.addFriend(contentUser5);

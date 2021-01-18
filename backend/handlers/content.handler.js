@@ -218,7 +218,7 @@ router.post('/createStatus', async function (req, res) {
   const statusId = parseInt(req.query.statusTypeId);
   const userUID = req.query.uid
   const contentId = req.query.contentId
-
+  var epIdList = [];
   const statusType = await StatusType.findOne({
     where:{
       Id: statusId
@@ -231,21 +231,52 @@ router.post('/createStatus', async function (req, res) {
     }
   });
 
-  const content = await Content.findOne({
+  await Content.findOne({
     where:{
       Id: contentId
     }
-  });
+  }).then(async (content) => {
 
-  await user.addWatchlistContent(content);
+    if(content.ContentTypeId == 1){
+      await user.addWatchlistContent(content);
+      const contentStatus= await ContentStatus.update({StatusTypeId: statusId},{
+        where: {
+          ContentId: contentId,
+          UserId: user.Id,
+        }
+      });
 
-  const contentStatus= await ContentStatus.update({StatusTypeId: statusId},{
-    where: {
-      ContentId: contentId,
-      UserId: user.Id,
+    } else if(content.ContentTypeId == 2){
+      const allEpisodes = await SeriesEpisode.findAll({
+        where:{
+          SeriesId: contentId
+        }
+      })
+
+      for (var i = 0; i<allEpisodes.length;i++){
+        epIdList.push(allEpisodes[i].EpisodeId)
+      }
+      console.log(epIdList.length)
+      for (var i=0; i<epIdList.length;i++){
+        await Content.findOne({
+          where:{
+            Id: epIdList[i]
+          }
+        }).then(async function (episodes){
+          await user.addWatchlistContent(episodes);
+        })
+        const contentStatus= await ContentStatus.update({StatusTypeId: statusId},{
+          where: {
+            ContentId: epIdList[i],
+            UserId: user.Id,
+          }
+        });
+        
+      }
     }
-  });
-  return res.status(200).json(contentStatus)
+    
+  })
+  return res.status(200).json(contentId)
 });
 
 
@@ -337,7 +368,7 @@ router.post('/updateStatusType', async function (req, res) {
 });
 
 
-router.get('/updateStatusType', async function (req, res) {
+router.get('/watchedAt', async function (req, res) {
   const userUid = req.query.uid;
   const contentId = req.query.contentId
 
@@ -360,6 +391,36 @@ router.get('/updateStatusType', async function (req, res) {
     },
   });
   return res.status(200).json(contentWatchedAt.WatchedAt)
+});
+
+router.get('/getStatusType', async function (req, res) {
+  const userUid = req.query.uid;
+  const contentId = req.query.contentId
+
+  const user = await User.findOne({
+    where:{
+      Uid: userUid
+    }
+  });
+
+  const content = await Content.findOne({
+    where:{
+      Id: contentId
+    }
+  });
+
+  const contentWatchedAt= await ContentStatus.findOne({
+    where: {
+      ContentId: contentId,
+      UserId: user.Id,
+    },
+  });
+  
+  if(contentWatchedAt) {
+    return res.status(200).json(contentWatchedAt.StatusTypeId)
+  } else {
+    return res.status(200).json(null)
+  }
 });
 
 
