@@ -241,22 +241,19 @@ router.post('/createStatus', async function (req, res) {
     },
   }).then(async (content) => {
     if (content.ContentTypeId == 1) {
-      await user.addWatchlistContent(content, {through: {StatusTypeId: statusId}});
+      if (statusId == 2) {
+        await user.addWatchlistContent(content, {through: {StatusTypeId: statusId, WatchedAt: dateTime}});
+      } else {
+        await user.addWatchlistContent(content, {through: {StatusTypeId: statusId}});
+      }
       const contentStatus = await ContentStatus.update(
         {StatusTypeId: statusId},
         {
           where: {
-            ContentId: contentId,
-            UserId: user.Id,
+            SeriesId: contentId,
           },
         },
       );
-    } else if (content.ContentTypeId == 2) {
-      const allEpisodes = await SeriesEpisode.findAll({
-        where: {
-          SeriesId: contentId,
-        },
-      });
 
       for (var i = 0; i < allEpisodes.length; i++) {
         epIdList.push(allEpisodes[i].EpisodeId);
@@ -268,6 +265,22 @@ router.post('/createStatus', async function (req, res) {
             Id: epIdList[i],
           },
         }).then(async function (episodes) {
+          if (statusId == 2) {
+            await user.addWatchlistContent(content, {through: {StatusTypeId: statusId, WatchedAt: dateTime}});
+            await user.addWatchlistContent(episodes, {through: {StatusTypeId: statusId, WatchedAt: dateTime}});
+          } else {
+            await user.addWatchlistContent(content, {through: {StatusTypeId: statusId}});
+            await user.addWatchlistContent(episodes, {through: {StatusTypeId: statusId}});
+          }
+        });
+        const contentStatus = await ContentStatus.update(
+          {StatusTypeId: statusId},
+          {
+            where: {
+              Id: epIdList[i],
+            },
+          },
+        ).then(async function (episodes) {
           await user.addWatchlistContent(content, {through: {StatusTypeId: statusId, WatchedAt: dateTime}});
           await user.addWatchlistContent(episodes, {through: {StatusTypeId: statusId, WatchedAt: dateTime}});
         });
