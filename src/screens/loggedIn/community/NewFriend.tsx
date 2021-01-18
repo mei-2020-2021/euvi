@@ -14,7 +14,7 @@ function NewFriendScreen( {navigation} ) {
 
     React.useEffect(() => {
         setUser(auth().currentUser);
-        fetch('http://192.168.1.238:6969/users/friends?uid='+auth().currentUser.uid)
+        fetch('http://localhost:6969/users/friends?uid='+auth().currentUser.uid)
         .then((res) => res.json())
         .then((data) => {
             setUserList(data)
@@ -24,7 +24,7 @@ function NewFriendScreen( {navigation} ) {
 
 
     async function handleSelectItem(item) {
-        await fetch('http://192.168.1.238:6969/friendship/friendship?uid='+ user.uid + '&frienduid=' + item.Uid,{
+        await fetch('http://localhost:6969/friendship/friendship?uid='+ user.uid + '&frienduid=' + item.Uid,{
             method: 'POST'
           }).then(navigation.goBack())
     }

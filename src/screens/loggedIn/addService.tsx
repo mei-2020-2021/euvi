@@ -12,6 +12,7 @@ import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 function AddServiceScreen({navigation}) {
   const [loading, setLoading] = React.useState(true);
+  const [reload, setReload] = React.useState(false);
   const [addedServices, setAddedServices] = React.useState([]);
   const [notAddedServices, setNotAddedServices] = React.useState([]);
 
@@ -22,14 +23,31 @@ function AddServiceScreen({navigation}) {
       .then((res) => res.json())
       .then((data) => {
         setAddedServices(data.Services);
-        fetch('http://localhost:6969/services/getNotUserService')
+        fetch('http://localhost:6969/services/getNotUserService?uid=' + auth().currentUser.uid)
           .then((res) => res.json())
           .then((data) => {
             setNotAddedServices(data);
             setLoading(false);
           });
       });
-  }, []);
+  }, [reload]);
+
+  function removeService(serviceId) {
+    fetch(
+      'http://localhost:6969/services/removeService?serviceId=' + serviceId + '&uid=' + auth().currentUser.uid,
+    ).then(() => {
+      setReload(!reload);
+    });
+  }
+
+  function addService(serviceId) {
+    console.log('http://localhost:6969/services/addService?serviceId=' + serviceId + '&uid=' + auth().currentUser.uid);
+    fetch('http://localhost:6969/services/addService?serviceId=' + serviceId + '&uid=' + auth().currentUser.uid).then(
+      () => {
+        setReload(!reload);
+      },
+    );
+  }
 
   return (
     <>
@@ -45,9 +63,9 @@ function AddServiceScreen({navigation}) {
           </View>
           <View style={{marginVertical: 16}}>
             <Text style={{fontSize: 24, fontWeight: 'bold', paddingLeft: 8, marginBottom: 8}}>My services</Text>
-            <View style={{flexDirection: 'row', marginLeft: 8, marginBottom: 8}}>
+            <View style={{flexDirection: 'row', marginLeft: 8, marginBottom: 8, flexWrap: 'wrap'}}>
               {addedServices.map((service) => (
-                <>
+                <View>
                   <Image
                     key={service.Id}
                     source={{uri: service.IconUrl}}
@@ -57,22 +75,24 @@ function AddServiceScreen({navigation}) {
                       borderRadius: 4,
                       borderColor: '#000',
                       borderWidth: 1,
-                      marginRight: 8,
+                      marginRight: 24,
                     }}
                   />
                   <View
                     style={{
                       position: 'relative',
-                      left: -19,
-                      bottom: -47,
+                      left: 48,
+                      bottom: 12,
                       backgroundColor: '#fff',
-                      width: 22,
-                      height: 22,
-                      borderRadius: 11,
+                      width: 26,
+                      height: 26,
+                      borderRadius: 13,
                     }}>
-                    <Icon name="minus-circle-outline" color={'#dc3545'} size={22} />
+                    <TouchableOpacity key={service.Id} onPress={() => removeService(service.Id)}>
+                      <Icon name="minus-circle-outline" color={'#dc3545'} size={26} />
+                    </TouchableOpacity>
                   </View>
-                </>
+                </View>
               ))}
             </View>
           </View>
@@ -80,7 +100,7 @@ function AddServiceScreen({navigation}) {
             <Text style={{fontSize: 24, fontWeight: 'bold', paddingLeft: 8, marginBottom: 8}}>Other services</Text>
             <View style={{flexDirection: 'row', marginLeft: 8, marginBottom: 8}}>
               {notAddedServices.map((service) => (
-                <>
+                <View>
                   <Image
                     key={service.Id}
                     source={{uri: service.IconUrl}}
@@ -90,22 +110,24 @@ function AddServiceScreen({navigation}) {
                       borderRadius: 4,
                       borderColor: '#000',
                       borderWidth: 1,
-                      marginRight: 8,
+                      marginRight: 24,
                     }}
                   />
                   <View
                     style={{
                       position: 'relative',
-                      left: -19,
-                      bottom: -47,
+                      left: 48,
+                      bottom: 12,
                       backgroundColor: '#fff',
-                      width: 22,
-                      height: 22,
-                      borderRadius: 11,
+                      width: 26,
+                      height: 26,
+                      borderRadius: 13,
                     }}>
-                    <Icon name="plus-circle-outline" color={'#28a745'} size={22} />
+                    <TouchableOpacity key={service.Id} onPress={() => addService(service.Id)}>
+                      <Icon name="plus-circle-outline" color={'#28a745'} size={26} />
+                    </TouchableOpacity>
                   </View>
-                </>
+                </View>
               ))}
             </View>
           </View>
