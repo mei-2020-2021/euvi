@@ -9,14 +9,20 @@ import fetch from 'node-fetch';
 import Content from '../../components/Content';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {IP} from './../../conf'
+import {IP} from './../../conf';
+import {BarChart, Grid, YAxis} from 'react-native-svg-charts';
 
 function ProfileScreen({navigation}) {
   const [loading, setLoading] = React.useState(true);
   const [reload, setReload] = React.useState(false);
-  const [addedServices, setAddedServices] = React.useState([]);
-  const [notAddedServices, setNotAddedServices] = React.useState([]);
-
+  const [data, setData] = React.useState({
+    labels: [],
+    datasets: [
+      {
+        data: [],
+      },
+    ],
+  });
   const [user, setUser] = React.useState(null);
 
   function signOut() {
@@ -24,35 +30,44 @@ function ProfileScreen({navigation}) {
   }
 
   React.useEffect(() => {
-    fetch(IP + 'users/?uid=' + auth().currentUser.uid)
-      .then((res) => res.json())
+    fetch(IP + 'profile/categories?uid=' + auth().currentUser.uid)
+      .then((data) => data.json())
       .then((data) => {
-        setAddedServices(data.Services);
-        fetch(IP + 'services/getNotUserService?uid=' + auth().currentUser.uid)
-          .then((res) => res.json())
-          .then((data) => {
-            setNotAddedServices(data);
-            setLoading(false);
-          });
+        console.log(data);
+
+        const keys = Object.keys(data);
+        console.log(keys);
+
+        const values = Object.values(data);
+        console.log(values);
+
+        const processedData = {
+          labels: keys,
+          datasets: [
+            {
+              data: values,
+            },
+          ],
+        };
+
+        setData(processedData);
+        setLoading(false);
       });
-  }, [reload]);
+  }, []);
 
-  function removeService(serviceId) {
-    fetch(
-      IP + 'services/removeService?serviceId=' + serviceId + '&uid=' + auth().currentUser.uid,
-    ).then(() => {
-      setReload(!reload);
-    });
-  }
+  const chartConfig = {
+    backgroundColor: '#ffffff',
+    backgroundGradientFrom: '#ffffff',
+    backgroundGradientTo: '#ffffff',
+    color: (opacity = 1) => '#000000',
+    strokeWidth: 3, // optional, default 3
+    barPercentage: 0.5,
+    useShadowColorFromDataset: false, // optional
+    withOuterLines: false,
+    withInnerLines: false,
+  };
 
-  function addService(serviceId) {
-    console.log(IP + 'services/addService?serviceId=' + serviceId + '&uid=' + auth().currentUser.uid);
-    fetch(IP + 'services/addService?serviceId=' + serviceId + '&uid=' + auth().currentUser.uid).then(
-      () => {
-        setReload(!reload);
-      },
-    );
-  }
+  const graphStyle = {};
 
   return (
     <>
@@ -65,6 +80,18 @@ function ProfileScreen({navigation}) {
               <IconMaterialIcons name="arrow-back-ios" color={'#000'} size={22} />
             </TouchableOpacity>
             <Text style={{marginTop: 16, fontSize: 32, fontWeight: 'bold', marginRight: 'auto'}}>Account</Text>
+          </View>
+          <View>
+            <BarChart
+              style={graphStyle}
+              data={data}
+              width={Dimensions.get('window').width}
+              height={220}
+              yAxisLabel=""
+              yAxisSuffix={''}
+              chartConfig={chartConfig}
+              verticalLabelRotation={30}
+            />
           </View>
           <Button title={'Sign Out'} onPress={() => signOut()}></Button>
         </ScrollView>

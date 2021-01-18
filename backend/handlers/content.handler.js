@@ -289,6 +289,15 @@ router.post('/createStatus', async function (req, res) {
             },
           },
         );
+        const contentStatus1 = await ContentStatus.update(
+          {StatusTypeId: 2, WatchedAt: dateTime},
+          {
+            where: {
+              ContentId: epIdList[0],
+              UserId: user.Id,
+            },
+          },
+        );
       }
     }
   });
@@ -391,7 +400,7 @@ router.post('/updateStatusType', async function (req, res) {
         },
       },
     );
-    return res.status(200).json(contentStatus);
+    return res.status(200).json(contentStatusTypeId);
   }
 });
 
@@ -575,6 +584,7 @@ router.get('/currentSeasonEpisodes', async function (req, res) {
   const userUid = req.query.uid;
   const contentId = req.query.contentId;
   var list = [];
+  var epId = 0
   var greatestEp = 0;
   var final = {};
 
@@ -600,15 +610,22 @@ router.get('/currentSeasonEpisodes', async function (req, res) {
           ContentId: list[i],
           UserId: user.Id,
         },
-      }).then((allEpsStatus) => {
+      }).then(async(allEpsStatus) => {
         if (allEpsStatus.StatusTypeId == 2 && allEpsStatus.ContentId > greatestEp) {
-          greatestEp = allEpsStatus.ContentId;
+          const episodeNumber = await SeriesEpisode.findOne({
+            where:{
+              EpisodeId: allEpsStatus.ContentId
+            }
+          })
+          greatestEp = episodeNumber.EpisodeNumber;
+          epId = allEpsStatus.ContentId;
         }
       });
     }
+    console.log(epId)
     await SeriesEpisode.findAll({
       where: {
-        EpisodeId: greatestEp,
+        EpisodeId: epId,
       },
       attributes: ['SeasonNumber'],
     }).then((allEpsSeason) => {

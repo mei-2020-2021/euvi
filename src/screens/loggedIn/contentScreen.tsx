@@ -8,6 +8,7 @@ import LoadingScreen from '../loading';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
 import IconFontisto from 'react-native-vector-icons/Fontisto';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Style from '../style';
 import {IP} from './../../conf';
@@ -30,8 +31,11 @@ function ContentScreen({ route, navigation }) {
   const [playing, setPlaying] = useState(false);
   const [typeId, setTTypeId] = useState(null);
   const [episodes, setEpisodes] = React.useState([]);
+  const [duration, setDuration] = React.useState(0);
   const [status, setStatus] = React.useState(null);
   const [feedback, setFeedback] = React.useState(null);
+  const [lastEpisode, setLastEpisode] = React.useState(null);
+  const [watchAt, setWatchAt] = React.useState(null);
   const onStateChange = useCallback((state) => {
     if (state === 'ended') {
       setPlaying(false);
@@ -98,6 +102,15 @@ function ContentScreen({ route, navigation }) {
     },
   };
 
+  function timeConvert(n) {
+    var num = n;
+    var hours = num / 60;
+    var rhours = Math.floor(hours);
+    var minutes = (hours - rhours) * 60;
+    var rminutes = Math.round(minutes);
+    return rhours + 'h' + rminutes + 'm';
+  }
+
   function loadData() {
     fetch(IP + 'content?id=' + contentId)
       .then((res) => res.json())
@@ -111,6 +124,7 @@ function ContentScreen({ route, navigation }) {
         setServices(data.Services);
         setGenres(data.Genres);
         setTTypeId(data.ContentTypeId);
+        setDuration(data.Duration);
         if (data.ContentTypeId === 2) {
           var episodes = data.Episode.map((episode) => {
             var episodeStatus = null
@@ -150,7 +164,17 @@ function ContentScreen({ route, navigation }) {
               .then((res) => res.json())
               .then((data) => {
                 setFeedback(data);
-                setLoading(false);
+                fetch(IP + 'content/currentSeasonEpisodes?contentId=' + contentId + '&uid=' + auth().currentUser.uid)
+                  .then((res) => res.json())
+                  .then((data) => {
+                    setLastEpisode(data);
+                    fetch(IP + 'content/watchedAt?contentId=' + contentId + '&uid=' + auth().currentUser.uid)
+                      .then((res) => res.json())
+                      .then((data) => {
+                        setWatchAt(data);
+                        setLoading(false);
+                      });
+                  });
               });
           });
       });
@@ -340,14 +364,34 @@ function ContentScreen({ route, navigation }) {
                         marginRight: 4,
                         marginBottom: 4,
                         overflow: 'hidden',
-                        borderRadius: 4,
-                        padding: 4,
                         fontWeight: 'bold',
-                        marginBottom: 4,
                       }}>
                       IMDb: {imdbRating}
                     </Text>
                   ))}
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    backgroundColor: '#555555',
+                    alignItems: 'center',
+                    padding: 6,
+                    borderRadius: 4,
+                    marginRight: 'auto',
+                    marginBottom: 4,
+                  }}>
+                  <Text
+                    style={{
+                      color: '#fff',
+                      fontSize: 10,
+                      borderRadius: 4,
+                      marginRight: 4,
+                      overflow: 'hidden',
+                      fontWeight: 'bold',
+                      marginEnd: 'auto',
+                    }}>
+                    {timeConvert(duration)}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -364,46 +408,105 @@ function ContentScreen({ route, navigation }) {
                 {sinopse}
               </Text>
             </View>
-            {status == 2 ? (
-              <View style={{flexDirection: 'row'}}>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                borderRadius: 4,
+                borderWidth: 2,
+                borderColor: '#15616d',
+                marginHorizontal: 8,
+                alignItems: 'center',
+                overflow: 'hidden',
+                marginBottom: 8,
+              }}>
+              <TouchableOpacity
+                style={[
+                  {flex: 1, alignSelf: 'center', alignContent: 'center', paddingVertical: 8},
+                  status == 2 ? {backgroundColor: '#15616d'} : null,
+                ]}
+                onPress={() => {
+                  associateContentWithUser(2);
+                }}>
+                <View style={{alignSelf: 'center', alignItems: 'center'}}>
+                  <Icon name="eye-check" color={status == 2 ? '#fff' : '#000'} size={22} />
+                </View>
+              </TouchableOpacity>
+              {typeId === 1 ? null : (
                 <TouchableOpacity
-                  style={{backgroundColor: 'red'}}
+                  style={[
+                    {flex: 1, alignSelf: 'center', alignContent: 'center', paddingVertical: 8},
+                    status == 1 ? {backgroundColor: '#15616d'} : null,
+                  ]}
+                  onPress={() => {
+                    associateContentWithUser(1);
+                  }}>
+                  <View style={{alignSelf: 'center'}}>
+                    <Icon name="eye" color={status == 1 ? '#fff' : '#000'} size={22} />
+                  </View>
+                </TouchableOpacity>
+              )}
+              <TouchableOpacity
+                style={[
+                  {flex: 1, alignSelf: 'center', alignContent: 'center', paddingVertical: 8},
+                  status == 3 ? {backgroundColor: '#15616d'} : null,
+                ]}
+                onPress={() => {
+                  associateContentWithUser(3);
+                }}>
+                <View style={{alignSelf: 'center'}}>
+                  <Icon name="bookmark-plus" color={status == 3 ? '#fff' : '#000'} size={22} />
+                </View>
+              </TouchableOpacity>
+            </View>
+            {status == 2 ? (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                  borderRadius: 4,
+                  borderWidth: 2,
+                  borderColor: '#15616d',
+                  marginHorizontal: 8,
+                  alignItems: 'center',
+                  overflow: 'hidden',
+                }}>
+                <TouchableOpacity
+                  style={[
+                    {flex: 1, alignSelf: 'center', alignContent: 'center', paddingVertical: 8},
+                    feedback == -1 ? {backgroundColor: '#df2935'} : null,
+                  ]}
                   onPress={() => {
                     giveFeedbackToContent(-1);
                   }}>
-                  <IconAntDesign name="dislike1" color={'#000'} size={22} />
+                  <View style={{alignSelf: 'center', alignItems: 'center'}}>
+                    <IconAntDesign name="dislike1" color={feedback == -1 ? '#fff' : '#000'} size={22} />
+                  </View>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={{backgroundColor: 'green'}}
+                  style={[
+                    {flex: 1, alignSelf: 'center', alignContent: 'center', paddingVertical: 8},
+                    feedback == 1 ? {backgroundColor: '#57a773'} : null,
+                  ]}
                   onPress={() => {
                     giveFeedbackToContent(1);
                   }}>
-                  <IconAntDesign name="like1" color={'#000'} size={22} />
+                  <View style={{alignSelf: 'center'}}>
+                    <IconAntDesign name="like1" color={feedback == 1 ? '#fff' : '#000'} size={22} />
+                  </View>
                 </TouchableOpacity>
               </View>
             ) : null}
-            <View>
-              <Button
-                onPress={() => {
-                  associateContentWithUser(2);
-                }}
-                title={'Seen'}></Button>
-              <Button
-                onPress={() => {
-                  associateContentWithUser(3);
-                }}
-                title={'Add to Watchlist'}></Button>
-              {/* Se for uma serie */}
-              {typeId === 1 ? null : (
-                <AccordionList
-                  expandedIndex={1}
-                  list={episodes}
-                  header={_head}
-                  body={_body}
-                  keyExtractor={(episode) => `${episode.id}`}
-                />
-              )}
-            </View>
+            {typeId === 1 ? null : (
+              <AccordionList
+                expandedIndex={1}
+                list={episodes}
+                header={_head}
+                body={_body}
+                keyExtractor={(episode) => `${episode.id}`}
+              />
+            )}
           </View>
         </ScrollView>
       )}
