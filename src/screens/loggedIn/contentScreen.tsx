@@ -366,7 +366,7 @@ function ContentScreen({ route, navigation }) {
                         overflow: 'hidden',
                         fontWeight: 'bold',
                       }}>
-                      IMDb: {imdbRating}
+                        {genre.Value}
                     </Text>
                   ))}
                 </View>
