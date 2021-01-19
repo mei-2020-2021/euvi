@@ -100,7 +100,7 @@ function NewGroupScreen({route, navigation}) {
                 })
               : null}
           </View>
-          <TouchableHighlight
+          <TouchableOpacity
             style={{
               padding: 16,
               marginTop: 32,
@@ -112,7 +112,7 @@ function NewGroupScreen({route, navigation}) {
             }}
             onPress={() => createGroup()}>
             <Text style={{color: 'white', alignSelf: 'center', fontWeight: 'bold'}}>Submit</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       )}
     </>

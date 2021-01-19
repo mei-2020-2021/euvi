@@ -207,7 +207,7 @@ function ContentScreen({ route, navigation }) {
             <TouchableOpacity onPress={() => toggleEpisode(el.Id, el.EpisodeStatus)}>
               <View>
                 {(el.EpisodesStatus != null && el.EpisodeStatus == 2) ? (<Icon name="plus" color={'#15616d'} size={16} />) : (<></>)}
-                <Text>{'S' + el.Season + ':E' + el.Episode + ': ' + el.Title + ' ' + el.EpisodeStatus}</Text>
+                <Text>{'S' + el.Season + ':E' + el.Episode + ': ' + el.Title}</Text>
               </View>
             </TouchableOpacity>
           );

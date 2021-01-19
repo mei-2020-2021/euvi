@@ -235,31 +235,6 @@ const Content: FunctionComponent<ContentProps> = ({contentId, screen}) => {
               </Text>
             </View>
           ) : null}
-          {screen == 'watching' ? (
-            <View
-              style={{
-                flexDirection: 'row',
-                backgroundColor: '#555555',
-                alignItems: 'center',
-                padding: 6,
-                borderRadius: 4,
-                marginRight: 'auto',
-                marginBottom: 4,
-              }}>
-              <Text
-                style={{
-                  color: '#fff',
-                  fontSize: 10,
-                  borderRadius: 4,
-                  marginRight: 4,
-                  overflow: 'hidden',
-                  fontWeight: 'bold',
-                  marginEnd: 'auto',
-                }}>
-                {lastEpisode}
-              </Text>
-            </View>
-          ) : null}
           {screen == 'toWatch' ? (
             <View
               style={{
