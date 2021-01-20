@@ -33,8 +33,8 @@ const Style = StyleSheet.create({
   },
   flexContainer: {
     justifyContent: 'space-between',
-    flexDirection: 'row'
-  }
+    flexDirection: 'row',
+  },
 });
 
 export default Style;
