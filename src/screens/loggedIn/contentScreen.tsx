@@ -1,25 +1,21 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, {useState, useCallback} from 'react';
 import auth from '@react-native-firebase/auth';
-import { AccordionList } from 'accordion-collapse-react-native';
-import { Dimensions, Image, Button, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import {AccordionList} from 'accordion-collapse-react-native';
+import {Dimensions, Image, Text, View, ScrollView, TouchableOpacity} from 'react-native';
 import fetch from 'node-fetch';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import LoadingScreen from '../loading';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import IconAntDesign from 'react-native-vector-icons/AntDesign';
-import IconFontisto from 'react-native-vector-icons/Fontisto';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Style from '../style';
-import {IP} from './../../conf';
+import {backend} from './../../conf';
 import StarRating from 'react-native-star-rating';
-import {TouchableHighlight} from 'react-native-gesture-handler';
 
-function ContentScreen({ route, navigation }) {
-  const { contentId } = route.params;
+function ContentScreen({route, navigation}) {
+  const {contentId} = route.params;
   const [reload, setReload] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
-  const [userId, setUserId] = React.useState(null);
   const [title, setTitle] = React.useState(null);
   const [releaseYear, setReleaseYear] = React.useState(null);
   const [sinopse, setSinopse] = React.useState(null);
@@ -34,16 +30,12 @@ function ContentScreen({ route, navigation }) {
   const [duration, setDuration] = React.useState(0);
   const [status, setStatus] = React.useState(null);
   const [feedback, setFeedback] = React.useState(null);
-  const [lastEpisode, setLastEpisode] = React.useState(null);
-  const [watchAt, setWatchAt] = React.useState(null);
+  const [, setLastEpisode] = React.useState(null);
+  const [, setWatchAt] = React.useState(null);
   const onStateChange = useCallback((state) => {
     if (state === 'ended') {
       setPlaying(false);
     }
-  }, []);
-
-  const togglePlaying = useCallback(() => {
-    setPlaying((prev) => !prev);
   }, []);
 
   const genreColorMap = {
@@ -112,7 +104,7 @@ function ContentScreen({ route, navigation }) {
   }
 
   function loadData() {
-    fetch(IP + 'content?id=' + contentId)
+    fetch(backend + 'content?id=' + contentId)
       .then((res) => res.json())
       .then((data) => {
         setTitle(data.Title);
@@ -127,11 +119,14 @@ function ContentScreen({ route, navigation }) {
         setDuration(data.Duration);
         if (data.ContentTypeId === 2) {
           var episodes = data.Episode.map((episode) => {
-            var episodeStatus = null
+            var episodeStatus = null;
             async () => {
-              await fetch(IP + 'content/getStatusType?contentId=' + episode.Id + '&uid=' + auth().currentUser.uid)
-                .then(data => {episodeStatus = data});
-            }
+              await fetch(
+                backend + 'content/getStatusType?contentId=' + episode.Id + '&uid=' + auth().currentUser.uid,
+              ).then((data) => {
+                episodeStatus = data;
+              });
+            };
             return {
               Id: episode.Id,
               Title: episode.Title,
@@ -140,14 +135,14 @@ function ContentScreen({ route, navigation }) {
               Duration: episode.Duration,
               Season: episode.SeriesEpisode.SeasonNumber,
               Episode: episode.SeriesEpisode.EpisodeNumber,
-              EpisodeStatus: episodeStatus
+              EpisodeStatus: episodeStatus,
             };
           });
           const groupByKey = (list, key) =>
-            list.reduce((hash, obj) => ({ ...hash, [obj[key]]: (hash[obj[key]] || []).concat(obj) }), {});
+            list.reduce((hash, obj) => ({...hash, [obj[key]]: (hash[obj[key]] || []).concat(obj)}), {});
           const groupedBy = groupByKey(episodes, 'Season');
           let episodesData = [];
-          Object.keys(groupedBy).forEach((key, index) => {
+          Object.keys(groupedBy).forEach((key) => {
             episodesData.push({
               id: key,
               title: 'Season ' + key,
@@ -156,19 +151,21 @@ function ContentScreen({ route, navigation }) {
           });
           setEpisodes(episodesData);
         }
-        fetch(IP + 'content/getStatusType?contentId=' + contentId + '&uid=' + auth().currentUser.uid)
+        fetch(backend + 'content/contentStatus?contentId=' + contentId + '&uid=' + auth().currentUser.uid)
           .then((res) => res.json())
           .then((data) => {
             setStatus(data);
-            fetch(IP + 'content/feedback?contentId=' + contentId + '&uid=' + auth().currentUser.uid)
+            fetch(backend + 'content/feedback?contentId=' + contentId + '&uid=' + auth().currentUser.uid)
               .then((res) => res.json())
               .then((data) => {
                 setFeedback(data);
-                fetch(IP + 'content/currentSeasonEpisodes?contentId=' + contentId + '&uid=' + auth().currentUser.uid)
+                fetch(
+                  backend + 'content/currentSeasonEpisodes?contentId=' + contentId + '&uid=' + auth().currentUser.uid,
+                )
                   .then((res) => res.json())
                   .then((data) => {
                     setLastEpisode(data);
-                    fetch(IP + 'content/watchedAt?contentId=' + contentId + '&uid=' + auth().currentUser.uid)
+                    fetch(backend + 'content/seenAt?contentId=' + contentId + '&uid=' + auth().currentUser.uid)
                       .then((res) => res.json())
                       .then((data) => {
                         setWatchAt(data);
@@ -201,12 +198,16 @@ function ContentScreen({ route, navigation }) {
 
   function _body(item) {
     return (
-      <View style={{ padding: 8 }}>
+      <View style={{padding: 8}}>
         {item.body.map((el) => {
           return (
             <TouchableOpacity onPress={() => toggleEpisode(el.Id, el.EpisodeStatus)}>
               <View>
-                {(el.EpisodesStatus != null && el.EpisodeStatus == 2) ? (<Icon name="plus" color={'#15616d'} size={16} />) : (<></>)}
+                {el.EpisodesStatus != null && el.EpisodeStatus == 2 ? (
+                  <Icon name="plus" color={'#15616d'} size={16} />
+                ) : (
+                  <></>
+                )}
                 <Text>{'S' + el.Season + ':E' + el.Episode + ': ' + el.Title}</Text>
               </View>
             </TouchableOpacity>
@@ -217,10 +218,16 @@ function ContentScreen({ route, navigation }) {
   }
 
   async function toggleEpisode(episodeId, episodeStatus) {
-    const status = (episodeStatus == 2 )? (3) : (2);
-    console.log(status)
+    const status = episodeStatus === 2 ? 3 : 2;
+    console.log(status);
     await fetch(
-      IP + 'content/updateStatusType?StatusTypeId=' + status + '&uid=' + auth().currentUser.uid + '&contentId=' + episodeId,
+      backend +
+        'content/updateStatusType?StatusTypeId=' +
+        status +
+        '&uid=' +
+        auth().currentUser.uid +
+        '&contentId=' +
+        episodeId,
       {
         method: 'POST',
       },
@@ -231,7 +238,7 @@ function ContentScreen({ route, navigation }) {
 
   async function giveFeedbackToContent(feedback) {
     await fetch(
-      IP + 'content/feedback?feedback=' + feedback + '&uid=' + auth().currentUser.uid + '&contentId=' + contentId,
+      backend + 'content/feedback?feedback=' + feedback + '&uid=' + auth().currentUser.uid + '&contentId=' + contentId,
       {
         method: 'POST',
       },
@@ -242,13 +249,13 @@ function ContentScreen({ route, navigation }) {
 
   async function associateContentWithUser(statusTypeId) {
     await fetch(
-      IP +
-      'content/createStatus?statusTypeId=' +
-      statusTypeId +
-      '&uid=' +
-      auth().currentUser.uid +
-      '&contentId=' +
-      contentId,
+      backend +
+        'content/createStatus?statusTypeId=' +
+        statusTypeId +
+        '&uid=' +
+        auth().currentUser.uid +
+        '&contentId=' +
+        contentId,
       {
         method: 'POST',
       },
@@ -261,7 +268,7 @@ function ContentScreen({ route, navigation }) {
       {loading ? (
         <LoadingScreen />
       ) : (
-        <ScrollView>
+        <ScrollView style={{backgroundColor: '#fff'}}>
           <View>
             <YoutubePlayer
               height={Dimensions.get('window').width / (16 / 9)}
@@ -271,12 +278,13 @@ function ContentScreen({ route, navigation }) {
             />
           </View>
           <View style={{padding: 8}}>
-            <View style={[Style.homeTopFlex, {marginBottom: 8}]}>
-              <TouchableOpacity onPress={() => navigation.goBack()} style={{padding: 8, marginTop: 16}}>
+            <View style={[Style.homeTopFlex]}>
+              <TouchableOpacity onPress={() => navigation.goBack()} style={{padding: 8, marginTop: 6}}>
                 <IconMaterialIcons name="arrow-back-ios" color={'#000'} size={22} />
               </TouchableOpacity>
               <View
                 style={{
+                  marginTop: 8,
                   flexDirection: 'row',
                   flexWrap: 'wrap',
                   marginBottom: 4,
@@ -285,10 +293,9 @@ function ContentScreen({ route, navigation }) {
                 }}>
                 <Text
                   style={{
-                    marginTop: 16,
                     fontSize: 28,
                     fontWeight: 'bold',
-                    marginRight: 16,
+                    marginRight: 8,
                   }}>
                   {title}
                 </Text>
@@ -305,46 +312,31 @@ function ContentScreen({ route, navigation }) {
               </View>
             </View>
             <View style={{flexDirection: 'row', padding: 8}}>
-              <Image
-                key={contentId}
-                style={{height: 200, width: (2 / 3) * 200}}
-                resizeMode="cover"
-                source={{uri: imageUrl, cache: 'force-cache'}}
-              />
-
+              <View style={{borderRadius: 4, overflow: 'hidden'}}>
+                <Image
+                  key={contentId}
+                  style={{height: 200, width: (2 / 3) * 200}}
+                  resizeMode="cover"
+                  source={{uri: imageUrl, cache: 'force-cache'}}
+                />
+              </View>
               <View style={{paddingHorizontal: 16, height: 200}}>
                 <View style={{marginRight: 'auto', marginBottom: 8, flexDirection: 'row', alignItems: 'center'}}>
-                  <IconFontisto name="imdb" color={'black'} size={28} />
-                  <Text style={{paddingLeft: 4, paddingRight: 1}}>:</Text>
+                  <Text style={{fontWeight: 'bold', paddingRight: 1}}>IMDb rating:</Text>
                   <StarRating
                     halfStarEnabled={true}
                     disabled={true}
                     maxStars={5}
                     rating={parseFloat(imdbRating) / 2}
-                    fullStarColor={'#f5c518'}
-                    halfStarColor={'#f5c518'}
-                    emptyStarColor={'#f5c518'}
+                    fullStarColor={'#f7d002'}
+                    halfStarColor={'#f7d002'}
+                    emptyStarColor={'#f7d002'}
                     emptyStar={'star-border'}
                     fullStar={'star'}
                     halfStar={'star-half'}
                     iconSet={'MaterialIcons'}
-                    starSize={24}
+                    starSize={22}
                   />
-                </View>
-                <View style={{flexDirection: 'row', marginBottom: 8}}>
-                  {services.map((service) => (
-                    <Image
-                      source={{uri: service.IconUrl}}
-                      style={{
-                        width: 50,
-                        height: 50,
-                        borderRadius: 4,
-                        borderColor: '#000',
-                        borderWidth: 1,
-                        marginRight: 4,
-                      }}
-                    />
-                  ))}
                 </View>
                 <View
                   style={{
@@ -366,10 +358,25 @@ function ContentScreen({ route, navigation }) {
                         overflow: 'hidden',
                         fontWeight: 'bold',
                       }}>
-                        {genre.Value}
+                      {genre.Value}
                     </Text>
                   ))}
                 </View>
+                <Text style={{fontWeight: 'bold', marginBottom: 2}}>Available at:</Text>
+                <View style={{flexDirection: 'row', marginBottom: 8}}>
+                  {services.map((service) => (
+                    <Image
+                      source={{uri: service.IconUrl}}
+                      style={{
+                        width: 50,
+                        height: 50,
+                        borderRadius: 4,
+                        marginRight: 4,
+                      }}
+                    />
+                  ))}
+                </View>
+
                 <View
                   style={{
                     flexDirection: 'row',
@@ -390,20 +397,21 @@ function ContentScreen({ route, navigation }) {
                       fontWeight: 'bold',
                       marginEnd: 'auto',
                     }}>
-                    {timeConvert(duration)}
+                    Duration: {timeConvert(duration)}
                   </Text>
                 </View>
               </View>
             </View>
-            <View style={{paddingHorizontal: 8, paddingBottom: 8}}>
+            <View style={{paddingHorizontal: 8, paddingBottom: 16, paddingTop: 8}}>
+              <Text style={{fontWeight: 'bold', marginBottom: 2}}>Synopsis:</Text>
               <Text
                 style={{
                   color: '#000',
                   fontSize: 14,
                   overflow: 'hidden',
                   borderRadius: 4,
-                  fontWeight: 'bold',
                   marginBottom: 4,
+                  textAlign: 'justify',
                 }}>
                 {sinopse}
               </Text>
@@ -429,8 +437,9 @@ function ContentScreen({ route, navigation }) {
                 onPress={() => {
                   associateContentWithUser(2);
                 }}>
-                <View style={{alignSelf: 'center', alignItems: 'center'}}>
+                <View style={{alignSelf: 'center', alignItems: 'center', flexDirection: 'column'}}>
                   <Icon name="eye-check" color={status == 2 ? '#fff' : '#000'} size={22} />
+                  <Text style={{fontWeight: 'bold', color: status == 2 ? '#fff' : '#000'}}>Seen</Text>
                 </View>
               </TouchableOpacity>
               {typeId === 1 ? null : (
@@ -442,8 +451,9 @@ function ContentScreen({ route, navigation }) {
                   onPress={() => {
                     associateContentWithUser(1);
                   }}>
-                  <View style={{alignSelf: 'center'}}>
+                  <View style={{alignSelf: 'center', alignItems: 'center', flexDirection: 'column'}}>
                     <Icon name="eye" color={status == 1 ? '#fff' : '#000'} size={22} />
+                    <Text style={{fontWeight: 'bold', color: status == 1 ? '#fff' : '#000'}}>Watching</Text>
                   </View>
                 </TouchableOpacity>
               )}
@@ -455,8 +465,9 @@ function ContentScreen({ route, navigation }) {
                 onPress={() => {
                   associateContentWithUser(3);
                 }}>
-                <View style={{alignSelf: 'center'}}>
+                <View style={{alignSelf: 'center', alignItems: 'center', flexDirection: 'column'}}>
                   <Icon name="bookmark-plus" color={status == 3 ? '#fff' : '#000'} size={22} />
+                  <Text style={{fontWeight: 'bold', color: status == 3 ? '#fff' : '#000'}}>To see</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -475,25 +486,40 @@ function ContentScreen({ route, navigation }) {
                 <TouchableOpacity
                   style={[
                     {flex: 1, alignSelf: 'center', alignContent: 'center', paddingVertical: 8},
-                    feedback == -1 ? {backgroundColor: '#df2935'} : null,
+                    feedback == -1 ? {backgroundColor: '#941c2f'} : null,
                   ]}
                   onPress={() => {
                     giveFeedbackToContent(-1);
                   }}>
-                  <View style={{alignSelf: 'center', alignItems: 'center'}}>
-                    <IconAntDesign name="dislike1" color={feedback == -1 ? '#fff' : '#000'} size={22} />
+                  <View style={{alignSelf: 'center', alignItems: 'center', flexDirection: 'column'}}>
+                    <Icon name="emoticon-dead" color={feedback == -1 ? '#fff' : '#000'} size={22} />
+                    <Text style={{fontWeight: 'bold', color: feedback == -1 ? '#fff' : '#000'}}>Disliked</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[
                     {flex: 1, alignSelf: 'center', alignContent: 'center', paddingVertical: 8},
-                    feedback == 1 ? {backgroundColor: '#57a773'} : null,
+                    feedback == 0 ? {backgroundColor: '#f7d002'} : null,
+                  ]}
+                  onPress={() => {
+                    giveFeedbackToContent(0);
+                  }}>
+                  <View style={{alignSelf: 'center', alignItems: 'center', flexDirection: 'column'}}>
+                    <Icon name="emoticon-neutral" color={'#000'} size={22} />
+                    <Text style={{fontWeight: 'bold', color: '#000'}}>Neutral</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    {flex: 1, alignSelf: 'center', alignContent: 'center', paddingVertical: 8},
+                    feedback == 1 ? {backgroundColor: '#018e42'} : null,
                   ]}
                   onPress={() => {
                     giveFeedbackToContent(1);
                   }}>
-                  <View style={{alignSelf: 'center'}}>
-                    <IconAntDesign name="like1" color={feedback == 1 ? '#fff' : '#000'} size={22} />
+                  <View style={{alignSelf: 'center', alignItems: 'center', flexDirection: 'column'}}>
+                    <Icon name="emoticon" color={feedback == 1 ? '#fff' : '#000'} size={22} />
+                    <Text style={{fontWeight: 'bold', color: feedback == 1 ? '#fff' : '#000'}}>Liked</Text>
                   </View>
                 </TouchableOpacity>
               </View>

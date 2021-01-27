@@ -21,56 +21,48 @@ function LoggedInScreen() {
   const BottomTab = createBottomTabNavigator();
 
   return (
-    <>
-      {loading ? (
-        <LoadingScreen />
-      ) : (
-        <View style={{height: '100%'}}>
-          <BottomTab.Navigator
-            tabBarOptions={{
-              activeTintColor: 'white',
-              inactiveTintColor: '#aaaaaa',
-              labelStyle: {fontWeight: 'bold'},
-              style: {
-                backgroundColor: '#15616d',
-              },
-            }}>
-            <BottomTab.Screen
-              name="Home"
-              component={HomeScreen}
-              options={{
-                tabBarLabel: 'Home',
-                tabBarIcon: ({color, size}) => <Icon name="view-dashboard" color={color} size={size} />,
-              }}
-            />
-            <BottomTab.Screen
-              name="Search"
-              component={SearchContentScreen}
-              options={{
-                tabBarLabel: 'Search',
-                tabBarIcon: ({color, size}) => <Icon name="movie-search" color={color} size={size} />,
-              }}
-            />
-            <BottomTab.Screen
-              name="Watchlist"
-              component={WatchlistScreen}
-              options={{
-                tabBarLabel: 'Watchlist',
-                tabBarIcon: ({color, size}) => <Icon name="view-carousel" color={color} size={size} />,
-              }}
-            />
-            <BottomTab.Screen
-              name="Community"
-              component={CommunityScreen}
-              options={{
-                tabBarLabel: 'Community',
-                tabBarIcon: ({color, size}) => <Icon name="account-group" color={color} size={size} />,
-              }}
-            />
-          </BottomTab.Navigator>
-        </View>
-      )}
-    </>
+    <BottomTab.Navigator
+      tabBarOptions={{
+        activeTintColor: 'white',
+        inactiveTintColor: '#aaaaaa',
+        labelStyle: {fontWeight: 'bold'},
+        style: {
+          backgroundColor: '#15616d',
+        },
+      }}>
+      <BottomTab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({color, size}) => <Icon name="view-dashboard" color={color} size={size} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Search"
+        component={SearchContentScreen}
+        options={{
+          tabBarLabel: 'Search',
+          tabBarIcon: ({color, size}) => <Icon name="movie-search" color={color} size={size} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Watchlist"
+        component={WatchlistScreen}
+        options={{
+          tabBarLabel: 'Watchlist',
+          tabBarIcon: ({color, size}) => <Icon name="view-carousel" color={color} size={size} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Community"
+        component={CommunityScreen}
+        options={{
+          tabBarLabel: 'Community',
+          tabBarIcon: ({color, size}) => <Icon name="account-group" color={color} size={size} />,
+        }}
+      />
+    </BottomTab.Navigator>
   );
 }
 export default LoggedInScreen;

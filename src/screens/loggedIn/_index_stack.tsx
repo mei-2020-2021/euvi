@@ -5,7 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import LoggedInScreen from './_index';
 import ProfileScreen from './profile';
 import ContentScreen from './contentScreen';
-import AddServiceScreen from './addService';
+import AddServiceScreen from './manageServices';
 
 function LoggedInStackScreen() {
   const Stack = createStackNavigator();

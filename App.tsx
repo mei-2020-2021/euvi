@@ -6,25 +6,25 @@ import auth from '@react-native-firebase/auth';
 import LoggedOutScreen from './src/screens/loggedOut/_index';
 import LoggedInStackScreen from './src/screens/loggedIn/_index_stack';
 import LoadingScreen from './src/screens/loading';
+import Styles from './Styles';
 
 function App() {
   const [loading, setLoading] = React.useState(true);
   const [user, setUser] = React.useState(null);
 
-  function onAuthStateChanged(user: any) {
-    setUser(user);
+  function onAuthStateChanged(authUser: any) {
+    setUser(authUser);
     setLoading(false);
   }
 
   React.useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber;
+    auth().onAuthStateChanged(onAuthStateChanged);
   }, []);
 
   return (
     <NavigationContainer>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={{height: '100%', backgroundColor: '#15616d'}}>
+      <StatusBar barStyle="light-content" />
+      <SafeAreaView style={Styles.greenBackgroundScreen}>
         {loading ? <LoadingScreen /> : user ? <LoggedInStackScreen /> : <LoggedOutScreen />}
       </SafeAreaView>
     </NavigationContainer>

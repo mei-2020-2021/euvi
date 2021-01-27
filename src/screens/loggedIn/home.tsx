@@ -1,15 +1,14 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import auth from '@react-native-firebase/auth';
-import {Dimensions, Image, StyleSheet, Text, View, ScrollView} from 'react-native';
+import {Image, Text, View, ScrollView} from 'react-native';
 import Style from '../style';
 import LoadingScreen from '../loading';
-import {TextInput, TouchableHighlight, TouchableOpacity} from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import fetch from 'node-fetch';
-import Content from '../../components/Content';
+import Content from '../../components/content.component';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import IconFoundation from 'react-native-vector-icons/Foundation';
-import {IP} from './../../conf'
+import {backend} from './../../conf';
 
 function HomeScreen({navigation}) {
   const [loading, setLoading] = React.useState(true);
@@ -20,19 +19,19 @@ function HomeScreen({navigation}) {
   const [user, setUser] = React.useState(null);
 
   function loadData() {
-    fetch(IP + 'users?uid=' + auth().currentUser.uid)
+    fetch(backend + 'users?uid=' + auth().currentUser.uid)
       .then((res) => res.json())
       .then((data) => {
         setUser(data);
-        fetch(IP + 'content/trendingNow')
+        fetch(backend + 'content/trendingNow')
           .then((res) => res.json())
           .then((data) => {
             setContentTrendingNow(data);
-            fetch(IP + 'content/topMovies')
+            fetch(backend + 'content/topMovies')
               .then((res) => res.json())
               .then((data) => {
                 setContentTopMovies(data);
-                fetch(IP + 'content/topSeries')
+                fetch(backend + 'content/topSeries')
                   .then((res) => res.json())
                   .then((data) => {
                     setContentTopSeries(data);
@@ -44,10 +43,9 @@ function HomeScreen({navigation}) {
   }
 
   React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
+    navigation.addListener('focus', () => {
       loadData();
     });
-    return unsubscribe;
   }, [navigation]);
 
   React.useEffect(() => {
@@ -73,7 +71,7 @@ function HomeScreen({navigation}) {
                   fontWeight: 'bold',
                 }}>
                 <Icon name="account-cog-outline" color={'#000'} size={16} />
-                <View style={{paddingHorizontal: 2}}></View>
+                <View style={{paddingHorizontal: 2}} />
                 Account
               </Text>
             </TouchableOpacity>
@@ -94,9 +92,14 @@ function HomeScreen({navigation}) {
               />
             ))}
             <TouchableOpacity
-              style={{backgroundColor: '#aaaaaa', borderRadius: 4}}
+              style={{
+                backgroundColor: '#fff',
+                borderRadius: 4,
+                borderColor: '#f7d002',
+                borderWidth: 2,
+              }}
               onPress={() => navigation.navigate('AddServiceScreen')}>
-              <Icon name="plus" color={'#fff'} size={40} style />
+              <Icon name="plus" color={'#f7d002'} size={36} style />
             </TouchableOpacity>
           </View>
           <View style={{marginVertical: 8}}>
@@ -104,6 +107,7 @@ function HomeScreen({navigation}) {
             <ScrollView showsHorizontalScrollIndicator={false} horizontal>
               {contentTrendingNow.map((content) => (
                 <TouchableOpacity
+                  key={content.Id}
                   onPress={() => {
                     navigation.navigate('ContentScreen', {contentId: content.Id, title: content.Title});
                   }}>
@@ -112,11 +116,13 @@ function HomeScreen({navigation}) {
               ))}
             </ScrollView>
           </View>
+          <View style={{borderTopWidth: 1, opacity: 0.15, marginHorizontal: 8}} />
           <View style={{marginVertical: 8}}>
             <Text style={{fontSize: 24, fontWeight: 'bold', paddingLeft: 8}}>Top Movies</Text>
             <ScrollView showsHorizontalScrollIndicator={false} horizontal>
               {contentTopMovies.map((content) => (
                 <TouchableOpacity
+                  key={content.Id}
                   onPress={() => {
                     navigation.navigate('ContentScreen', {contentId: content.Id, title: content.Title});
                   }}>
@@ -125,11 +131,13 @@ function HomeScreen({navigation}) {
               ))}
             </ScrollView>
           </View>
+          <View style={{borderTopWidth: 1, opacity: 0.15, marginHorizontal: 8}} />
           <View style={{marginVertical: 8}}>
             <Text style={{fontSize: 24, fontWeight: 'bold', paddingLeft: 8}}>Top Series</Text>
             <ScrollView showsHorizontalScrollIndicator={false} horizontal>
               {contentTopSeries.map((content) => (
                 <TouchableOpacity
+                  key={content.Id}
                   onPress={() => {
                     navigation.navigate('ContentScreen', {contentId: content.Id, title: content.Title});
                   }}>

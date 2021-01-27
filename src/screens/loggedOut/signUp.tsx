@@ -4,6 +4,7 @@ import auth from '@react-native-firebase/auth';
 import Style from '../style';
 import LoadingScreen from '../loading';
 import {TextInputMask} from 'react-native-masked-text';
+import {backend} from '../../conf';
 
 function SignUpScreen() {
   const [loading, setLoading] = React.useState(false);
@@ -15,7 +16,6 @@ function SignUpScreen() {
   const [passwordError, setPasswordError] = React.useState('');
   const [unknownError, setUnknownError] = React.useState('');
   const [birthday, setBirthday] = React.useState('');
-  const [sex, setSex] = React.useState('');
 
   React.useEffect(() => {
     setEmailError('');
@@ -27,9 +27,18 @@ function SignUpScreen() {
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
-        const uid = auth().currentUser.uid;
-        
-        
+        const body = {
+          Uid: auth().currentUser.uid,
+          FirstName: firstName,
+          LastName: lastName,
+          BirthDate: birthday,
+          Email: email,
+        };
+        fetch(backend + 'users', {
+          method: 'post',
+          body: JSON.stringify(body),
+          headers: {'Content-Type': 'application/json'},
+        });
       })
       .catch((error) => {
         if (error.code === 'auth/email-already-in-use') {
@@ -60,12 +69,14 @@ function SignUpScreen() {
               style={[Style.authInput, {flex: 1, marginEnd: 8}]}
               autoCompleteType={'name'}
               placeholder={'Firstname'}
-              onChangeText={(firstName: string) => setFirstName(firstName)}></TextInput>
+              onChangeText={(firstName: string) => setFirstName(firstName)}
+            />
             <TextInput
               style={[Style.authInput, {flex: 1, marginStart: 8}]}
               autoCompleteType={'name'}
               placeholder={'Lastname'}
-              onChangeText={(lastName: string) => setLastName(lastName)}></TextInput>
+              onChangeText={(lastName: string) => setLastName(lastName)}
+            />
           </View>
           <TextInputMask
             style={Style.authInput}
@@ -84,7 +95,8 @@ function SignUpScreen() {
             autoCompleteType={'email'}
             autoCapitalize={'none'}
             keyboardType={'email-address'}
-            onChangeText={(email: string) => setEmail(email)}></TextInput>
+            onChangeText={(email: string) => setEmail(email)}
+          />
           {emailError.length > 0 ? <Text style={Style.authError}>{emailError}</Text> : null}
 
           <TextInput
@@ -93,10 +105,11 @@ function SignUpScreen() {
             autoCompleteType={'password'}
             autoCapitalize={'none'}
             secureTextEntry={true}
-            onChangeText={(password: string) => setPassword(password)}></TextInput>
+            onChangeText={(password: string) => setPassword(password)}
+          />
           {passwordError.length > 0 ? <Text style={Style.authError}>{passwordError}</Text> : null}
           {unknownError.length > 0 ? <Text style={Style.authError}>{unknownError}</Text> : null}
-          <Button title={'Sign Up'} onPress={() => signUp(email, password)}></Button>
+          <Button title={'Sign Up'} onPress={() => signUp(email, password)} />
         </View>
       )}
     </>

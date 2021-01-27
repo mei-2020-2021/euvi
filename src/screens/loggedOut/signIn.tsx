@@ -47,7 +47,8 @@ function SignInScreen() {
             autoCompleteType={'email'}
             autoCapitalize={'none'}
             keyboardType={'email-address'}
-            onChangeText={(email: string) => setEmail(email)}></TextInput>
+            onChangeText={(data: string) => setEmail(data)}
+          />
           {emailError.length > 0 ? <Text style={Style.authError}>{emailError}</Text> : null}
           <TextInput
             style={Style.authInput}
@@ -55,7 +56,8 @@ function SignInScreen() {
             autoCompleteType={'password'}
             autoCapitalize={'none'}
             secureTextEntry={true}
-            onChangeText={(password: string) => setPassword(password)}></TextInput>
+            onChangeText={(data: string) => setPassword(data)}
+          />
           {passwordError.length > 0 ? <Text style={Style.authError}>{passwordError}</Text> : null}
           {unknownError.length > 0 ? <Text style={Style.authError}>{unknownError}</Text> : null}
           <Button title={'Sign In'} onPress={signIn} />

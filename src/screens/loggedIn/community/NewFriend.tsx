@@ -1,22 +1,21 @@
 import React from 'react';
 import auth from '@react-native-firebase/auth';
 import LoadingScreen from '../../loading';
-import {View, Text, StyleSheet, Button, Alert, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Style from '../../style';
 import {Autocomplete} from 'react-native-dropdown-autocomplete';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {IP} from './../../../conf'
+import {backend} from '../../../conf';
 
 function NewFriendScreen({navigation}) {
   const [user, setUser] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
-  const [friend, setFriend] = React.useState([]);
   const [userList, setUserList] = React.useState([]);
 
   React.useEffect(() => {
     setUser(auth().currentUser);
-    fetch(IP + 'users/friends?uid=' + auth().currentUser.uid)
+    fetch(backend + 'users/friends?uid=' + auth().currentUser.uid)
       .then((res) => res.json())
       .then((data) => {
         setUserList(data);
@@ -24,17 +23,17 @@ function NewFriendScreen({navigation}) {
       });
   }, []);
 
-    React.useEffect(() => {
-        setUser(auth().currentUser);
-        fetch(IP + 'users/friends?uid='+auth().currentUser.uid)
-        .then((res) => res.json())
-        .then((data) => {
-            setUserList(data)
-            setLoading(false);
-        });
-    }, []);
+  React.useEffect(() => {
+    setUser(auth().currentUser);
+    fetch(backend + 'users/friends?uid=' + auth().currentUser.uid)
+      .then((res) => res.json())
+      .then((data) => {
+        setUserList(data);
+        setLoading(false);
+      });
+  }, []);
   async function handleSelectItem(item) {
-    await fetch(IP + 'friendship/friendship?uid=' + user.uid + '&frienduid=' + item.Uid, {
+    await fetch(backend + 'friendship/friendship?uid=' + user.uid + '&frienduid=' + item.Uid, {
       method: 'POST',
     }).then(navigation.goBack());
   }

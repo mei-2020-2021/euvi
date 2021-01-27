@@ -1,69 +1,45 @@
 import React from 'react';
-import auth from '@react-native-firebase/auth';
-import LoadingScreen from '../../loading';
-import { View, Text, Button } from 'react-native';
-import Style from '../../style';
-import { AccordionList } from 'accordion-collapse-react-native';
-import { IP } from '../../../conf'
+import {View, Text} from 'react-native';
+import Styles from '../../../../Styles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native';
 
-function SearchScreen({ navigation }) {
-  const [user, setUser] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
-  const [list, setList] = React.useState(null);
-  const [groupList, setGroupList] = React.useState([]);
-  const [friendList, setFriendList] = React.useState([]);
-  const [recommendationList, setRecommendationList] = React.useState([]);
-
-  function loadData() {
-    setLoading(false);
-  }
-
-  React.useEffect(() => {
-    navigation.addListener('focus', () => {
-      loadData();
-    });
-    loadData();
-  }, [navigation]);
-
-
-
+function SearchScreen({navigation}) {
   return (
-    <>
-      {loading ? (
-        <LoadingScreen />
-      ) : (
-          <View style={{ justifyContent: 'space-between', flexDirection: 'row', padding: 8, backgroundColor: 'white', height: '100%' }}>
-            <TouchableOpacity
-              style={{
-                padding: 16,
-                marginTop: 32,
-                width: '100%',
-                alignSelf: 'center',
-                backgroundColor: '#15616d',
-                overflow: 'hidden',
-                borderRadius: 4,
-              }}
-              onPress={() => { navigation.navigate('searchGroup') }}>
-              <Text style={{ color: 'white', alignSelf: 'center', fontWeight: 'bold' }}>As Group</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                padding: 16,
-                marginTop: 32,
-                width: '100%',
-                alignSelf: 'center',
-                backgroundColor: '#15616d',
-                overflow: 'hidden',
-                borderRadius: 4,
-              }}
-              onPress={() => { navigation.navigate('contentSearch') }}>
-              <Text style={{ color: 'white', alignSelf: 'center', fontWeight: 'bold' }}>As User</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-    </>
+    <View style={Styles.searchMainView}>
+      <TouchableOpacity
+        style={Styles.searchMainButton}
+        onPress={() => {
+          navigation.navigate('contentSearch');
+        }}>
+        <Icon name="account" color={'#15616d'} size={60} />
+        <Text style={Styles.searchMainText}>Search for me</Text>
+        <View style={{flexDirection: 'row', bottom: -10}}>
+          <Icon name="information" color={'#15616d'} size={13} />
+          <Text style={{fontSize: 10, marginLeft: 4}}>Suggests content based on what I like</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={Styles.searchMainButton}
+        onPress={() => {
+          navigation.navigate('searchGroup');
+        }}>
+        <Icon name="account-group" color={'#15616d'} size={60} />
+        <Text style={Styles.searchMainText}>Search for my group</Text>
+        <View style={{flexDirection: 'row', bottom: -10}}>
+          <Icon name="information" color={'#15616d'} size={13} />
+          <Text style={{fontSize: 10, marginLeft: 4}}>Suggests content based on what group members like</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={Styles.searchMainButton}
+        onPress={() => {
+          navigation.navigate('contentSearch');
+        }}>
+        <Icon name="movie-filter" color={'#15616d'} size={60} />
+        <Text style={Styles.searchMainText}>Custom search</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 

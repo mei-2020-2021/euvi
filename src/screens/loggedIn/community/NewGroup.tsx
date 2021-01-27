@@ -8,7 +8,7 @@ import {TextInput, TouchableHighlight} from 'react-native-gesture-handler';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {IP} from './../../../conf'
+import {backend} from '../../../conf';
 
 function NewGroupScreen({route, navigation}) {
   const [user, setUser] = React.useState(null);
@@ -35,12 +35,7 @@ function NewGroupScreen({route, navigation}) {
     });
 
     await fetch(
-        IP + 'group/createGroup?ownerId=' +
-        user.uid +
-        '&name=' +
-        groupName +
-        '&users=' +
-        users.toString(),
+      backend + 'group/createGroup?ownerId=' + user.uid + '&name=' + groupName + '&users=' + users.toString(),
       {
         method: 'POST',
       },

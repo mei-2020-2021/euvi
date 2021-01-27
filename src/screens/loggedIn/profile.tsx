@@ -1,27 +1,25 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import auth from '@react-native-firebase/auth';
-import {Dimensions, Image, Button, Text, View, ScrollView} from 'react-native';
+import {Button, Text, View, ScrollView} from 'react-native';
 import Style from '../style';
 import LoadingScreen from '../loading';
-import {TextInput, TouchableHighlight, TouchableOpacity} from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import fetch from 'node-fetch';
-import Content from '../../components/Content';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {IP} from './../../conf';
+import {backend} from './../../conf';
 
 function ProfileScreen({navigation}) {
   const [loading, setLoading] = React.useState(true);
-  const [reload, setReload] = React.useState(false);
-  const [user, setUser] = React.useState(null);
+  const [] = React.useState(false);
+  const [] = React.useState(null);
 
   function signOut() {
     auth().signOut();
   }
 
   React.useEffect(() => {
-    fetch(IP + 'profile/categories?uid=' + auth().currentUser.uid)
+    fetch(backend + 'profile/categories?uid=' + auth().currentUser.uid)
       .then((data) => data.json())
       .then((data) => {
         console.log(data);
@@ -31,15 +29,6 @@ function ProfileScreen({navigation}) {
 
         const values = Object.values(data);
         console.log(values);
-
-        const processedData = {
-          labels: keys,
-          datasets: [
-            {
-              data: values,
-            },
-          ],
-        };
 
         setLoading(false);
       });
@@ -57,7 +46,7 @@ function ProfileScreen({navigation}) {
             </TouchableOpacity>
             <Text style={{marginTop: 16, fontSize: 32, fontWeight: 'bold', marginRight: 'auto'}}>Account</Text>
           </View>
-          <Button title={'Sign Out'} onPress={() => signOut()}></Button>
+          <Button title={'Sign Out'} onPress={() => signOut()} />
         </ScrollView>
       )}
     </>
