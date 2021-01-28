@@ -8,11 +8,11 @@ import IconMaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Style from './../../style';
 import MultiSelect from 'react-native-multiple-select';
 import {query} from 'express';
+import {isColString} from 'sequelize/types/lib/utils';
 
 function ContentSearchScreen({navigation}) {
   const [, setUser] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
-  const [contentType, setContentType] = React.useState('');
   const [title, setTitle] = React.useState('');
   const [genreList, setGenreList] = React.useState([]);
   const [selectedGenreList, setSelectedGenreList] = React.useState([]);
@@ -82,38 +82,56 @@ function ContentSearchScreen({navigation}) {
           />
           <View style={{flexDirection: 'row', padding: 8}}>
             <TouchableOpacity
-              style={{
-                flex: 1,
-                padding: 14,
-                overflow: 'hidden',
-                borderRadius: 4,
-                marginRight: 8,
-                borderColor: '#15616d',
-                borderWidth: 2,
-                justifyContent: 'center',
-                alignContent: 'center',
-                flexDirection: 'row',
-              }}
-              onPress={() => setContentType('movie')}>
-              <IconMaterialIcons name="movie-roll" color={'#000'} size={22} />
-              <Text style={{color: '#000', alignSelf: 'center', fontWeight: 'bold', marginLeft: 8}}>Movie</Text>
+              style={[
+                {
+                  flex: 1,
+                  padding: 14,
+                  overflow: 'hidden',
+                  borderRadius: 4,
+                  marginRight: 8,
+                  borderColor: '#15616d',
+                  borderWidth: 2,
+                  justifyContent: 'center',
+                  alignContent: 'center',
+                  flexDirection: 'row',
+                },
+                isMovieSelected ? {backgroundColor: '#15616d'} : null,
+              ]}
+              onPress={() => setIsMovieSelected(!isMovieSelected)}>
+              <IconMaterialIcons name="movie-roll" color={isMovieSelected ? 'white' : 'black'} size={22} />
+              <Text
+                style={[
+                  {color: '#000', alignSelf: 'center', fontWeight: 'bold', marginLeft: 8},
+                  isMovieSelected ? {color: 'white'} : null,
+                ]}>
+                Movie
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={{
-                flex: 1,
-                padding: 14,
-                overflow: 'hidden',
-                borderRadius: 4,
-                borderColor: '#15616d',
-                borderWidth: 2,
-                justifyContent: 'center',
-                alignContent: 'center',
-                flexDirection: 'row',
-              }}
-              onPress={() => setContentType('series')}>
-              <Icon name="tv" color={'#000'} size={22} />
+              style={[
+                {
+                  flex: 1,
+                  padding: 14,
+                  overflow: 'hidden',
+                  borderRadius: 4,
+                  borderColor: '#15616d',
+                  borderWidth: 2,
+                  justifyContent: 'center',
+                  alignContent: 'center',
+                  flexDirection: 'row',
+                },
+                isTvShowSelected ? {backgroundColor: '#15616d'} : null,
+              ]}
+              onPress={() => setIsTvShowelected(!isTvShowSelected)}>
+              <Icon name="tv" color={isTvShowSelected ? 'white' : 'black'} size={22} />
 
-              <Text style={{color: '#000', alignSelf: 'center', fontWeight: 'bold', marginLeft: 8}}>TV Show</Text>
+              <Text
+                style={[
+                  {color: '#000', alignSelf: 'center', fontWeight: 'bold', marginLeft: 8},
+                  isTvShowSelected ? {color: 'white'} : null,
+                ]}>
+                TV Show
+              </Text>
             </TouchableOpacity>
           </View>
           <MultiSelect

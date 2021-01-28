@@ -4,7 +4,7 @@ const Style = StyleSheet.create({
   screen: {
     height: '100%',
     backgroundColor: '#fff',
-    padding: 32,
+    padding: 8,
   },
   authInput: {
     marginBottom: 16,

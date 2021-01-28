@@ -71,8 +71,12 @@ function RecommendationsScreen({navigation, route}) {
             <ScrollView>
               {recommendations.map((recommendation, index) => (
                 <>
-                  <View style={[index !== 0 ? {borderTopWidth: 1, opacity: 0.15, marginHorizontal: 8} : null]} />
-                  <TouchableOpacity onPress={() => openRecommendation(recommendation)} style={{marginBottom: 18}}>
+                  <View
+                    style={[
+                      index !== 0 ? {borderTopWidth: 1, opacity: 0.15, marginHorizontal: 8, marginBottom: 8} : null,
+                    ]}
+                  />
+                  <TouchableOpacity onPress={() => openRecommendation(recommendation)} style={{marginBottom: 8}}>
                     <Text style={styles.title}>
                       {recommendation.FirstName + ' ' + recommendation.LastName + ' recommended:'}
                     </Text>

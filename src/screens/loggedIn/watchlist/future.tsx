@@ -22,10 +22,9 @@ function WatchlistScreen({navigation}) {
   }
 
   React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
+    navigation.addListener('focus', () => {
       loadData();
     });
-    return unsubscribe;
   }, [navigation]);
 
   React.useEffect(() => {

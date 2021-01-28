@@ -66,7 +66,7 @@ function NewFriendScreen({navigation}) {
               data={userList}
               highlightText
               placeholder="Add a friend"
-              noDataText={'No friend with that name.'}
+              noDataText={'No user with that name.'}
               valueExtractor={(item) => item.FirstName + ' ' + item.LastName}
               rightContent
               resetOnSelect={true}

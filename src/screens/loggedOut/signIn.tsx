@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, TextInput, Button, View} from 'react-native';
+import {Text, TextInput, Button, View, TouchableOpacity, Dimensions} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import Style from '../style';
 import LoadingScreen from '../loading';
@@ -42,7 +42,16 @@ function SignInScreen() {
       ) : (
         <View style={Style.screen}>
           <TextInput
-            style={Style.authInput}
+            style={{
+              margin: 8,
+              marginBottom: 0,
+              fontSize: 16,
+              borderWidth: 2,
+              borderColor: '#15616d',
+              padding: 16,
+              borderRadius: 4,
+              shadowOffset: {width: 0, height: 0},
+            }}
             placeholder={'Email'}
             autoCompleteType={'email'}
             autoCapitalize={'none'}
@@ -51,7 +60,16 @@ function SignInScreen() {
           />
           {emailError.length > 0 ? <Text style={Style.authError}>{emailError}</Text> : null}
           <TextInput
-            style={Style.authInput}
+            style={{
+              margin: 8,
+              marginBottom: 0,
+              fontSize: 16,
+              borderWidth: 2,
+              borderColor: '#15616d',
+              padding: 16,
+              borderRadius: 4,
+              shadowOffset: {width: 0, height: 0},
+            }}
             placeholder={'Password'}
             autoCompleteType={'password'}
             autoCapitalize={'none'}
@@ -60,7 +78,20 @@ function SignInScreen() {
           />
           {passwordError.length > 0 ? <Text style={Style.authError}>{passwordError}</Text> : null}
           {unknownError.length > 0 ? <Text style={Style.authError}>{unknownError}</Text> : null}
-          <Button title={'Sign In'} onPress={signIn} />
+
+          <TouchableOpacity
+            style={{
+              padding: 16,
+              margin: 16,
+              alignSelf: 'center',
+              backgroundColor: '#15616d',
+              overflow: 'hidden',
+              borderRadius: 4,
+              width: Dimensions.get('window').width - 32,
+            }}
+            onPress={() => signIn()}>
+            <Text style={{color: 'white', alignSelf: 'center', fontWeight: 'bold'}}>Sign In</Text>
+          </TouchableOpacity>
         </View>
       )}
     </>
