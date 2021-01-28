@@ -81,17 +81,21 @@ function ContentScreen({route, navigation}) {
     },
     // Alterar isto para cores que façam sentido
     11: {
-      background: '#da344d',
+      background: '#443322',
       text: '#fff',
     },
     12: {
-      background: '#da344d',
+      background: '#3333FF',
       text: '#fff',
     },
     13: {
-      background: '#da344d',
+      background: '#800080',
       text: '#fff',
     },
+    14:  {
+      background: '#009E47',
+      text: '#fff',
+    }
   };
 
   function timeConvert(n) {
