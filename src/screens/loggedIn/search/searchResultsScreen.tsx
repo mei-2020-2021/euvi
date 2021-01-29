@@ -40,8 +40,9 @@ function SearchResultsScreen({navigation, route}) {
               </TouchableOpacity>
               <Text style={{marginTop: 16, fontSize: 32, fontWeight: 'bold', marginRight: 'auto'}}>Search Results</Text>
             </View>
-            {contentList.map((content) => (
+            {contentList.map((content, index) => (
               <>
+                <View style={[index !== 0 ? {borderTopWidth: 1, opacity: 0.15, marginHorizontal: 8} : null]} />
                 <TouchableOpacity
                   onPress={() => {
                     navigation.navigate('ContentScreen', {contentId: content.Id, title: content.Title});

@@ -41,10 +41,10 @@ function ContentSearchScreen({navigation}) {
     query += genre ? (query.length > 0 ? '&genre=' + genre : 'genre=' + genre) : '';
     query += title.length > 0 ? (query.length > 0 ? '&title=' + title : 'title=' + title) : '';
 
-    fetch(backend + 'content/search?' + query)
+    fetch(backend + 'content/search')
       .then((res) => res.json())
       .then((data) => {
-        navigation.navigate('SearchResults', {results: data[0]});
+        navigation.navigate('SearchResults', {results: data});
       });
   }
 
