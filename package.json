@@ -28,7 +28,7 @@
     "node-fetch": "^2.6.1",
     "react": "16.13.1",
     "react-chartjs-2": "^2.11.1",
-    "react-native": "0.63.3",
+    "react-native": "0.64.1",
     "react-native-chartjs": "^1.0.3",
     "react-native-date-picker": "^3.2.7",
     "react-native-dropdown-autocomplete": "^1.0.18",
